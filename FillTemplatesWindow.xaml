@@ -1,0 +1,106 @@
+﻿<Window x:Class="WisdomLight.FillTemplatesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:WisdomLight.Binds.Converters"
+        xmlns:forms="clr-namespace:WisdomLight.Controls.Forms"
+        xmlns:dpforms="clr-namespace:WisdomLight.Controls.Forms.DocumentForm"
+        xmlns:viewmodel="clr-namespace:WisdomLight.ViewModel"
+        mc:Ignorable="d"
+        x:Name="DisciplineProgramWindow"
+        Icon="/Resources/Images/Icons/Wisdom3.ico"
+        Title="Редактирование рабочей программы - учебная дисциплина" 
+        WindowState="Maximized" Width="1920" Height="1080" 
+        Closing="OnClosing">
+    <Window.DataContext>
+        <Binding RelativeSource="{RelativeSource Self}"/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.DataContext>
+            <Binding Path="ViewModel"/>
+        </Grid.DataContext>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.85*"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid Background="#FF002FA7">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.05*"/>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="0.05*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.825*"/>
+                    <ColumnDefinition Width="0.025*"/>
+                    <ColumnDefinition Width="0.15*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox MaxLength="255">
+                    <TextBox.Style>
+                        <StaticResource ResourceKey="DarkBox"/>
+                    </TextBox.Style>
+                    <TextBox.Text>
+                        <Binding ElementName="DisciplineProgramWindow" Path="FileName"/>
+                    </TextBox.Text>
+                    <TextBox.FontSize>
+                        <Binding RelativeSource="{RelativeSource Self}">
+                            <Binding.Path>
+                                ActualHeight
+                            </Binding.Path>
+                            <Binding.Converter>
+                                <converters:ProcentualHeightConverter/>
+                            </Binding.Converter>
+                            <Binding.ConverterParameter>
+                                1,675
+                            </Binding.ConverterParameter>
+                        </Binding>
+                    </TextBox.FontSize>
+                </TextBox>
+
+                <Button Click="Create_Click" x:Name="Create">
+                    <Grid.Column>
+                        2
+                    </Grid.Column>
+
+                    <Button.IsDefault>
+                        True
+                    </Button.IsDefault>
+
+                    <Button.Style>
+                        <StaticResource ResourceKey="Steps"/>
+                    </Button.Style>
+
+                    <Viewbox>
+                        <TextBlock Text="Подтвердить" Padding="2" />
+                    </Viewbox>
+                </Button>
+            </Grid>
+        </Grid>
+
+        <dpforms:MetaDataPart x:Name="Page4" Grid.Row="1">
+            <dpforms:MetaDataPart.ViewModel>
+                <Binding>
+                    <Binding.ElementName>
+                        DisciplineProgramWindow
+                    </Binding.ElementName>
+                    <Binding.Path>
+                        ViewModel
+                    </Binding.Path>
+                </Binding>
+            </dpforms:MetaDataPart.ViewModel>
+        </dpforms:MetaDataPart>
+    </Grid>
+</Window>

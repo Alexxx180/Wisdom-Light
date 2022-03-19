@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:Class="WisdomLight.Controls.EditEvents">
+    <Style x:Key="HoursBoxLight" TargetType="TextBox" BasedOn="{StaticResource LightBox}">
+        <Setter Property="TextBox.TextAlignment" Value="Right"/>
+        <Setter Property="TextBox.MaxLength" Value="3"/>
+        <EventSetter Event="PreviewTextInput" Handler="Hours"/>
+        <EventSetter Event="DataObject.Pasting" Handler="PastingHours"/>
+    </Style>
+
+    <Style x:Key="HoursBoxDark" TargetType="TextBox" BasedOn="{StaticResource DarkBox}">
+        <Setter Property="TextBox.TextAlignment" Value="Right"/>
+        <Setter Property="TextBox.MaxLength" Value="3"/>
+        <EventSetter Event="PreviewTextInput" Handler="Hours"/>
+        <EventSetter Event="DataObject.Pasting" Handler="PastingHours"/>
+    </Style>
+
+    <Style x:Key="NoBox" TargetType="TextBox" BasedOn="{StaticResource HoursBoxLight}">
+        <EventSetter Event="GotFocus" Handler="ForgetNo"/>
+        <EventSetter Event="LostFocus" Handler="MemoryNo"/>
+    </Style>
+
+    <Style x:Key="DividerBox" TargetType="TextBox" BasedOn="{StaticResource NoBox}">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="Extendable" TargetType="UserControl">
+        <EventSetter Event="MouseRightButtonDown" Handler="ExtendItems"/>
+    </Style>
+
+    <Style x:Key="Wrapable" TargetType="UserControl">
+        <EventSetter Event="GotFocus" Handler="WrapFields"/>
+        <EventSetter Event="LostFocus" Handler="WrapFields"/>
+    </Style>
+    
+    <Style x:Key="MultiRecord" TargetType="UserControl" BasedOn="{StaticResource Wrapable}">
+        <EventSetter Event="MouseRightButtonDown" Handler="ExtendItems"/>
+    </Style>
+</ResourceDictionary>

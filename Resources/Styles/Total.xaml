@@ -1,0 +1,70 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="Box">
+        <Setter Property="Control.Margin" Value="0"/>
+        <Setter Property="Control.Padding" Value="0"/>
+        <Setter Property="Control.HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Control.VerticalAlignment" Value="Stretch"/>
+    </Style>
+
+    <Style x:Key="GlobalFont" BasedOn="{StaticResource Box}">
+        <Setter Property="Control.FontFamily" Value="Lucida Sans Unicode"/>
+        <Setter Property="Control.FontSize" Value="24"/>
+    </Style>
+
+    <Style x:Key="Neutral" BasedOn="{StaticResource GlobalFont}">
+        <Setter Property="Control.Foreground" Value="#FF000000"/>
+        <Setter Property="Control.BorderBrush" Value="#FF000000"/>
+        <Setter Property="Control.BorderThickness" Value="1"/>
+    </Style>
+
+    <Style x:Key="NeutralPad" BasedOn="{StaticResource Neutral}">
+        <Setter Property="Control.Padding" Value="5,0,5,0"/>
+    </Style>
+
+    <Style x:Key="Dark" BasedOn="{StaticResource GlobalFont}">
+        <Setter Property="Control.Background" Value="#FF002FA7"/>
+        <Setter Property="Control.Foreground" Value="#FFFFFFFF"/>
+        <Setter Property="Control.BorderBrush" Value="#FFFFFFFF"/>
+        <Setter Property="Control.BorderThickness" Value="1"/>
+    </Style>
+
+    <Style x:Key="Light" BasedOn="{StaticResource GlobalFont}">
+        <Setter Property="Control.Background" Value="#FFFFFFFF"/>
+        <Setter Property="Control.Foreground" Value="#FF002FA7"/>
+        <Setter Property="Control.BorderBrush" Value="#FF002FA7"/>
+        <Setter Property="Control.BorderThickness" Value="1"/>
+    </Style>
+
+    <Style x:Key="LightBox" BasedOn="{StaticResource Light}">
+        <Setter Property="TextBox.FontSize" Value="20"/>
+        <Setter Property="TextBox.Padding" Value="5,0,5,0"/>
+    </Style>
+
+    <Style x:Key="DarkBox" BasedOn="{StaticResource Dark}">
+        <Setter Property="TextBox.FontSize" Value="20"/>
+        <Setter Property="TextBox.Padding" Value="5,0,5,0"/>
+    </Style>
+
+    <Style x:Key="InverseBox" BasedOn="{StaticResource Box}">
+        <Setter Property="Control.Foreground" Value="White"/>
+        <Setter Property="Control.BorderBrush" Value="Black"/>
+    </Style>
+    
+    <Style x:Key="AddAccent" BasedOn="{StaticResource InverseBox}">
+        <Setter Property="Control.Background" Value="#FF00FF2A"/>
+    </Style>
+
+    <Style x:Key="DropAccent" BasedOn="{StaticResource InverseBox}">
+        <Setter Property="Control.Background" Value="#FFFF2A2A"/>
+    </Style>
+
+    <Style x:Key="No1" BasedOn="{StaticResource GlobalFont}">
+        <Setter Property="Control.HorizontalAlignment" Value="Right"/>
+        
+    </Style>
+
+    <Style x:Key="No2" BasedOn="{StaticResource GlobalFont}">
+        <Setter Property="Control.HorizontalAlignment" Value="Center"/>
+    </Style>
+</ResourceDictionary>
