@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace WisdomLight.Model
 {
+    /// <summary>
+    /// Serializable class to save user work
+    /// </summary>
     public class Document
     {
         public Document()

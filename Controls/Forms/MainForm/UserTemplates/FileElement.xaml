@@ -24,7 +24,7 @@
                 Left
             </Button.HorizontalContentAlignment>
             <Button.Style>
-                <StaticResource ResourceKey="Steps2"/>
+                <StaticResource ResourceKey="Steps1"/>
             </Button.Style>
             <Button.Content>
                 <TextBlock Padding="5,0,5,0" FontSize="20">

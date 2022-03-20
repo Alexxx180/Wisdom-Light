@@ -61,7 +61,7 @@
 
         <Button Grid.Column="2" Click="SetFilePath">
             <Button.Style>
-                <StaticResource ResourceKey="Steps1"/>
+                <StaticResource ResourceKey="Steps2"/>
             </Button.Style>
             <Viewbox>
                 <TextBlock Text="Выбрать" />

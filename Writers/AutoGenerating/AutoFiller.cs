@@ -9,12 +9,12 @@ namespace WisdomLight.Writers.AutoGenerating
 {
     public static class AutoFiller
     {
-        public static void Save(string path, MemoryStream stream)
+        internal static void Save(string path, MemoryStream stream)
         {
             Processors.Save(path, stream.ToArray());
         }
 
-        public static void ReplaceInParagraphs(
+        internal static void ReplaceInParagraphs(
             IEnumerable<Paragraph> paragraphs, 
             string find, string replaceWith
             )
@@ -23,7 +23,7 @@ namespace WisdomLight.Writers.AutoGenerating
                 ReplaceText(textParagraph, find, replaceWith);
         }
 
-        public static void ReplaceInCells(IEnumerable<TableCell> cells, string find, string replaceWith)
+        internal static void ReplaceInCells(IEnumerable<TableCell> cells, string find, string replaceWith)
         {
             foreach (TableCell cell in cells)
             {
@@ -153,7 +153,7 @@ namespace WisdomLight.Writers.AutoGenerating
         /// <param name="paragraph">Paragraph to search in.</param>
         /// <param name="find">Text expression to find.</param>
         /// <param name="replaceWith">Text expression to replace with.</param>
-        public static void ReplaceText(Paragraph paragraph, string find, string replaceWith)
+        private static void ReplaceText(Paragraph paragraph, string find, string replaceWith)
         {
             var texts = paragraph.Descendants<Text>();
             for (int t = 0; t < texts.Count(); t++)

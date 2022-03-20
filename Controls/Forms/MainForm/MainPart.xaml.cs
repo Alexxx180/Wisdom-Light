@@ -49,8 +49,7 @@ namespace WisdomLight.Controls.Forms.MainForm
 
         private void LoadTemplates()
         {
-            Log.Information("Loading templates from folder: " +
-                RuntimeDirectory);
+            Log.Information("Loading templates from runtime folder");
             try
             {
                 string[] files = Directory.GetFiles(RuntimeDirectory);
@@ -76,13 +75,12 @@ namespace WisdomLight.Controls.Forms.MainForm
             }
             catch (IOException exception)
             {
-                Log.Error("Exception on templates loading: " +
-                    exception.Message);
+                Log.Error($"Loading exception: {exception.Message}");
                 LoadMessage(exception.Message);
             }
         }
 
-        public void AddTemplate(string fullName, string fileName)
+        internal void AddTemplate(string fullName, string fileName)
         {
             if (Files.Contains(fullName))
                 return;
@@ -93,14 +91,15 @@ namespace WisdomLight.Controls.Forms.MainForm
                 MainForm = this,
                 FullName = $"{RuntimeDirectory}{fileName}.json"
             };
+
             Templates.Add(template);
-            OnPropertyChanged(nameof(Templates));
-            OnPropertyChanged(nameof(CanAdd));
+            Refresh();
         }
 
-        public void DropTemplate(FileElement template)
+        internal void DropTemplate(FileElement template)
         {
             string name = template.FullName;
+
             if (Files.Contains(name))
             {
                 _ = Files.Remove(name);
@@ -108,6 +107,11 @@ namespace WisdomLight.Controls.Forms.MainForm
             }
 
             _ = Templates.Remove(template);
+            Refresh();
+        }
+
+        private void Refresh()
+        {
             OnPropertyChanged(nameof(Templates));
             OnPropertyChanged(nameof(CanAdd));
         }

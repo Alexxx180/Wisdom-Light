@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Experiments")]
-namespace WisdomLight.Model
+﻿namespace WisdomLight.Model
 {
     /// <summary>
     /// An universal class to create any necessary objects while debugging
