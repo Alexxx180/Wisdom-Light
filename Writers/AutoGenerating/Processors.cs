@@ -139,17 +139,18 @@ namespace WisdomLight.Writers.AutoGenerating
         #region SaveLoad Members
         internal static void RenameFile(string original, string newName)
         {
-            string fullOriginalName = $"{RuntimeDirectory}{original}";
+            string fullOriginalName = $"{RuntimeDirectory}{original}.json";
+            string fullNewFileName = $"{RuntimeDirectory}{newName}.json";
             if (File.Exists(fullOriginalName))
             {
-                //TruncateFile(newName);
-
-                File.Move(fullOriginalName,
-                    $"{RuntimeDirectory}{newName}");
-
-                //File.Delete(fullOriginalName);
-
-                System.Diagnostics.Trace.WriteLine($"RENAMING {original} TO {newName}");
+                try
+                {
+                    File.Move(fullOriginalName, fullNewFileName, true);
+                }
+                catch (IOException e)
+                {
+                    SaveMessage(e.Message);
+                }
             }
         }
 
