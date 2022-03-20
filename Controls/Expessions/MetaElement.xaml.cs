@@ -43,8 +43,7 @@ namespace WisdomLight.Controls.Expressions
             set
             {
                 _name = value;
-                //if (ViewModel != null)
-                    ViewModel.IsChanged = true;
+                ViewModel.IsChanged = true;
                 OnPropertyChanged();
             }
         }

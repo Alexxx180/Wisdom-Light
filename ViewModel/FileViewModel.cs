@@ -66,13 +66,18 @@ namespace WisdomLight.ViewModel
             element.SetElement(data);
             Information.Add(element);
             Refresh(nameof(Information));
+            OnPropertyChanged(nameof(CanAddInformation));
         }
 
         public void DropMetaData(MetaElement meta)
         {
             _ = Information.Remove(meta);
             Refresh(nameof(Information));
+            OnPropertyChanged(nameof(CanAddInformation));
         }
+
+        public bool CanAddInformation => (Information != null ?
+            Information.Count : 0) < byte.MaxValue;
         #endregion
 
         #region Blanks Members
@@ -96,13 +101,18 @@ namespace WisdomLight.ViewModel
             element.SetElement(path);
             Templates.Add(element);
             Refresh(nameof(Information));
+            OnPropertyChanged(nameof(CanAddTemplates));
         }
 
         public void DropBlank(DocumentBlank blank)
         {
             _ = Templates.Remove(blank);
             Refresh(nameof(Information));
+            OnPropertyChanged(nameof(CanAddTemplates));
         }
+
+        public bool CanAddTemplates => (Templates != null ?
+            Templates.Count : 0) < byte.MaxValue;
         #endregion
 
         public FileViewModel()
@@ -112,7 +122,7 @@ namespace WisdomLight.ViewModel
             Blanks = new Document();
         }
 
-        #region DisciplineProgramFilling Logic
+        #region ProgramFilling Logic
         internal void SetUpDocumentBlank(in Document blanks)
         {
             blanks.Information.Refresh(Information);

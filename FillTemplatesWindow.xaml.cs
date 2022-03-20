@@ -82,12 +82,8 @@ namespace WisdomLight
 
         private void Save()
         {
-            System.Diagnostics.Trace.WriteLine(_originalFileName);
-            System.Diagnostics.Trace.WriteLine(FileName);
-
             if (_originalFileName != FileName)
             {
-                System.Diagnostics.Trace.WriteLine("Proceed");
                 RenameFile(_originalFileName, FileName);
                 _originalFileName = FileName;
             }

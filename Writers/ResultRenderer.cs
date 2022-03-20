@@ -21,7 +21,6 @@ namespace WisdomLight.Writers
                 dialog = CallLocator("Выберите место для сохранения");
 
             bool isAgreed = dialog.ShowDialog() == DialogResult.OK;
-            System.Diagnostics.Trace.WriteLine("Location set: " + isAgreed);
 
             Pair<string, bool>
                 head = new Pair<string, bool>

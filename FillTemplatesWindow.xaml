@@ -48,9 +48,9 @@
                     <ColumnDefinition Width="0.15*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox MaxLength="250">
+                <TextBox>
                     <TextBox.Style>
-                        <StaticResource ResourceKey="DarkBox"/>
+                        <StaticResource ResourceKey="NameBoxDark"/>
                     </TextBox.Style>
                     <TextBox.Text>
                         <Binding ElementName="DisciplineProgramWindow" Path="FileName"/>

@@ -1,18 +1,12 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.IO;
+﻿using System.IO;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using Serilog;
-using WisdomLight.ViewModel;
 using WisdomLight.Controls.Forms.MainForm.UserTemplates;
 using static WisdomLight.Writers.AutoGenerating.Processors;
-using WisdomLight.Model;
-using System.Collections.Generic;
 using static WisdomLight.Writers.ResultRenderer;
-using System;
-using WisdomLight.Customing;
 
 namespace WisdomLight.Controls.Forms.MainForm
 {
@@ -21,17 +15,7 @@ namespace WisdomLight.Controls.Forms.MainForm
     /// </summary>
     public partial class MainPart : UserControl, INotifyPropertyChanged
     {
-        //public static readonly DependencyProperty
-        //    ViewModelProperty = DependencyProperty.Register(nameof(ViewModel),
-        //        typeof(FileViewModel), typeof(MainPart));
-
         #region MainPart Members
-        //public FileViewModel ViewModel
-        //{
-        //    get => GetValue(ViewModelProperty) as FileViewModel;
-        //    set => SetValue(ViewModelProperty, value);
-        //}
-
         private ObservableCollection<FileElement> _templates;
         public ObservableCollection<FileElement> Templates
         {
@@ -41,7 +25,10 @@ namespace WisdomLight.Controls.Forms.MainForm
                 _templates = value;
                 OnPropertyChanged();
             }
-        }        
+        }
+
+        public bool CanAdd => (Templates != null ?
+            Templates.Count : 0) < byte.MaxValue;
         #endregion
 
         public MainPart()
@@ -57,6 +44,7 @@ namespace WisdomLight.Controls.Forms.MainForm
         {
             Templates.Clear();
             LoadTemplates();
+            OnPropertyChanged(nameof(CanAdd));
         }
 
         private void LoadTemplates()
@@ -66,9 +54,8 @@ namespace WisdomLight.Controls.Forms.MainForm
             try
             {
                 string[] files = Directory.GetFiles(RuntimeDirectory);
-                byte max = Math.Min(files.Length, byte.MaxValue).ToByte();
 
-                for (byte i = 0; i < max; i++)
+                for (byte i = 0; i < files.Length; i++)
                 {
                     string file = files[i];
 
@@ -108,6 +95,7 @@ namespace WisdomLight.Controls.Forms.MainForm
             };
             Templates.Add(template);
             OnPropertyChanged(nameof(Templates));
+            OnPropertyChanged(nameof(CanAdd));
         }
 
         public void DropTemplate(FileElement template)
@@ -121,6 +109,7 @@ namespace WisdomLight.Controls.Forms.MainForm
 
             _ = Templates.Remove(template);
             OnPropertyChanged(nameof(Templates));
+            OnPropertyChanged(nameof(CanAdd));
         }
         #endregion
 

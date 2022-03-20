@@ -8,6 +8,18 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              mc:Ignorable="d" 
              d:DesignHeight="35" d:DesignWidth="800" Height="35">
+    <UserControl.Visibility>
+        <Binding Path="ViewModel.CanAddTemplates">
+            <Binding.Converter>
+                <converters:BooleanVisibilityConverter/>
+            </Binding.Converter>
+        </Binding>
+    </UserControl.Visibility>
+
+    <UserControl.IsEnabled>
+        <Binding Path="ViewModel.CanAddTemplates"/>
+    </UserControl.IsEnabled>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>

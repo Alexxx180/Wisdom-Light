@@ -22,12 +22,7 @@ namespace WisdomLight.Writers.AutoGenerating.Documents
                 if (!File.Exists(templatePath))
                     continue;
 
-                System.Diagnostics.Trace.WriteLine("Proceed: " + templatePath);
-
                 string fileName = Path.GetFileName(templatePath);
-
-                System.Diagnostics.Trace.WriteLine("Saved to: " + saveTo + fileName);
-
                 WriteDocument(templatePath,
                     saveTo + fileName, blanks.Information);
             }

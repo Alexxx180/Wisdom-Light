@@ -41,31 +41,6 @@ namespace WisdomLight.Controls
             }
         }
 
-        public static string MemoryNoGotFocus(object sender)
-        {
-            TextBox box = sender as TextBox;
-            string memoryNo = box.Text;
-            box.SetCurrentValue(TextBox.TextProperty, "");
-            return memoryNo;
-        }
-
-        public static void MemoryNoLostFocus(object sender, string memoryNo, Regex regex)
-        {
-            TextBox box = sender as TextBox;
-            if (box.Text.Length <= 0)
-            {
-                memoryNo = regex.Match(memoryNo).Value;
-                box.SetCurrentValue(TextBox.TextProperty, memoryNo);
-            }
-        }
-
-        public static void DetermineExtension(object sender, MouseButtonEventArgs e)
-        {
-            //IExtendableItems extendable = sender as IExtendableItems;
-            //extendable.ExtendItems();
-            //e.Handled = true;
-        }
-
         public static void DetermineWrap(object sender)
         {
             IWrapFields wrapFields = sender as IWrapFields;
