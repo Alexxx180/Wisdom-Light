@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
@@ -50,33 +49,25 @@ namespace WisdomLight.Controls.Forms.MainForm
         private void LoadTemplates()
         {
             Log.Information("Loading templates from runtime folder");
-            try
-            {
-                string[] files = Directory.GetFiles(RuntimeDirectory);
 
-                for (byte i = 0; i < files.Length; i++)
+            string[] files = LoadTemplateNames();
+            for (byte i = 0; i < files.Length; i++)
+            {
+                string file = files[i];
+
+                if (!IsJson(file))
                 {
-                    string file = files[i];
-
-                    if (Path.GetExtension(file).ToLower() != ".json")
-                    {
-                        continue;
-                    }
-
-                    _ = Files.Add(file);
-
-                    FileElement template = new FileElement
-                    {
-                        MainForm = this,
-                        FullName = file
-                    };
-                    Templates.Add(template);
+                    continue;
                 }
-            }
-            catch (IOException exception)
-            {
-                Log.Error($"Loading exception: {exception.Message}");
-                LoadMessage(exception.Message);
+
+                _ = Files.Add(file);
+
+                FileElement template = new FileElement
+                {
+                    MainForm = this,
+                    FullName = file
+                };
+                Templates.Add(template);
             }
         }
 
@@ -89,7 +80,7 @@ namespace WisdomLight.Controls.Forms.MainForm
             FileElement template = new FileElement
             {
                 MainForm = this,
-                FullName = $"{RuntimeDirectory}{fileName}.json"
+                FullName = fileName.ToRuntime()
             };
 
             Templates.Add(template);

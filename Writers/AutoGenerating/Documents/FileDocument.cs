@@ -12,7 +12,7 @@ namespace WisdomLight.Writers.AutoGenerating.Documents
 {
     public static class FileDocument
     {
-        public static void WriteDocuments
+        internal static void WriteDocuments
             (Model.Document blanks, string saveTo)
         {
             for (byte i = 0; i < blanks.FileLocations.Count; i++)

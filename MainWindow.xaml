@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:main="clr-namespace:WisdomLight.Controls.Forms.MainForm"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Icon="/Resources/Images/Icons/Wisdom3.ico"
+        Title="Главная"
+        Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <main:MainPart/>
     </Grid>

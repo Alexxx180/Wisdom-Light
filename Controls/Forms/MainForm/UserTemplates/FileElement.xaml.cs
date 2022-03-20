@@ -15,40 +15,24 @@ namespace WisdomLight.Controls.Forms.MainForm.UserTemplates
             InitializeComponent();
         }
 
-        private FillTemplatesWindow
-            CreateProgram(string name)
-        {
-            return new FillTemplatesWindow(name);
-        }
-
-        public FillTemplatesWindow CreateProgram
-            (Document blanks, string name)
-        {
-            return new FillTemplatesWindow(blanks, name);
-        }
-
+        #region TemplateDeterming Logic
         private FillTemplatesWindow TemplateProgram()
         {
             if (!File.Exists(FullName))
             {
-                return CreateProgram(FileName);
+                return new FillTemplatesWindow(MainForm, FileName);
             }
 
-            Document program = LoadFromTemplate<Document>();
+            Document program = LoadFromTemplate();
 
             if (program is null)
             {
-                return CreateProgram(FileName);
+                return new FillTemplatesWindow(MainForm, FileName);
             }
             else
             {
-                return CreateProgram(program, FileName);
+                return new FillTemplatesWindow(MainForm, program, FileName);
             }
-        }
-
-        private void DropTemplate(object sender, RoutedEventArgs e)
-        {
-            MainForm.DropTemplate(this);
         }
 
         private void CreateFromTemplate
@@ -56,6 +40,12 @@ namespace WisdomLight.Controls.Forms.MainForm.UserTemplates
         {
             FillTemplatesWindow Program = TemplateProgram();
             Program.Show();
+        }
+        #endregion
+
+        private void DropTemplate(object sender, RoutedEventArgs e)
+        {
+            MainForm.DropTemplate(this);
         }
     }
 }

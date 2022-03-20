@@ -9,7 +9,7 @@ namespace WisdomLight.Writers.AutoGenerating
 {
     public static class Processors
     {
-        public static string RuntimeDirectory => Environment.CurrentDirectory + @"\Runtime\";
+        private static string RuntimeDirectory => Environment.CurrentDirectory + @"\Runtime\";
 
         static Processors()
         {
@@ -45,7 +45,7 @@ namespace WisdomLight.Writers.AutoGenerating
         }
         #endregion
 
-        public static FolderBrowserDialog
+        internal static FolderBrowserDialog
             CallLocator(string description)
         {
             return new FolderBrowserDialog
@@ -59,6 +59,7 @@ namespace WisdomLight.Writers.AutoGenerating
             };
         }
 
+        #region FileProcessing Members
         internal static void TruncateFile(string fileName)
         {
             Log.Information("Truncating file: " + fileName);
@@ -68,7 +69,7 @@ namespace WisdomLight.Writers.AutoGenerating
             }
         }
 
-        public static void Save(string path, byte[] bytes)
+        internal static void Save(string path, byte[] bytes)
         {
             Log.Information("Saving data... to: " + path);
             try
@@ -83,7 +84,30 @@ namespace WisdomLight.Writers.AutoGenerating
             }
         }
 
-        public static T ReadJson<T>(string path)
+        internal static bool IsJson(string fileName)
+        {
+            bool isJson = false;
+
+            try
+            {
+                string extension = Path.GetExtension(fileName);
+                string lowered = extension.ToLower();
+
+                isJson = lowered == ".json";
+            }
+            catch (ArgumentException exception)
+            {
+                string description = "File corrupted. Can't get extension: ";
+
+                Log.Error(description + exception.Message);
+            }
+
+            return isJson;
+        }
+        #endregion
+
+        #region JsonProcessing Members
+        private static T ReadJson<T>(string path)
         {
             Log.Information("Reading user data from: " + path);
             T deserilizeable = default;
@@ -93,28 +117,32 @@ namespace WisdomLight.Writers.AutoGenerating
                 Utf8JsonReader utf8Reader = new Utf8JsonReader(fileBytes);
                 deserilizeable = JsonSerializer.Deserialize<T>(ref utf8Reader);
             }
-            catch (JsonException exception)
+            catch (FileNotFoundException exception)
             {
-                Log.Error("Reading user data Json problem: " +
-                    exception.Message);
+                string description = "File not found: ";
+
+                Log.Error(description + exception.Message);
                 LoadMessage(exception.Message);
             }
             catch (ArgumentException exception)
             {
-                Log.Error("Argument is invalid: " +
-                    exception.Message);
+                string description = "Argument is invalid: ";
+
+                Log.Error(description + exception.Message);
                 LoadMessage(exception.Message);
             }
-            catch (FileNotFoundException exception)
+            catch (JsonException exception)
             {
-                Log.Error("File not found: " +
-                    exception.Message);
+                string description = "Reading user Json problem: ";
+
+                Log.Error(description + exception.Message);
                 LoadMessage(exception.Message);
             }
             catch (IOException exception)
             {
-                Log.Error("I|O blocked by another process: " +
-                    exception.Message);
+                string description = "I|O blocked by another process: ";
+
+                Log.Error(description + exception.Message);
                 LoadMessage(exception.Message);
             }
             return deserilizeable;
@@ -135,29 +163,54 @@ namespace WisdomLight.Writers.AutoGenerating
                 LoadMessage(exception.Message);
             }
         }
+        #endregion
 
         #region SaveLoad Members
         internal static void RenameFile(string original, string newName)
         {
-            string fullOriginalName = $"{RuntimeDirectory}{original}.json";
-            string fullNewFileName = $"{RuntimeDirectory}{newName}.json";
+            string fullOriginalName = original.ToRuntime();
+            string fullNewFileName = newName.ToRuntime();
             if (File.Exists(fullOriginalName))
             {
                 try
                 {
                     File.Move(fullOriginalName, fullNewFileName, true);
                 }
-                catch (IOException e)
+                catch (IOException exception)
                 {
-                    SaveMessage(e.Message);
+                    SaveMessage(exception.Message);
                 }
             }
+        }
+
+        internal static string[] LoadTemplateNames()
+        {
+            string[] templates;
+            try
+            {
+                templates = Directory.GetFiles(RuntimeDirectory);
+            }
+            catch (IOException exception)
+            {
+                templates = Array.Empty<string>();
+                string description = "Loading exception: ";
+
+                Log.Error(description + exception.Message);
+                LoadMessage(exception.Message);
+            }
+            return templates;
+        }
+
+        internal static Document LoadDocument(string name)
+        {
+            Log.Debug($"Loading document: {RuntimeDirectory}{name}");
+            return ReadJson<Document>(name);
         }
 
         internal static
             Pair<string, T> LoadRuntime<T>(string name)
         {
-            Log.Debug("Loading runtime: " + RuntimeDirectory + name);
+            Log.Debug($"Loading runtime: {RuntimeDirectory}{name}");
             return !File.Exists(RuntimeDirectory + name) ? null :
                 ReadJson<Pair<string, T>>(RuntimeDirectory + name);
         }
@@ -165,9 +218,14 @@ namespace WisdomLight.Writers.AutoGenerating
         internal static void SaveRuntime
             (string name, Document program)
         {
-            string fullName = $"{RuntimeDirectory}{name}.json";
+            string fullName = name.ToRuntime();
             Log.Debug($"Saving runtime: {fullName}");
             ProcessJsonAny(fullName, program);
+        }
+
+        internal static string ToRuntime(this string name)
+        {
+            return $"{RuntimeDirectory}{name}.json";
         }
         #endregion
     }

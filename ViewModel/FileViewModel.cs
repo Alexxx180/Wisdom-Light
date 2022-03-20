@@ -10,6 +10,7 @@ namespace WisdomLight.ViewModel
 {
     public class FileViewModel : INotifyPropertyChanged
     {
+        #region BlankFields Logic
         private Document _blanks;
         public Document Blanks
         {
@@ -38,6 +39,7 @@ namespace WisdomLight.ViewModel
             IsChanged = false;
             return memory;
         }
+        #endregion
 
         private void Refresh(string name)
         {
@@ -122,7 +124,7 @@ namespace WisdomLight.ViewModel
             Blanks = new Document();
         }
 
-        #region ProgramFilling Logic
+        #region Filling Logic
         internal void SetUpDocumentBlank(in Document blanks)
         {
             blanks.Information.Refresh(Information);

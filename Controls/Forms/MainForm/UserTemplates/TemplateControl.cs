@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using WisdomLight.Model;
 using static WisdomLight.Writers.AutoGenerating.Processors;
 
 namespace WisdomLight.Controls.Forms.MainForm.UserTemplates
@@ -38,9 +39,9 @@ namespace WisdomLight.Controls.Forms.MainForm.UserTemplates
         public string FileName => Path.GetFileNameWithoutExtension(FullName);
         #endregion
 
-        public T LoadFromTemplate<T>()
+        public Document LoadFromTemplate()
         {
-            return ReadJson<T>(FullName);
+            return LoadDocument(FullName);
         }
 
         #region INotifyPropertyChanged Members

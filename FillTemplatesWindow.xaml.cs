@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using WisdomLight.Controls.Forms.MainForm;
 using WisdomLight.ViewModel;
 using WisdomLight.Writers.AutoGenerating.Documents;
 using WisdomLight.Model;
@@ -8,6 +9,7 @@ using static WisdomLight.Writers.AutoGenerating.Processors;
 using static WisdomLight.Writers.ResultRenderer;
 using System.Windows.Input;
 using System.Windows.Controls;
+
 
 namespace WisdomLight
 {
@@ -17,6 +19,17 @@ namespace WisdomLight
     public partial class FillTemplatesWindow : Window, INotifyPropertyChanged
     {
         #region DisciplineProgramWindow Members
+        private MainPart _mainForm;
+        public MainPart MainForm
+        {
+            get => _mainForm;
+            set
+            {
+                _mainForm = value;
+                OnPropertyChanged();
+            }
+        }
+
         private FileViewModel _viewModel;
         public FileViewModel ViewModel
         {
@@ -42,15 +55,16 @@ namespace WisdomLight
         }
         #endregion
 
-        public FillTemplatesWindow(string fileName)
+        public FillTemplatesWindow(MainPart mainForm, string fileName)
         {
             InitializeComponent();
+            MainForm = mainForm;
             _originalFileName = fileName;
             FileName = fileName;
             ViewModel = new FileViewModel();
         }
 
-        public FillTemplatesWindow(Document program, string fileName) : this(fileName)
+        public FillTemplatesWindow(MainPart mainForm, Document program, string fileName) : this(mainForm, fileName)
         {
             ViewModel.SetFromTemplate(program);
             ViewModel.IsChanged = false;
@@ -78,6 +92,7 @@ namespace WisdomLight
             }
 
             Save();
+            MainForm.ReloadTemplates();
         }
 
         private void Save()

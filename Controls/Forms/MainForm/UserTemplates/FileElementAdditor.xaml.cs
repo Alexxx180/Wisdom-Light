@@ -26,7 +26,7 @@ namespace WisdomLight.Controls.Forms.MainForm.UserTemplates
 
         private void AddTemplate(object sender, RoutedEventArgs e)
         {
-            MainForm.AddTemplate(FullName + ".json", FullName);
+            MainForm.AddTemplate($"{FullName}.json", FullName);
         }
     }
 }
