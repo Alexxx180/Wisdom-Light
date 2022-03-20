@@ -53,6 +53,7 @@ namespace WisdomLight
         public FillTemplatesWindow(Document program, string fileName) : this(fileName)
         {
             ViewModel.SetFromTemplate(program);
+            ViewModel.IsChanged = false;
         }
 
         private void Create_Click(object sender, RoutedEventArgs e)

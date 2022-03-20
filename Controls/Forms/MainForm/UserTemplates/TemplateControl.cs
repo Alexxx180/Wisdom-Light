@@ -30,8 +30,6 @@ namespace WisdomLight.Controls.Forms.MainForm.UserTemplates
             set
             {
                 _fullName = value;
-                if (MainForm != null)
-                    MainForm.ViewModel.IsChanged = true;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(FileName));
             }

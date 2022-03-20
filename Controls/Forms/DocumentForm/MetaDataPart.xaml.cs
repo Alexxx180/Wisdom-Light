@@ -15,14 +15,10 @@ namespace WisdomLight.Controls.Forms.DocumentForm
             ViewModelProperty = DependencyProperty.Register("ViewModel",
                 typeof(FileViewModel), typeof(MetaDataPart));
 
-        internal FileViewModel ViewModel
+        public FileViewModel ViewModel
         {
             get => GetValue(ViewModelProperty) as FileViewModel;
-            set
-            {
-                SetValue(ViewModelProperty, value);
-                OnPropertyChanged();
-            }
+            set => SetValue(ViewModelProperty, value);
         }
 
         public MetaDataPart()

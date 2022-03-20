@@ -21,16 +21,16 @@ namespace WisdomLight.Controls.Forms.MainForm
     /// </summary>
     public partial class MainPart : UserControl, INotifyPropertyChanged
     {
-        public static readonly DependencyProperty
-            ViewModelProperty = DependencyProperty.Register(nameof(ViewModel),
-                typeof(FileViewModel), typeof(MainPart));
+        //public static readonly DependencyProperty
+        //    ViewModelProperty = DependencyProperty.Register(nameof(ViewModel),
+        //        typeof(FileViewModel), typeof(MainPart));
 
         #region MainPart Members
-        public FileViewModel ViewModel
-        {
-            get => GetValue(ViewModelProperty) as FileViewModel;
-            set => SetValue(ViewModelProperty, value);
-        }
+        //public FileViewModel ViewModel
+        //{
+        //    get => GetValue(ViewModelProperty) as FileViewModel;
+        //    set => SetValue(ViewModelProperty, value);
+        //}
 
         private ObservableCollection<FileElement> _templates;
         public ObservableCollection<FileElement> Templates
@@ -81,8 +81,8 @@ namespace WisdomLight.Controls.Forms.MainForm
 
                     FileElement template = new FileElement
                     {
-                        FullName = file,
-                        MainForm = this
+                        MainForm = this,
+                        FullName = file
                     };
                     Templates.Add(template);
                 }
@@ -103,6 +103,7 @@ namespace WisdomLight.Controls.Forms.MainForm
             _ = Files.Add(fullName);
             FileElement template = new FileElement
             {
+                MainForm = this,
                 FullName = $"{RuntimeDirectory}{fileName}.json"
             };
             Templates.Add(template);
@@ -115,7 +116,7 @@ namespace WisdomLight.Controls.Forms.MainForm
             if (Files.Contains(name))
             {
                 _ = Files.Remove(name);
-                File.Delete(RuntimeDirectory + name);
+                TruncateFile(name);
             }
 
             _ = Templates.Remove(template);

@@ -9,7 +9,8 @@ namespace WisdomLight.Controls.Forms.MainForm.UserTemplates
     public partial class FileElementAdditor : TemplateControl, INotifyPropertyChanged
     {
         private string _fileName;
-        public override string FullName {
+        public override string FullName
+        {
             get => _fileName;
             set
             {
