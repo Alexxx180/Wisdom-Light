@@ -48,7 +48,7 @@
                     <ColumnDefinition Width="0.15*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox MaxLength="255">
+                <TextBox MaxLength="250">
                     <TextBox.Style>
                         <StaticResource ResourceKey="DarkBox"/>
                     </TextBox.Style>

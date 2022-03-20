@@ -136,12 +136,23 @@ namespace WisdomLight.Writers.AutoGenerating
             }
         }
 
-        public static void ProcessJson(string path, Document program)
+        #region SaveLoad Members
+        internal static void RenameFile(string original, string newName)
         {
-            ProcessJsonAny(path, program);
+            string fullOriginalName = $"{RuntimeDirectory}{original}";
+            if (File.Exists(fullOriginalName))
+            {
+                //TruncateFile(newName);
+
+                File.Move(fullOriginalName,
+                    $"{RuntimeDirectory}{newName}");
+
+                //File.Delete(fullOriginalName);
+
+                System.Diagnostics.Trace.WriteLine($"RENAMING {original} TO {newName}");
+            }
         }
 
-        #region SaveLoad Members
         internal static
             Pair<string, T> LoadRuntime<T>(string name)
         {

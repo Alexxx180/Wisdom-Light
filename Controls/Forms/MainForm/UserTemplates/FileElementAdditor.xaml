@@ -19,7 +19,7 @@
             </Button.Style>
         </Button>
 
-        <TextBox Grid.Column="1">
+        <TextBox MaxLength="250" Grid.Column="1">
             <TextBox.Style>
                 <StaticResource ResourceKey="LightBox"/>
             </TextBox.Style>

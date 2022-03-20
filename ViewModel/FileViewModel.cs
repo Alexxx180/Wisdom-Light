@@ -116,6 +116,7 @@ namespace WisdomLight.ViewModel
         internal void SetUpDocumentBlank(in Document blanks)
         {
             blanks.Information.Refresh(Information);
+            blanks.FileLocations.Refresh(Templates);
         }
 
         public void SetFromTemplate(Document document)
@@ -125,7 +126,10 @@ namespace WisdomLight.ViewModel
             Information.Clear();
             for (byte i = 0; i < document.Information.Count; i++)
             {
-                MetaElement meta = new MetaElement();
+                MetaElement meta = new MetaElement
+                {
+                    ViewModel = this
+                };
                 meta.SetElement(document.Information[i]);
                 Information.Add(meta);
             }
@@ -133,7 +137,10 @@ namespace WisdomLight.ViewModel
             Templates.Clear();
             for (byte i = 0; i < document.FileLocations.Count; i++)
             {
-                DocumentBlank blank = new DocumentBlank();
+                DocumentBlank blank = new DocumentBlank
+                {
+                    ViewModel = this
+                };
                 blank.SetElement(document.FileLocations[i]);
                 Templates.Add(blank);
             }

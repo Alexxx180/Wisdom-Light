@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Serilog;
-using static WisdomLight.Writers.AutoGenerating.AutoFiller;
-using static WisdomLight.Writers.AutoGenerating.Processors;
 using WisdomLight.Model;
 using WisdomLight.Customing;
+using static WisdomLight.Writers.AutoGenerating.AutoFiller;
+using static WisdomLight.Writers.AutoGenerating.Processors;
 
 namespace WisdomLight.Writers.AutoGenerating.Documents
 {
@@ -22,7 +22,11 @@ namespace WisdomLight.Writers.AutoGenerating.Documents
                 if (!File.Exists(templatePath))
                     continue;
 
+                System.Diagnostics.Trace.WriteLine("Proceed: " + templatePath);
+
                 string fileName = Path.GetFileName(templatePath);
+
+                System.Diagnostics.Trace.WriteLine("Saved to: " + saveTo + fileName);
 
                 WriteDocument(templatePath,
                     saveTo + fileName, blanks.Information);
