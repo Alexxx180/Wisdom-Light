@@ -69,7 +69,13 @@
 
                     <files:FileElementAdditor>
                         <files:FileElementAdditor.MainForm>
-                            <Binding ElementName="This" />
+                            <Binding>
+                                <Binding.RelativeSource>
+                                    <RelativeSource AncestorType="{x:Type UserControl}"/>
+                                </Binding.RelativeSource>
+                            </Binding>
+
+                            <!--<Binding Source="{x:Reference This}"  />-->
                         </files:FileElementAdditor.MainForm>
                     </files:FileElementAdditor>
                 </StackPanel>

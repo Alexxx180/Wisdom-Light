@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using WisdomLight.Model;
 using WisdomLight.Controls.Expressions;
 using WisdomLight.Customing;
-using static WisdomLight.Writers.ResultRenderer;
 using WisdomLight.Controls.Templates;
 
 namespace WisdomLight.ViewModel
@@ -40,6 +39,12 @@ namespace WisdomLight.ViewModel
             return memory;
         }
 
+        private void Refresh(string name)
+        {
+            OnPropertyChanged(name);
+            IsChanged = true;
+        }
+
         #region Information Members
         private ObservableCollection<MetaElement> _information;
         public ObservableCollection<MetaElement> Information
@@ -60,13 +65,13 @@ namespace WisdomLight.ViewModel
             };
             element.SetElement(data);
             Information.Add(element);
-            OnPropertyChanged(nameof(Information));
+            Refresh(nameof(Information));
         }
 
         public void DropMetaData(MetaElement meta)
         {
             _ = Information.Remove(meta);
-            OnPropertyChanged(nameof(Information));
+            Refresh(nameof(Information));
         }
         #endregion
 
@@ -90,13 +95,13 @@ namespace WisdomLight.ViewModel
             };
             element.SetElement(path);
             Templates.Add(element);
-            OnPropertyChanged(nameof(Templates));
+            Refresh(nameof(Information));
         }
 
         public void DropBlank(DocumentBlank blank)
         {
             _ = Templates.Remove(blank);
-            OnPropertyChanged(nameof(Templates));
+            Refresh(nameof(Information));
         }
         #endregion
 

@@ -11,6 +11,8 @@ using static WisdomLight.Writers.AutoGenerating.Processors;
 using WisdomLight.Model;
 using System.Collections.Generic;
 using static WisdomLight.Writers.ResultRenderer;
+using System;
+using WisdomLight.Customing;
 
 namespace WisdomLight.Controls.Forms.MainForm
 {
@@ -63,9 +65,13 @@ namespace WisdomLight.Controls.Forms.MainForm
                 RuntimeDirectory);
             try
             {
-                foreach (string file in
-                    Directory.GetFiles(RuntimeDirectory))
+                string[] files = Directory.GetFiles(RuntimeDirectory);
+                byte max = Math.Min(files.Length, byte.MaxValue).ToByte();
+
+                for (byte i = 0; i < max; i++)
                 {
+                    string file = files[i];
+
                     if (Path.GetExtension(file).ToLower() != ".json")
                     {
                         continue;

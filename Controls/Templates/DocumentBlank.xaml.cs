@@ -44,6 +44,7 @@ namespace WisdomLight.Controls.Templates
             set
             {
                 _fullPath = value;
+                ViewModel.IsChanged = true;
                 OnPropertyChanged();
             }
         }

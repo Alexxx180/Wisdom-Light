@@ -26,7 +26,7 @@ namespace WisdomLight
             }
         }
 
-        private string _originalFileName;
+        private readonly string _originalFileName;
 
         private string _fileName;
         public string FileName
@@ -74,8 +74,8 @@ namespace WisdomLight
 
         private void SavePreferences()
         {
-            ProcessJson(RuntimeDirectory + FileName,
-                ViewModel.MakeDocument());
+            TruncateFile(_originalFileName);
+            SaveRuntime(FileName, ViewModel.MakeDocument());
         }
 
         #region INotifyPropertyChanged Members

@@ -9,16 +9,11 @@ namespace WisdomLight.Writers.AutoGenerating
 {
     public static class Processors
     {
-        private static string
-            ConfigDirectory => Environment.CurrentDirectory + @"\Resources\Configuration\";
-        public static string RuntimeDirectory => ConfigDirectory + @"Runtime\";
+        public static string RuntimeDirectory => Environment.CurrentDirectory + @"\Runtime\";
 
         static Processors()
         {
-            Log.Debug(
-                "Configuration directory set as: "
-                + ConfigDirectory
-                );
+            Log.Debug($"Runtime directory set as: {RuntimeDirectory}");
         }
 
         #region Messages Members
@@ -147,18 +142,6 @@ namespace WisdomLight.Writers.AutoGenerating
         }
 
         #region SaveLoad Members
-        internal static T LoadConfig<T>(string name)
-        {
-            Log.Debug("Loading config: " + RuntimeDirectory + name);
-            return !File.Exists(ConfigDirectory + name) ?
-                default : ReadJson<T>(ConfigDirectory + name);
-        }
-
-        internal static void SaveConfig<T>(string name, T config)
-        {
-            ProcessJsonAny(ConfigDirectory + name, config);
-        }
-
         internal static
             Pair<string, T> LoadRuntime<T>(string name)
         {
@@ -167,10 +150,12 @@ namespace WisdomLight.Writers.AutoGenerating
                 ReadJson<Pair<string, T>>(RuntimeDirectory + name);
         }
 
-        internal static void SaveRuntime<T>
-            (string name, Pair<string, T> data)
+        internal static void SaveRuntime
+            (string name, Document program)
         {
-            ProcessJsonAny(RuntimeDirectory + name, data);
+            string fullName = $"{RuntimeDirectory}{name}.json";
+            Log.Debug($"Saving runtime: {fullName}");
+            ProcessJsonAny(fullName, program);
         }
         #endregion
     }
