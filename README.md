@@ -1,4 +1,4 @@
-# Wisdom
+# Wisdom-Light
 Project to fill documents with same data much faster.
 
 # Libraries
