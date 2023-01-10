@@ -7,15 +7,17 @@ using WisdomLight.Model;
 using WisdomLight.Customing;
 using static WisdomLight.Writers.AutoGenerating.AutoFiller;
 using static WisdomLight.Writers.AutoGenerating.Processors;
+using WisdomLight.ViewModel.Fields;
+using WisdomLight.ViewModel;
 
 namespace WisdomLight.Writers.AutoGenerating.Documents
 {
     public static class FileDocument
     {
         internal static void WriteDocuments
-            (Model.Document blanks, string saveTo)
+            (FileViewModel model, string saveTo)
         {
-            for (byte i = 0; i < blanks.FileLocations.Count; i++)
+            for (byte i = 0; i < model.Blanks.Count; i++)
             {
                 string templatePath = blanks.FileLocations[i];
 
@@ -29,7 +31,7 @@ namespace WisdomLight.Writers.AutoGenerating.Documents
         }
 
         private static void WriteDocument(string templatePath,
-             string filePath, List<Expression> expressions)
+             string filePath, List<IExpression> expressions)
         {
             try
             {
@@ -45,7 +47,7 @@ namespace WisdomLight.Writers.AutoGenerating.Documents
         }
 
         private static void FullProcessing(string templatePath,
-            string generatePath, List<Expression> expressions)
+            string generatePath, List<IExpression> expressions)
         {
             byte[] byteArray = File.ReadAllBytes(templatePath);
             using (MemoryStream stream = new MemoryStream())
@@ -79,15 +81,15 @@ namespace WisdomLight.Writers.AutoGenerating.Documents
         private static void Process(
             IEnumerable<Paragraph> paragraphs,
             IEnumerable<TableCell> cells,
-            List<Expression> expressions
+            List<IExpression> expressions
             )
         {
             for (byte i = 0; i < expressions.Count; i++)
             {
-                Expression expression = expressions[i];
+                IExpression expression = expressions[i];
 
                 string search = expression.Name;
-                string replaceWith = expression.Data;
+                string replaceWith = expression.Value;
 
                 ReplaceInParagraphs(paragraphs, search, replaceWith);
                 ReplaceInCells(cells, search, replaceWith);

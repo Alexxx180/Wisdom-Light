@@ -10,17 +10,17 @@ namespace WisdomLight.Model
     {
         public Document()
         {
-            FileLocations = new List<string>();
-            Information = new List<Expression>();
+            //FileLocations = new List<string>();
+            //Information = new List<Expression>();
         }
 
         public void Refresh(Document filledDocument)
         {
-            Information.Refresh(filledDocument.Information);
-            FileLocations.Refresh(filledDocument.FileLocations);
+            //Information.Refresh(filledDocument.Information);
+            //FileLocations.Refresh(filledDocument.FileLocations);
         }
 
-        public List<string> FileLocations { get; set; }
-        public List<Expression> Information { get; set; }
+        //public List<string> FileLocations { get; set; }
+        //public List<Expression> Information { get; set; }
     }
 }

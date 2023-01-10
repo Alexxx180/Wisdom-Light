@@ -1,0 +1,114 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Fields">
+    <DataTemplate x:Key="NumberField" DataType="{x:Type fields:NumberExpression}">
+        <Grid Height="35">
+            <Grid.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontSize" Value="20"/>
+                </Style>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <UniformGrid Grid.Column="1" Columns="2">
+                <TextBox Style="{StaticResource NameBoxLight}">
+                    <TextBox.Text>
+                        <Binding Path="Name" Mode="TwoWay">
+                            <Binding.UpdateSourceTrigger>
+                                LostFocus
+                            </Binding.UpdateSourceTrigger>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <TextBox Style="{StaticResource NoBox}">
+                    <TextBox.Text>
+                        <Binding Path="No" Mode="TwoWay">
+                            <Binding.UpdateSourceTrigger>
+                                LostFocus
+                            </Binding.UpdateSourceTrigger>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </UniformGrid>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TextField" DataType="{x:Type fields:TextExpression}">
+        <Grid Height="35">
+            <Grid.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontSize" Value="20"/>
+                </Style>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <UniformGrid Grid.Column="1" Columns="2">
+                <TextBox Style="{StaticResource NameBoxLight}">
+                    <TextBox.Text>
+                        <Binding Path="Name" Mode="TwoWay">
+                            <Binding.UpdateSourceTrigger>
+                                LostFocus
+                            </Binding.UpdateSourceTrigger>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <TextBox Style="{StaticResource NameBoxLight}">
+                    <TextBox.Text>
+                        <Binding Path="Value" Mode="TwoWay">
+                            <Binding.UpdateSourceTrigger>
+                                LostFocus
+                            </Binding.UpdateSourceTrigger>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </UniformGrid>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="DateField" DataType="{x:Type fields:DateExpression}">
+        <Grid Height="35">
+            <Grid.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontSize" Value="20"/>
+                </Style>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <UniformGrid Grid.Column="1" Columns="2">
+                <TextBox Style="{StaticResource NameBoxLight}">
+                    <TextBox.Text>
+                        <Binding Path="Name" Mode="TwoWay">
+                            <Binding.UpdateSourceTrigger>
+                                LostFocus
+                            </Binding.UpdateSourceTrigger>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <DatePicker>
+                    <DatePicker.SelectedDate>
+                        <Binding Path="Date" Mode="TwoWay">
+                            <Binding.UpdateSourceTrigger>
+                                LostFocus
+                            </Binding.UpdateSourceTrigger>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
+            </UniformGrid>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

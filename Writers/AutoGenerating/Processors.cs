@@ -4,6 +4,7 @@ using System.Text.Json;
 using WisdomLight.Model;
 using Serilog;
 using System.Windows.Forms;
+using WisdomLight.ViewModel;
 
 namespace WisdomLight.Writers.AutoGenerating
 {
@@ -215,8 +216,7 @@ namespace WisdomLight.Writers.AutoGenerating
                 ReadJson<Pair<string, T>>(RuntimeDirectory + name);
         }
 
-        internal static void SaveRuntime
-            (string name, Document program)
+        internal static void SaveRuntime(string name, FileViewModel program)
         {
             string fullName = name.ToRuntime();
             Log.Debug($"Saving runtime: {fullName}");

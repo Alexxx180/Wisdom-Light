@@ -77,8 +77,7 @@ namespace WisdomLight
             Pair<string, bool> head = UserAgreement();
             if (head.Value)
             {
-                FileDocument.WriteDocuments
-                    (ViewModel.MakeDocument(), $"{head.Name}\\");
+                FileDocument.WriteDocuments(ViewModel, $"{head.Name}\\");
             }
         }
 
@@ -110,7 +109,7 @@ namespace WisdomLight
         private void SavePreferences()
         {
             TruncateFile(_originalFileName);
-            SaveRuntime(FileName, ViewModel.MakeDocument());
+            SaveRuntime(FileName, ViewModel);
         }
 
         #region INotifyPropertyChanged Members

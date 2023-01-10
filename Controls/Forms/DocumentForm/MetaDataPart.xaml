@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:metadata="clr-namespace:WisdomLight.Controls.Expressions"
              xmlns:templates="clr-namespace:WisdomLight.Controls.Templates"
-             xmlns:viewmodel="clr-namespace:WisdomLight.ViewModel"
-             xmlns:forms="clr-namespace:WisdomLight.Controls.Forms"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
@@ -29,93 +27,49 @@
             <RowDefinition Height="0.9*"/>
             <RowDefinition Height="0.05*"/>
         </Grid.RowDefinitions>
-        
 
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.06*"/>
-                <RowDefinition Height="0.94*"/>
-            </Grid.RowDefinitions>
+        <TabControl Grid.Row="1" Grid.Column="1">
+            <TabItem Header="Информация">
+                <ScrollViewer x:Name="MetaData" Grid.Row="1" Visibility="Hidden">
+                    <ScrollViewer.VerticalScrollBarVisibility>
+                        Auto
+                    </ScrollViewer.VerticalScrollBarVisibility>
+                    <StackPanel>
+                        <ItemsControl>
+                            <ItemsControl.ItemsSource>
+                                <Binding Path="Information"/>
+                            </ItemsControl.ItemsSource>
+                        </ItemsControl>
 
-
-            <Grid>
-                <Grid.DataContext>
-                    <viewmodel:SwitchGroup x:Name="MetaGroup" />
-                </Grid.DataContext>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-
-                <forms:Switcher Text="Информация">
-                    <forms:Switcher.Group>
-                        <Binding ElementName="MetaGroup"/>
-                    </forms:Switcher.Group>
-                    <forms:Switcher.Element>
-                        <Binding ElementName="MetaData"/>
-                    </forms:Switcher.Element>
-                    <forms:Switcher.ViewStyle>
-                        <StaticResource ResourceKey="AutoSteps"/>
-                    </forms:Switcher.ViewStyle>
-                </forms:Switcher>
-
-                <forms:Switcher Text="Документы">
-                    <Grid.Column>
-                        1
-                    </Grid.Column>
-                    
-                    <forms:Switcher.Group>
-                        <Binding ElementName="MetaGroup"/>
-                    </forms:Switcher.Group>
-                    <forms:Switcher.Element>
-                        <Binding ElementName="Documents"/>
-                    </forms:Switcher.Element>
-                    <forms:Switcher.ViewStyle>
-                        <StaticResource ResourceKey="AutoSteps"/>
-                    </forms:Switcher.ViewStyle>
-                </forms:Switcher>
-            </Grid>
+                        <metadata:MetaElementAdditor>
+                            <metadata:MetaElementAdditor.ViewModel>
+                                <Binding ElementName="TreeContext" Path="DataContext"/>
+                            </metadata:MetaElementAdditor.ViewModel>
+                        </metadata:MetaElementAdditor>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
             
-            <ScrollViewer x:Name="MetaData" Grid.Row="1" Visibility="Hidden">
-                
-                <ScrollViewer.VerticalScrollBarVisibility>
-                    Auto
-                </ScrollViewer.VerticalScrollBarVisibility>
-                <StackPanel>
-                    <ItemsControl>
-                        <ItemsControl.ItemsSource>
-                            <Binding Path="Information"/>
-                        </ItemsControl.ItemsSource>
-                    </ItemsControl>
+            <TabItem Header="Документы">
+                <ScrollViewer x:Name="Documents" Grid.Row="1" Visibility="Hidden">
+                    <ScrollViewer.VerticalScrollBarVisibility>
+                        Auto
+                    </ScrollViewer.VerticalScrollBarVisibility>
+                    <StackPanel>
+                        <ItemsControl>
+                            <ItemsControl.ItemsSource>
+                                <Binding Path="Templates"/>
+                            </ItemsControl.ItemsSource>
+                        </ItemsControl>
 
-                    <metadata:MetaElementAdditor>
-                        <metadata:MetaElementAdditor.ViewModel>
-                            <Binding ElementName="TreeContext" Path="DataContext"/>
-                        </metadata:MetaElementAdditor.ViewModel>
-                    </metadata:MetaElementAdditor>
-                </StackPanel>
-            </ScrollViewer>
-
-            <ScrollViewer x:Name="Documents" Grid.Row="1" Visibility="Hidden">
-                <ScrollViewer.VerticalScrollBarVisibility>
-                    Auto
-                </ScrollViewer.VerticalScrollBarVisibility>
-                <StackPanel>
-                    <ItemsControl>
-                        <ItemsControl.ItemsSource>
-                            <Binding Path="Templates"/>
-                        </ItemsControl.ItemsSource>
-                    </ItemsControl>
-
-                    <templates:DocumentBlankAdditor>
-                        <templates:DocumentBlankAdditor.ViewModel>
-                            <Binding ElementName="TreeContext" Path="DataContext"/>
-                        </templates:DocumentBlankAdditor.ViewModel>
-                    </templates:DocumentBlankAdditor>
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
+                        <templates:DocumentBlankAdditor>
+                            <templates:DocumentBlankAdditor.ViewModel>
+                                <Binding ElementName="TreeContext" Path="DataContext"/>
+                            </templates:DocumentBlankAdditor.ViewModel>
+                        </templates:DocumentBlankAdditor>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
     </Grid>
 </UserControl>
