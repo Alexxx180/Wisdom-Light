@@ -39,6 +39,10 @@
                     <MenuItem Header="Выход" />
                 </MenuItem>
                 <MenuItem Header="Настройки">
+                    <MenuItem Header="Обрабатывать">
+                        <MenuItem Header="Текст" IsCheckable="True"/>
+                        <MenuItem Header="Таблицы" IsCheckable="True"/>
+                    </MenuItem>
                     <MenuItem Header="Продвинутый" IsCheckable="True" />
                 </MenuItem>
                 <MenuItem Header="Справка"/>
@@ -72,53 +76,116 @@
                 <TabItem Header="Информация">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
                             <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <ToolBarTray Grid.Column="2"  VerticalAlignment="Bottom" Orientation="Vertical">
+                        <ToolBarTray Orientation="Vertical">
                             <ToolBar Width="30">
-                                <Button Height="30" FontSize="12" MinWidth="25">
+                                <Button Height="30" FontSize="16" MinWidth="25">
                                     <Button.Style>
-                                        <StaticResource ResourceKey="Steps2"/>
+                                        <StaticResource ResourceKey="AddButton"/>
                                     </Button.Style>
 
                                     <TextBlock Text="+" />
                                 </Button>
 
-                                <Button Height="30" FontSize="12" MinWidth="25">
+                                <Button Height="30" FontSize="14" MinWidth="25">
                                     <Button.Style>
-                                        <StaticResource ResourceKey="Steps"/>
+                                        <StaticResource ResourceKey="DeleteButton"/>
                                     </Button.Style>
 
-                                    <TextBlock Text="x" />
+                                    <TextBlock Text="X" />
                                 </Button>
+
+                                <Separator/>
 
                                 <Button Height="30" FontSize="12"  MinWidth="25">
                                     <Button.Style>
                                         <StaticResource ResourceKey="Steps2"/>
                                     </Button.Style>
 
-                                    <TextBlock Text="[S]" />
+                                    <TextBlock Text="S" />
                                 </Button>
 
-                                <Button Click="Create_Click" Height="30"  MinWidth="25" FontSize="12">
+                                <Button Height="30"  MinWidth="25">
                                     <Button.Style>
                                         <StaticResource ResourceKey="Steps"/>
                                     </Button.Style>
 
-                                    <TextBlock Text="v" />
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="14"/>
+                                            <RowDefinition Height="12"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <TextBlock FontSize="11" Text="S"  />
+                                        <TextBlock Grid.Row="2" FontSize="9" Text="as" Padding="6,0,0,5" HorizontalAlignment="Right" />
+                                    </Grid>
                                 </Button>
                             </ToolBar>
                         </ToolBarTray>
 
-                        <ContentControl Template="{StaticResource InformationTab}" DataContext="{Binding Information}"/>
+                        <ContentControl Grid.Column="2" Template="{StaticResource InformationTab}" DataContext="{Binding Information}"/>
                     </Grid>
                     
                 </TabItem>
 
                 <TabItem Header="Документы">
-                    <ContentControl Template="{StaticResource DocumentsTab}" DataContext="{Binding Documents}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <ToolBarTray Orientation="Vertical">
+                            <ToolBar Width="30">
+                                <Button Height="30" FontSize="16" MinWidth="25">
+                                    <Button.Style>
+                                        <StaticResource ResourceKey="AddButton"/>
+                                    </Button.Style>
+
+                                    <TextBlock Text="+" />
+                                </Button>
+
+                                <Button Height="30" FontSize="14" MinWidth="25">
+                                    <Button.Style>
+                                        <StaticResource ResourceKey="DeleteButton"/>
+                                    </Button.Style>
+
+                                    <TextBlock Text="X" />
+                                </Button>
+
+                                <Separator/>
+
+                                <Button Height="30" FontSize="12"  MinWidth="25">
+                                    <Button.Style>
+                                        <StaticResource ResourceKey="Steps2"/>
+                                    </Button.Style>
+
+                                    <TextBlock Text="S" />
+                                </Button>
+
+                                <Button Height="30"  MinWidth="25">
+                                    <Button.Style>
+                                        <StaticResource ResourceKey="Steps"/>
+                                    </Button.Style>
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="14"/>
+                                            <RowDefinition Height="12"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock FontSize="11" Text="S"  />
+                                        <TextBlock Grid.Row="2" FontSize="9" Text="as" Padding="6,0,0,5" HorizontalAlignment="Right" />
+                                    </Grid>
+                                </Button>
+                            </ToolBar>
+                        </ToolBarTray>
+
+                        <ContentControl Grid.Column="2" Template="{StaticResource DocumentsTab}" DataContext="{Binding Documents}"/>
+                    </Grid>
                 </TabItem>
             </TabControl>
 

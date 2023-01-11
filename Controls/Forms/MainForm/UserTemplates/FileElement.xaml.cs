@@ -18,10 +18,11 @@ namespace WisdomLight.Controls.Forms.MainForm.UserTemplates
         #region TemplateDeterming Logic
         private FillTemplatesWindow TemplateProgram()
         {
-            if (!File.Exists(FullName))
-            {
-                return new FillTemplatesWindow(MainForm, FileName);
-            }
+            return new FillTemplatesWindow(MainForm, FileName);
+            //if (!File.Exists(FullName))
+            //{
+            //    return new FillTemplatesWindow(MainForm, FileName);
+            //}
 
             Document program = LoadFromTemplate();
 

@@ -3,26 +3,26 @@
                     xmlns:converters="clr-namespace:WisdomLight.Binds.Converters">
     <ControlTemplate x:Key="InformationTab">
         <Grid>
-            <ContentControl>
-                <ContentControl.Visibility>
+            <ContentControl Visibility="Collapsed">
+                <!--<ContentControl.Visibility>
                     <Binding Path="IsDefended">
                         <Binding.Converter>
                             <converters:InverseVisibilityConverter/>
                         </Binding.Converter>
                     </Binding>
-                </ContentControl.Visibility>
+                </ContentControl.Visibility>-->
 
                 <ListBox ItemsSource="{Binding Data}"/>
             </ContentControl>
 
             <StackPanel>
-                <StackPanel.Visibility>
+                <!--<StackPanel.Visibility>
                     <Binding Path="IsDefended">
                         <Binding.Converter>
                             <converters:BooleanVisibilityConverter/>
                         </Binding.Converter>
                     </Binding>
-                </StackPanel.Visibility>
+                </StackPanel.Visibility>-->
 
                 <ListBox ItemsSource="{Binding Editing}"/>
 

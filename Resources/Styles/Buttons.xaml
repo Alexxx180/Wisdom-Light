@@ -4,19 +4,19 @@
         <Setter Property="Control.FontWeight" Value="Bold"/>
         <Setter Property="Control.FontFamily" Value="Gill Sans MT"/>
         <Setter Property="Button.Content" Value="X"/>
-        <Setter Property="Button.CommandParameter" Value="{Binding}"/>
+        <!--<Setter Property="Button.CommandParameter" Value="{Binding}"/>
         <Setter Property="Button.Command" Value="{Binding RemoveCommand}">
-            <!--<Setter.Value>
+            <Setter.Value>
                 <Binding ElementName="ItemsContainer" Path="DataContext.RemoveCommand"/>
-            </Setter.Value>-->
-        </Setter>
+            </Setter.Value>
+        </Setter>-->
     </Style>
 
     <Style x:Key="AddButton" BasedOn="{StaticResource AddAccent}">
         <Setter Property="Control.FontSize" Value="20"/>
         <Setter Property="Control.FontFamily" Value="Gill Sans Ultra Bold"/>
         <Setter Property="Button.Content" Value="+"/>
-        <Setter Property="Button.Command" Value="{Binding AddCommand}"/>
+        <!--<Setter Property="Button.Command" Value="{Binding AddCommand}"/>-->
     </Style>
 
     <Style x:Key="BoldCambria" BasedOn="{StaticResource Box}">
