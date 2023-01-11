@@ -13,7 +13,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Button Click="DropTemplate">
+        <Button>
+            <!--Click="DropTemplate"-->
             <Button.Style>
                 <StaticResource ResourceKey="DeleteButton"/>
             </Button.Style>

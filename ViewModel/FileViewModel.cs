@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using WisdomLight.ViewModel.Fields;
+using WisdomLight.ViewModel.Fields.Editors;
 using WisdomLight.ViewModel.Commands;
-using System.Windows.Input;
 using System.Collections.Generic;
 
 namespace WisdomLight.ViewModel
@@ -9,8 +9,8 @@ namespace WisdomLight.ViewModel
     public class FileViewModel : NotifyPropertyChanged
     {
         #region Documents
-        private ObservableCollection<string> _documents;
-        public ObservableCollection<string> Documents
+        private DefendingEditor<string, string> _documents;
+        public DefendingEditor<string, string> Documents
         {
             get => _documents;
             set
@@ -19,13 +19,11 @@ namespace WisdomLight.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        public bool CanAddDocuments => (Documents != null ? Documents.Count : 0) < byte.MaxValue;
         #endregion
 
         #region Information Members
-        private ObservableCollection<Field> _information;
-        public ObservableCollection<Field> Information
+        private DefendingEditor<IExpression, FieldSelector> _information;
+        public DefendingEditor<IExpression, FieldSelector> Information
         {
             get => _information;
             set
@@ -34,22 +32,9 @@ namespace WisdomLight.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        private FieldSelector _informationType;
-        public FieldSelector InformationType
-        {
-            get => _informationType;
-            set
-            {
-                _informationType = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool CanAddInformation => (Information != null ? Information.Count : 0) < byte.MaxValue;
         #endregion
 
-        #region Blanks Members
+        #region Auto Save Logic
         private bool _isChanged;
         public bool IsChanged
         {
@@ -71,38 +56,56 @@ namespace WisdomLight.ViewModel
 
         public FileViewModel(List<IExpression> expressions)
         {
-            Information = new ObservableCollection<Field>();
-            Documents = new ObservableCollection<string>();
+            ObservableCollection<string> paths = new ObservableCollection<string>();
+            ObservableCollection<string> pathEditing = new ObservableCollection<string>();
 
-            InformationType = new FieldSelector(expressions)
-            {
-                Command = new RelayCommand(argument =>
-                {
-                    Information.Add(new Field
-                    {
-                        Expression = (IExpression)argument,
-                        Command = new RelayCommand(argument =>
+            Documents = new DefendingEditor<string, string>(
+                paths, new EditableCollection<string>(
+                    pathEditing, "",
+                    new RelayCommand(
+                        argument =>
                         {
-                            _ = Information.Remove((Field)argument);
-                            OnPropertyChanged(nameof(CanAddInformation));
-                        })
-                    });
-                    OnPropertyChanged(nameof(CanAddInformation));
-                })
-            };
+                            string item = (string)argument;
+                            paths.Add(item);
+                            pathEditing.Add(item);
+                        }
+                    ),
+                    new RelayCommand(
+                        argument =>
+                        {
+                            string item = (string)argument;
+                            paths.Remove(item);
+                            pathEditing.Remove(item);
+                        }
+                    )
+                )
+            );
 
-            AddDocument = new RelayCommand(argument => {
-                Documents.Add(argument.ToString());
-                OnPropertyChanged(nameof(CanAddDocuments));
-            });
 
-            DropDocument = new RelayCommand(argument => {
-                Documents.Remove(argument.ToString());
-                OnPropertyChanged(nameof(CanAddDocuments));
-            });
+            ObservableCollection<IExpression> fields = new ObservableCollection<IExpression>();
+            ObservableCollection<FieldSelector> fieldsEditing = new ObservableCollection<FieldSelector>();
+
+            Information = new DefendingEditor<IExpression, FieldSelector>(
+                fields, new EditableCollection<FieldSelector>(
+                    fieldsEditing, new FieldSelector(expressions),
+                    new RelayCommand(
+                        argument =>
+                        {
+                            FieldSelector item = (FieldSelector)argument;
+                            fields.Add(item.Source);
+                            fieldsEditing.Add(item);
+                        }
+                    ),
+                    new RelayCommand(
+                        argument =>
+                        {
+                            FieldSelector item = (FieldSelector)argument;
+                            _ = fields.Remove(item.Source);
+                            _ = fieldsEditing.Remove(item);
+                        }
+                    )
+                )
+            );
         }
-
-        public ICommand AddDocument { get; }
-        public ICommand DropDocument { get; }
     }
 }

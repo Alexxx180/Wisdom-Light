@@ -15,5 +15,13 @@
         }
 
         public string Value => No.ToString();
+
+        public IExpression Clone()
+        {
+            return new NumberExpression
+            {
+                No = No
+            };
+        }
     }
 }

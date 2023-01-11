@@ -8,6 +8,12 @@
                 <ResourceDictionary Source="Resources/Styles/Total.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/Buttons.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/Editors.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CheckBoxes.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/ComboBoxes.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/Controls/Fields.xaml"/>
+                
+                <ResourceDictionary Source="Resources/Templates/Data/Items.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/Controls/Tabs.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

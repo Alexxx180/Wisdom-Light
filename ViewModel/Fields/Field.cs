@@ -1,10 +1,16 @@
-﻿using System.Windows.Input;
-
-namespace WisdomLight.ViewModel.Fields
+﻿namespace WisdomLight.ViewModel.Fields
 {
-    public class Field
+    public class Field : NotifyPropertyChanged
     {
-        public IExpression Expression { get; set; }
-        public ICommand Command { get; set; }
+        private IExpression _expression;
+        public IExpression Expression
+        {
+            get => _expression;
+            set
+            {
+                _expression = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

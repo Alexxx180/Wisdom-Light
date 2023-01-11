@@ -8,10 +8,14 @@ namespace WisdomLight.Binds.Converters
 {
     public class BooleanVisibilityConverter : IValueConverter
     {
+        private protected virtual bool IsVisible(object value)
+        {
+            return value.ToBool();
+        }
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool isVisible = value.ToBool();
-            return isVisible ?
+            return IsVisible(value) ?
                 Visibility.Visible :
                 Visibility.Collapsed;
         }

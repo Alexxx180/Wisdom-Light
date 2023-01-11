@@ -1,0 +1,71 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:WisdomLight.Binds.Converters">
+    <ControlTemplate x:Key="InformationTab">
+        <Grid>
+            <ContentControl>
+                <ContentControl.Visibility>
+                    <Binding Path="IsDefended">
+                        <Binding.Converter>
+                            <converters:InverseVisibilityConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </ContentControl.Visibility>
+
+                <ListBox ItemsSource="{Binding Data}"/>
+            </ContentControl>
+
+            <StackPanel>
+                <StackPanel.Visibility>
+                    <Binding Path="IsDefended">
+                        <Binding.Converter>
+                            <converters:BooleanVisibilityConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </StackPanel.Visibility>
+
+                <ListBox ItemsSource="{Binding Editing}"/>
+
+                <ContentControl DataContext="{Binding Path=Editing.Addendum}">
+                    <ContentControl.Template>
+                        <StaticResource ResourceKey="FieldTypeSelector"/>
+                    </ContentControl.Template>
+                </ContentControl>
+            </StackPanel>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="DocumentsTab">
+        <Grid x:Name="Tree">
+            <ContentControl>
+                <ContentControl.Visibility>
+                    <Binding Path="IsDefended">
+                        <Binding.Converter>
+                            <converters:InverseVisibilityConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </ContentControl.Visibility>
+
+                <ListBox ItemsSource="{Binding Data}"/>
+            </ContentControl>
+
+            <StackPanel>
+                <StackPanel.Visibility>
+                    <Binding Path="IsDefended">
+                        <Binding.Converter>
+                            <converters:BooleanVisibilityConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </StackPanel.Visibility>
+
+                <ListBox ItemsSource="{Binding Editing}"/>
+
+                <ContentControl DataContext="{Binding Path=Editing.Addendum}">
+                    <ContentControl.Template>
+                        <StaticResource ResourceKey="FieldTypeSelector"/>
+                    </ContentControl.Template>
+                </ContentControl>
+            </StackPanel>
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>

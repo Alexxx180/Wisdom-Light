@@ -17,5 +17,13 @@ namespace WisdomLight.ViewModel.Fields
         }
 
         public string Value => Date.ToString();
+
+        public IExpression Clone()
+        {
+            return new DateExpression
+            {
+                Date = Date
+            };
+        }
     }
 }

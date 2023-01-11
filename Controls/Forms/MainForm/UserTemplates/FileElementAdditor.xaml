@@ -26,7 +26,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Button Click="AddTemplate">
+        <Button>
+            <!--Click="AddTemplate"-->
             <Button.Style>
                 <StaticResource ResourceKey="AddButton"/>
             </Button.Style>

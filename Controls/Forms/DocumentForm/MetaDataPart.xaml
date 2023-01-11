@@ -30,7 +30,7 @@
 
         <TabControl Grid.Row="1" Grid.Column="1">
             <TabItem Header="Информация">
-                <ScrollViewer x:Name="MetaData" Grid.Row="1" Visibility="Hidden">
+                <ScrollViewer x:Name="MetaData" Grid.Row="1">
                     <ScrollViewer.VerticalScrollBarVisibility>
                         Auto
                     </ScrollViewer.VerticalScrollBarVisibility>
@@ -41,32 +41,32 @@
                             </ItemsControl.ItemsSource>
                         </ItemsControl>
 
-                        <metadata:MetaElementAdditor>
+                        <!--<metadata:MetaElementAdditor>
                             <metadata:MetaElementAdditor.ViewModel>
                                 <Binding ElementName="TreeContext" Path="DataContext"/>
                             </metadata:MetaElementAdditor.ViewModel>
-                        </metadata:MetaElementAdditor>
+                        </metadata:MetaElementAdditor>-->
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
             
             <TabItem Header="Документы">
-                <ScrollViewer x:Name="Documents" Grid.Row="1" Visibility="Hidden">
+                <ScrollViewer x:Name="Documents" Grid.Row="1">
                     <ScrollViewer.VerticalScrollBarVisibility>
                         Auto
                     </ScrollViewer.VerticalScrollBarVisibility>
                     <StackPanel>
                         <ItemsControl>
                             <ItemsControl.ItemsSource>
-                                <Binding Path="Templates"/>
+                                <Binding Path="Documents"/>
                             </ItemsControl.ItemsSource>
                         </ItemsControl>
 
-                        <templates:DocumentBlankAdditor>
+                        <!--<templates:DocumentBlankAdditor>
                             <templates:DocumentBlankAdditor.ViewModel>
                                 <Binding ElementName="TreeContext" Path="DataContext"/>
                             </templates:DocumentBlankAdditor.ViewModel>
-                        </templates:DocumentBlankAdditor>
+                        </templates:DocumentBlankAdditor>-->
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

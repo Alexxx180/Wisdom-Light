@@ -4,12 +4,13 @@ using System.Runtime.CompilerServices;
 using WisdomLight.Controls.Forms.MainForm;
 using WisdomLight.ViewModel;
 using WisdomLight.Writers.AutoGenerating.Documents;
+using System.Collections.Generic;
 using WisdomLight.Model;
 using static WisdomLight.Writers.AutoGenerating.Processors;
 using static WisdomLight.Writers.ResultRenderer;
 using System.Windows.Input;
 using System.Windows.Controls;
-
+using WisdomLight.ViewModel.Fields;
 
 namespace WisdomLight
 {
@@ -61,13 +62,19 @@ namespace WisdomLight
             MainForm = mainForm;
             _originalFileName = fileName;
             FileName = fileName;
-            ViewModel = new FileViewModel();
+            ViewModel = new FileViewModel(
+                new List<IExpression> {
+                    new TextExpression(),
+                    new NumberExpression(),
+                    new DateExpression()
+                }
+            );
         }
 
         public FillTemplatesWindow(MainPart mainForm, Document program, string fileName) : this(mainForm, fileName)
         {
-            ViewModel.SetFromTemplate(program);
-            ViewModel.IsChanged = false;
+            //ViewModel.SetFromTemplate(program);
+            //ViewModel.IsChanged = false;
         }
 
         private void Create_Click(object sender, RoutedEventArgs e)
@@ -77,7 +84,7 @@ namespace WisdomLight
             Pair<string, bool> head = UserAgreement();
             if (head.Value)
             {
-                FileDocument.WriteDocuments(ViewModel, $"{head.Name}\\");
+                //FileDocument.WriteDocuments(ViewModel, $"{head.Name}\\");
             }
         }
 
@@ -96,14 +103,14 @@ namespace WisdomLight
 
         private void Save()
         {
-            if (_originalFileName != FileName)
-            {
-                RenameFile(_originalFileName, FileName);
-                _originalFileName = FileName;
-            }
+            //if (_originalFileName != FileName)
+            //{
+            //    RenameFile(_originalFileName, FileName);
+            //    _originalFileName = FileName;
+            //}
 
-            if (ViewModel.WasChanged())
-                SavePreferences();
+            //if (ViewModel.WasChanged())
+            //    SavePreferences();
         }
 
         private void SavePreferences()

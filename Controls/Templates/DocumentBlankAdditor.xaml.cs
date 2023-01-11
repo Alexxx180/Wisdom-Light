@@ -57,7 +57,7 @@ namespace WisdomLight.Controls.Templates
 
         private void AddBlank(object sender, RoutedEventArgs e)
         {
-            ViewModel.AddBlank(FullPath);
+            //ViewModel.AddBlank(FullPath);
         }
 
         #region INotifyPropertyChanged Members

@@ -70,7 +70,7 @@ namespace WisdomLight.Controls.Templates
 
         private void DropBlank(object sender, RoutedEventArgs e)
         {
-            ViewModel.DropBlank(this);
+            //ViewModel.DropBlank(this);
         }
 
         #region INotifyPropertyChanged Members

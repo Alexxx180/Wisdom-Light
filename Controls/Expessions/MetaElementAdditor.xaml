@@ -28,7 +28,8 @@
         </Grid.ColumnDefinitions>
 
 
-        <Button Click="AddMetaData">
+        <Button >
+            <!--Click="AddMetaData"-->
             <Button.Style>
                 <StaticResource ResourceKey="AddButton"/>
             </Button.Style>

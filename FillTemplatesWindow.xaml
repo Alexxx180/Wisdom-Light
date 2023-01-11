@@ -8,8 +8,9 @@
         mc:Ignorable="d"
         x:Name="DisciplineProgramWindow"
         Icon="/Resources/Images/Icons/Wisdom3.ico"
-        Title="Редактирование" 
-        WindowState="Maximized" Width="1920" Height="1080" 
+        Title="{Binding Path=FileName, StringFormat={}Редактирование: {0}}"
+        Width="640" Height="480"
+        MinWidth="320" MinHeight="200"
         Closing="OnClosing">
     <Window.DataContext>
         <Binding RelativeSource="{RelativeSource Self}"/>
@@ -21,84 +22,108 @@
         </Grid.DataContext>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.15*"/>
-            <RowDefinition Height="0.85*"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <DockPanel Background="#FF002FA7">
+            <Menu>
+                <MenuItem Header="Файл">
+                    <MenuItem Header="Создать" />
+                    <MenuItem Header="Открыть..." />
+                    <Separator/>
+                    <MenuItem Header="Сохранить" />
+                    <MenuItem Header="Сохранить как" />
+                    <MenuItem Header="Экспорт" />
+                    <Separator/>
+                    <MenuItem Header="Выход" />
+                </MenuItem>
+                <MenuItem Header="Настройки">
+                    <MenuItem Header="Продвинутый" IsCheckable="True" />
+                </MenuItem>
+                <MenuItem Header="Справка"/>
+            </Menu>
+            
+            <TextBox FontSize="14" DockPanel.Dock="Right">
+                <TextBox.Style>
+                    <StaticResource ResourceKey="NameBoxDark"/>
+                </TextBox.Style>
+                <TextBox.Text>
+                    <Binding ElementName="DisciplineProgramWindow" Path="FileName"/>
+                </TextBox.Text>
+            </TextBox>
+        </DockPanel>
 
-        <Grid Background="#FF002FA7">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
 
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.05*"/>
-                <ColumnDefinition Width="0.9*"/>
-                <ColumnDefinition Width="0.05*"/>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="25"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="1" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.825*"/>
-                    <ColumnDefinition Width="0.025*"/>
-                    <ColumnDefinition Width="0.15*"/>
-                </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
 
-                <TextBox>
-                    <TextBox.Style>
-                        <StaticResource ResourceKey="NameBoxDark"/>
-                    </TextBox.Style>
-                    <TextBox.Text>
-                        <Binding ElementName="DisciplineProgramWindow" Path="FileName"/>
-                    </TextBox.Text>
-                    <TextBox.FontSize>
-                        <Binding RelativeSource="{RelativeSource Self}">
-                            <Binding.Path>
-                                ActualHeight
-                            </Binding.Path>
-                            <Binding.Converter>
-                                <converters:ProcentualHeightConverter/>
-                            </Binding.Converter>
-                            <Binding.ConverterParameter>
-                                1,675
-                            </Binding.ConverterParameter>
-                        </Binding>
-                    </TextBox.FontSize>
-                </TextBox>
+            <TabControl Grid.Row="1" Grid.Column="1">
+                <TabItem Header="Информация">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
 
-                <Button Click="Create_Click" x:Name="Create">
-                    <Grid.Column>
-                        2
-                    </Grid.Column>
+                        <ToolBarTray Grid.Column="2"  VerticalAlignment="Bottom" Orientation="Vertical">
+                            <ToolBar Width="30">
+                                <Button Height="30" FontSize="12" MinWidth="25">
+                                    <Button.Style>
+                                        <StaticResource ResourceKey="Steps2"/>
+                                    </Button.Style>
 
-                    <Button.IsDefault>
-                        True
-                    </Button.IsDefault>
+                                    <TextBlock Text="+" />
+                                </Button>
 
-                    <Button.Style>
-                        <StaticResource ResourceKey="Steps"/>
-                    </Button.Style>
+                                <Button Height="30" FontSize="12" MinWidth="25">
+                                    <Button.Style>
+                                        <StaticResource ResourceKey="Steps"/>
+                                    </Button.Style>
 
-                    <Viewbox>
-                        <TextBlock Text="Подтвердить" Padding="2" />
-                    </Viewbox>
-                </Button>
-            </Grid>
+                                    <TextBlock Text="x" />
+                                </Button>
+
+                                <Button Height="30" FontSize="12"  MinWidth="25">
+                                    <Button.Style>
+                                        <StaticResource ResourceKey="Steps2"/>
+                                    </Button.Style>
+
+                                    <TextBlock Text="[S]" />
+                                </Button>
+
+                                <Button Click="Create_Click" Height="30"  MinWidth="25" FontSize="12">
+                                    <Button.Style>
+                                        <StaticResource ResourceKey="Steps"/>
+                                    </Button.Style>
+
+                                    <TextBlock Text="v" />
+                                </Button>
+                            </ToolBar>
+                        </ToolBarTray>
+
+                        <ContentControl Template="{StaticResource InformationTab}" DataContext="{Binding Information}"/>
+                    </Grid>
+                    
+                </TabItem>
+
+                <TabItem Header="Документы">
+                    <ContentControl Template="{StaticResource DocumentsTab}" DataContext="{Binding Documents}"/>
+                </TabItem>
+            </TabControl>
+
+            
         </Grid>
-
-        <dpforms:MetaDataPart x:Name="Page4" Grid.Row="1">
-            <dpforms:MetaDataPart.ViewModel>
-                <Binding>
-                    <Binding.ElementName>
-                        DisciplineProgramWindow
-                    </Binding.ElementName>
-                    <Binding.Path>
-                        ViewModel
-                    </Binding.Path>
-                </Binding>
-            </dpforms:MetaDataPart.ViewModel>
-        </dpforms:MetaDataPart>
+        
     </Grid>
 </Window>

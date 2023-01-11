@@ -9,20 +9,20 @@ namespace WisdomLight.Controls.Expressions
     /// <summary>
     /// Record component containing discipline meta data
     /// </summary>
-    public partial class MetaElement : UserControl, INotifyPropertyChanged, IRawData<Model.Expression>, IWrapFields
+    public partial class MetaElement : UserControl, INotifyPropertyChanged, IWrapFields
     {
-        #region IRawData Members
-        public Model.Expression Raw()
-        {
-            return new Model.Expression(MetaName, MetaValue);
-        }
+        //#region IRawData Members
+        //public Model.Expression Raw()
+        //{
+        //    return new Model.Expression(MetaName, MetaValue);
+        //}
 
-        public void SetElement(Model.Expression info)
-        {
-            MetaName = info.Name;
-            MetaValue = info.Data;
-        }
-        #endregion
+        //public void SetElement(Model.Expression info)
+        //{
+        //    MetaName = info.Name;
+        //    MetaValue = info.Data;
+        //}
+        //#endregion
 
         #region MetaData Members
         private FileViewModel _viewModel;
@@ -86,7 +86,7 @@ namespace WisdomLight.Controls.Expressions
 
         private void DropMetaData(object sender, RoutedEventArgs e)
         {
-            ViewModel.DropMetaData(this);
+            //ViewModel.DropMetaData(this);
         }
 
         #region INotifyPropertyChanged Members

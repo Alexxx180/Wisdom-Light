@@ -111,4 +111,8 @@
             </UniformGrid>
         </Grid>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type fields:FieldSelector}">
+        <ContentControl Template="{StaticResource FieldTypeSelector}" DataContext="{Binding}"/>
+    </DataTemplate>
 </ResourceDictionary>

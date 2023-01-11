@@ -12,5 +12,13 @@
                 OnPropertyChanged();
             }
         }
+
+        public IExpression Clone()
+        {
+            return new TextExpression
+            {
+                Value = Value
+            };
+        }
     }
 }

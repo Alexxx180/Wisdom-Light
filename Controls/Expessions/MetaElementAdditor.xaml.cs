@@ -9,25 +9,25 @@ namespace WisdomLight.Controls.Expressions
     /// <summary>
     /// Special component to add new metadata
     /// </summary>
-    public partial class MetaElementAdditor : UserControl, INotifyPropertyChanged, IRawData<Model.Expression>
+    public partial class MetaElementAdditor : UserControl, INotifyPropertyChanged //, IRawData<Model.Expression>
     {
         public static readonly DependencyProperty
             ViewModelProperty = DependencyProperty.Register(
                 nameof(ViewModel), typeof(FileViewModel),
                 typeof(MetaElementAdditor));
 
-        #region IRawData Members
-        public Model.Expression Raw()
-        {
-            return new Model.Expression(MetaName, MetaValue);
-        }
+        //#region IRawData Members
+        //public Model.Expression Raw()
+        //{
+        //    return new Model.Expression(MetaName, MetaValue);
+        //}
 
-        public void SetElement(Model.Expression info)
-        {
-            MetaName = info.Name;
-            MetaValue = info.Data;
-        }
-        #endregion
+        //public void SetElement(Model.Expression info)
+        //{
+        //    MetaName = info.Name;
+        //    MetaValue = info.Data;
+        //}
+        //#endregion
 
         #region MetaData Members
         public FileViewModel ViewModel
@@ -64,10 +64,10 @@ namespace WisdomLight.Controls.Expressions
             InitializeComponent();
         }
 
-        private void AddMetaData(object sender, RoutedEventArgs e)
-        {
-            ViewModel.AddMetaData(Raw());
-        }
+        //private void AddMetaData(object sender, RoutedEventArgs e)
+        //{
+        //    ViewModel.AddMetaData(Raw());
+        //}
 
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;

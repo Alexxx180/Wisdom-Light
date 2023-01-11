@@ -8,25 +8,23 @@ using WisdomLight.Customing;
 using static WisdomLight.Writers.AutoGenerating.AutoFiller;
 using static WisdomLight.Writers.AutoGenerating.Processors;
 using WisdomLight.ViewModel.Fields;
-using WisdomLight.ViewModel;
 
 namespace WisdomLight.Writers.AutoGenerating.Documents
 {
     public static class FileDocument
     {
         internal static void WriteDocuments
-            (FileViewModel model, string saveTo)
+            (List<string> paths, List<IExpression> expressions, string saveTo)
         {
-            for (byte i = 0; i < model.Blanks.Count; i++)
+            for (byte i = 0; i < paths.Count; i++)
             {
-                string templatePath = blanks.FileLocations[i];
+                string templatePath = paths[i];
 
                 if (!File.Exists(templatePath))
                     continue;
 
                 string fileName = Path.GetFileName(templatePath);
-                WriteDocument(templatePath,
-                    saveTo + fileName, blanks.Information);
+                WriteDocument(templatePath, saveTo + fileName, expressions);
             }
         }
 
@@ -40,8 +38,7 @@ namespace WisdomLight.Writers.AutoGenerating.Documents
             }
             catch (IOException exception)
             {
-                Log.Error("Exception on file truncating/processing: " +
-                    exception.Message);
+                Log.Error("File processing exception: " + exception.Message);
                 WriteMessage(exception.Message);
             }
         }
