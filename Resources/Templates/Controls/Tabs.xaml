@@ -15,7 +15,7 @@
                 <ListBox ItemsSource="{Binding Data}"/>
             </ContentControl>
 
-            <StackPanel>
+            <ListBox ItemsSource="{Binding Editing.Fields}" SelectionMode="Multiple" HorizontalContentAlignment="Stretch">
                 <!--<StackPanel.Visibility>
                     <Binding Path="IsDefended">
                         <Binding.Converter>
@@ -24,14 +24,10 @@
                     </Binding>
                 </StackPanel.Visibility>-->
 
-                <ListBox ItemsSource="{Binding Editing}"/>
-
-                <ContentControl DataContext="{Binding Path=Editing.Addendum}">
-                    <ContentControl.Template>
-                        <StaticResource ResourceKey="FieldTypeSelector"/>
-                    </ContentControl.Template>
-                </ContentControl>
-            </StackPanel>
+                <ListBox.ItemTemplate>
+                    <StaticResource ResourceKey="FieldTypeSelector"/>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </ControlTemplate>
 
@@ -60,11 +56,11 @@
 
                 <ListBox ItemsSource="{Binding Editing}"/>
 
-                <ContentControl DataContext="{Binding Path=Editing.Addendum}">
+                <!--<ContentControl DataContext="{Binding Path=Editing.Addendum}">
                     <ContentControl.Template>
                         <StaticResource ResourceKey="FieldTypeSelector"/>
                     </ContentControl.Template>
-                </ContentControl>
+                </ContentControl>-->
             </StackPanel>
         </Grid>
     </ControlTemplate>

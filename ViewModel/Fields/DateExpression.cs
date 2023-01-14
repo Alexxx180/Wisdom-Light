@@ -2,7 +2,7 @@
 
 namespace WisdomLight.ViewModel.Fields
 {
-    public class DateExpression : NameLabel, IExpression
+    public class DateExpression : TypeLabel, IExpression
     {
         private DateTime _date;
         public DateTime Date
@@ -22,7 +22,8 @@ namespace WisdomLight.ViewModel.Fields
         {
             return new DateExpression
             {
-                Date = Date
+                Date = Date,
+                Type = Type
             };
         }
     }

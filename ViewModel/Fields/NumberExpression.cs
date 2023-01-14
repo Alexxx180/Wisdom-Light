@@ -1,6 +1,6 @@
 ﻿namespace WisdomLight.ViewModel.Fields
 {
-    public class NumberExpression : NameLabel, IExpression
+    public class NumberExpression : TypeLabel, IExpression
     {
         private uint _no;
         public uint No
@@ -20,7 +20,8 @@
         {
             return new NumberExpression
             {
-                No = No
+                No = No,
+                Type = Type
             };
         }
     }

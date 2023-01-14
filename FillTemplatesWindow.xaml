@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:WisdomLight.Binds.Converters"
-        xmlns:dpforms="clr-namespace:WisdomLight.Controls.Forms.DocumentForm"
         mc:Ignorable="d"
         x:Name="DisciplineProgramWindow"
         Icon="/Resources/Images/Icons/Wisdom3.ico"
@@ -82,7 +81,7 @@
 
                         <ToolBarTray Orientation="Vertical">
                             <ToolBar Width="30">
-                                <Button Height="30" FontSize="16" MinWidth="25">
+                                <Button Command="{Binding Information.Editing.AddCommand}" Height="30" FontSize="16" MinWidth="25">
                                     <Button.Style>
                                         <StaticResource ResourceKey="AddButton"/>
                                     </Button.Style>
@@ -140,7 +139,7 @@
 
                         <ToolBarTray Orientation="Vertical">
                             <ToolBar Width="30">
-                                <Button Height="30" FontSize="16" MinWidth="25">
+                                <Button Command="{Binding Documents.Editing.AddCommand}" Height="30" FontSize="16" MinWidth="25">
                                     <Button.Style>
                                         <StaticResource ResourceKey="AddButton"/>
                                     </Button.Style>

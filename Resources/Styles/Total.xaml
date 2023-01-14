@@ -9,7 +9,7 @@
 
     <Style x:Key="GlobalFont" BasedOn="{StaticResource Box}">
         <Setter Property="Control.FontFamily" Value="Lucida Sans Unicode"/>
-        <Setter Property="Control.FontSize" Value="24"/>
+        <Setter Property="Control.FontSize" Value="16"/>
     </Style>
 
     <Style x:Key="Dark" BasedOn="{StaticResource GlobalFont}">
@@ -25,13 +25,13 @@
     </Style>
 
     <Style x:Key="LightBox" BasedOn="{StaticResource Light}">
-        <Setter Property="TextBox.FontSize" Value="20"/>
+        <Setter Property="TextBox.FontSize" Value="14"/>
         <Setter Property="TextBox.Padding" Value="5,0,5,0"/>
         <Setter Property="Control.BorderBrush" Value="#FF002FA7"/>
     </Style>
 
     <Style x:Key="DarkBox" BasedOn="{StaticResource Dark}">
-        <Setter Property="TextBox.FontSize" Value="20"/>
+        <Setter Property="TextBox.FontSize" Value="16"/>
         <Setter Property="TextBox.Padding" Value="5,0,5,0"/>
         <Setter Property="Control.BorderBrush" Value="#FFFFFFFF"/>
     </Style>

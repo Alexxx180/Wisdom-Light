@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace WisdomLight.ViewModel
@@ -7,11 +8,9 @@ namespace WisdomLight.ViewModel
     {
         public EditableCollection() { }
 
-        public EditableCollection(ObservableCollection<T> fields,
-            T addendum, ICommand add, ICommand drop)
+        public EditableCollection(ObservableCollection<T> fields, ICommand add, ICommand drop)
         {
             Fields = fields;
-            Addendum = addendum;
             AddCommand = add;
             DropCommand = drop;
         }
@@ -27,13 +26,13 @@ namespace WisdomLight.ViewModel
             }
         }
 
-        private T _addendum;
-        public T Addendum
+        private List<T> _selectedItems;
+        public List<T> SelectedItems
         {
-            get => _addendum;
+            get => _selectedItems;
             set
             {
-                _addendum = value;
+                _selectedItems = value;
                 OnPropertyChanged();
             }
         }

@@ -59,23 +59,49 @@ namespace WisdomLight.ViewModel
             ObservableCollection<string> paths = new ObservableCollection<string>();
             ObservableCollection<string> pathEditing = new ObservableCollection<string>();
 
+            //FewSelection<string> documentSelection = new FewSelection<string>();
+            //documentSelection.SelectedItems = new List<string>();
+            //documentSelection.Items = new EditableCollection<string>(
+            //    pathEditing, "",
+            //    new RelayCommand(
+            //        argument => documentSelection.SelectedItems.Add((string)argument)
+            //    ),
+            //    new RelayCommand(
+            //        argument => documentSelection.SelectedItems.Remove((string)argument)
+            //    )
+            //);
+            //documentSelection.AddCommand = new RelayCommand(
+            //    arg
+            //);
+
             Documents = new DefendingEditor<string, string>(
                 paths, new EditableCollection<string>(
-                    pathEditing, "",
+                    pathEditing,
                     new RelayCommand(
                         argument =>
                         {
-                            string item = (string)argument;
-                            paths.Add(item);
-                            pathEditing.Add(item);
+                            string path = "";
+                            paths.Add(path);
+                            pathEditing.Add(path);
+
+                            //for (int i = 0; i < Documents.Editing.SelectedItems.Count; i++)
+                            //{
+                            //    paths.Add(Documents.Editing.SelectedItems[i]);
+                            //    pathEditing.Add(Documents.Editing.SelectedItems[i]);
+                            //}
                         }
                     ),
                     new RelayCommand(
                         argument =>
                         {
-                            string item = (string)argument;
-                            paths.Remove(item);
-                            pathEditing.Remove(item);
+                            int count = Documents.Editing.SelectedItems.Count - 1;
+                            while (count > -1)
+                            {
+                                paths.Remove(Documents.Editing.SelectedItems[count]);
+                                pathEditing.Remove(Documents.Editing.SelectedItems[count]);
+                                Documents.Editing.SelectedItems.RemoveAt(count);
+                                count--;
+                            }
                         }
                     )
                 )
@@ -87,21 +113,38 @@ namespace WisdomLight.ViewModel
 
             Information = new DefendingEditor<IExpression, FieldSelector>(
                 fields, new EditableCollection<FieldSelector>(
-                    fieldsEditing, new FieldSelector(expressions),
+                    fieldsEditing,
                     new RelayCommand(
                         argument =>
                         {
-                            FieldSelector item = (FieldSelector)argument;
-                            fields.Add(item.Source);
-                            fieldsEditing.Add(item);
+                            FieldSelector field = new FieldSelector(
+                                new List<IExpression>
+                                {
+                                    new TextExpression() { Type = "Текст" },
+                                    new NumberExpression() { Type = "Число" },
+                                    new DateExpression() { Type = "Дата" }
+                                }
+                            );
+                            fields.Add(field.Source);
+                            fieldsEditing.Add(field);
+                            //for (int i = 0; i < Documents.Editing.SelectedItems.Count; i++)
+                            //{
+                            //    fields.Add(Documents.Editing.SelectedItems[i].Source);
+                            //    fieldsEditing.Add(Documents.Editing.SelectedItems[i]);
+                            //}
                         }
                     ),
                     new RelayCommand(
                         argument =>
                         {
-                            FieldSelector item = (FieldSelector)argument;
-                            _ = fields.Remove(item.Source);
-                            _ = fieldsEditing.Remove(item);
+                            int count = Information.Editing.SelectedItems.Count - 1;
+                            while (count > -1)
+                            {
+                                fields.Remove(Information.Editing.SelectedItems[count].Source);
+                                fieldsEditing.Remove(Information.Editing.SelectedItems[count]);
+                                Documents.Editing.SelectedItems.RemoveAt(count);
+                                count--;
+                            }
                         }
                     )
                 )

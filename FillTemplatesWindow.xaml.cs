@@ -64,9 +64,9 @@ namespace WisdomLight
             FileName = fileName;
             ViewModel = new FileViewModel(
                 new List<IExpression> {
-                    new TextExpression(),
-                    new NumberExpression(),
-                    new DateExpression()
+                    new TextExpression() { Type = "Текст" },
+                    new NumberExpression() { Type = "Число" },
+                    new DateExpression() { Type = "Дата" }
                 }
             );
         }

@@ -1,6 +1,6 @@
 ﻿namespace WisdomLight.ViewModel.Fields
 {
-    public class TextExpression : NameLabel, IExpression
+    public class TextExpression : TypeLabel, IExpression
     {
         private string _value;
         public string Value
@@ -17,7 +17,8 @@
         {
             return new TextExpression
             {
-                Value = Value
+                Value = Value,
+                Type = Type
             };
         }
     }
