@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Fields">
+                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields"
+                    xmlns:tools="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields.Tools">
     <DataTemplate x:Key="NumberField" DataType="{x:Type fields:NumberExpression}">
         <Grid Height="35">
             <Grid.Resources>
@@ -15,7 +16,7 @@
             </Grid.ColumnDefinitions>
 
             <UniformGrid Grid.Column="1" Columns="2">
-                <TextBox Style="{StaticResource NameBoxLight}">
+                <TextBox Style="{StaticResource Box}">
                     <TextBox.Text>
                         <Binding Path="Name" Mode="TwoWay">
                             <Binding.UpdateSourceTrigger>
@@ -52,7 +53,7 @@
             </Grid.ColumnDefinitions>
 
             <UniformGrid Grid.Column="1" Columns="2">
-                <TextBox Style="{StaticResource NameBoxLight}">
+                <TextBox Style="{StaticResource NamingLight}">
                     <TextBox.Text>
                         <Binding Path="Name" Mode="TwoWay">
                             <Binding.UpdateSourceTrigger>
@@ -62,7 +63,7 @@
                     </TextBox.Text>
                 </TextBox>
 
-                <TextBox Style="{StaticResource NameBoxLight}">
+                <TextBox Style="{StaticResource NamingLight}">
                     <TextBox.Text>
                         <Binding Path="Value" Mode="TwoWay">
                             <Binding.UpdateSourceTrigger>
@@ -89,7 +90,7 @@
             </Grid.ColumnDefinitions>
 
             <UniformGrid Grid.Column="1" Columns="2">
-                <TextBox Style="{StaticResource NameBoxLight}">
+                <TextBox Style="{StaticResource NamingLight}">
                     <TextBox.Text>
                         <Binding Path="Name" Mode="TwoWay">
                             <Binding.UpdateSourceTrigger>
@@ -112,7 +113,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type fields:FieldSelector}">
+    <DataTemplate DataType="{x:Type tools:FieldSelector}">
         <ContentControl Template="{StaticResource FieldTypeSelector}" DataContext="{Binding}"/>
     </DataTemplate>
 </ResourceDictionary>

@@ -3,14 +3,69 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:main="clr-namespace:WisdomLight.Controls.Forms.MainForm"
         mc:Ignorable="d"
         Icon="/Resources/Images/Icons/Wisdom3.ico"
         Title="Облегченная Мудрость"
         Width="640" Height="480"
         MinWidth="320" MinHeight="200"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        x:Name="ThisWindow">
     <Grid>
-        <main:MainPart/>
+        <Grid DataContext="{Binding ElementName=ThisWindow, Path=ViewModel}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Style="{StaticResource Dark}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="55"/>
+                </Grid.RowDefinitions>
+
+                <Menu Style="{StaticResource Light}">
+                    <MenuItem Header="Файл"/>
+                    <MenuItem Header="Настройки"/>
+                    <MenuItem Header="Справка"/>
+                </Menu>
+
+                <TextBlock Grid.Row="1" Style="{StaticResource Header}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Text>
+                        Добро пожаловать
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+
+            <Grid Margin="15" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+
+                <ListBox HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <StaticResource ResourceKey="FileSelection"/>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsSource>
+                        <Binding Path="Templates"/>
+                    </ListBox.ItemsSource>
+                </ListBox>
+
+                <ToolBarTray Grid.Column="1" Orientation="Vertical">
+                    <ToolBar>
+                        <Button Height="30" FontSize="16" MinWidth="25">
+                            <Button.Style>
+                                <StaticResource ResourceKey="AddButton"/>
+                            </Button.Style>
+                        </Button>
+                        <Button Height="30" FontSize="16" MinWidth="25">
+                            <Button.Style>
+                                <StaticResource ResourceKey="DeleteButton"/>
+                            </Button.Style>
+                        </Button>
+                    </ToolBar>
+                </ToolBarTray>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

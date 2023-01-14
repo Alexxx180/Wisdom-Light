@@ -3,30 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:converters="clr-namespace:WisdomLight.Binds.Converters"
+        xmlns:converters="clr-namespace:WisdomLight.View.Binds.Converters"
         mc:Ignorable="d"
-        x:Name="DisciplineProgramWindow"
+        x:Name="FileWindow"
         Icon="/Resources/Images/Icons/Wisdom3.ico"
-        Title="{Binding Path=FileName, StringFormat={}Редактирование: {0}}"
+        Title="{Binding ElementName=FileWindow, Path=ViewModel.Name, StringFormat={}Редактирование: {0}}"
         Width="640" Height="480"
-        MinWidth="320" MinHeight="200"
-        Closing="OnClosing">
-    <Window.DataContext>
-        <Binding RelativeSource="{RelativeSource Self}"/>
-    </Window.DataContext>
-
+        MinWidth="320" MinHeight="200">
     <Grid>
         <Grid.DataContext>
-            <Binding Path="ViewModel"/>
+            <Binding ElementName="FileWindow" Path="ViewModel"/>
         </Grid.DataContext>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="24"/>
+            <RowDefinition Height="25"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <DockPanel Background="#FF002FA7">
-            <Menu>
+        <DockPanel>
+            <Menu Style="{StaticResource LightBox}">
                 <MenuItem Header="Файл">
                     <MenuItem Header="Создать" />
                     <MenuItem Header="Открыть..." />
@@ -42,153 +37,49 @@
                         <MenuItem Header="Текст" IsCheckable="True"/>
                         <MenuItem Header="Таблицы" IsCheckable="True"/>
                     </MenuItem>
-                    <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding Information.IsDefended}" />
+                    <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding IsDefended}" />
                 </MenuItem>
                 <MenuItem Header="Справка"/>
             </Menu>
-            
-            <TextBox FontSize="14" DockPanel.Dock="Right">
-                <TextBox.Style>
-                    <StaticResource ResourceKey="NameBoxDark"/>
-                </TextBox.Style>
-                <TextBox.Text>
-                    <Binding ElementName="DisciplineProgramWindow" Path="FileName"/>
-                </TextBox.Text>
-            </TextBox>
+
+            <Border DockPanel.Dock="Right" Style="{StaticResource DarkBox}">
+                <TextBox Style="{StaticResource NamingLight}">
+                    <TextBox.Text>
+                        <Binding Path="Name"/>
+                    </TextBox.Text>
+                </TextBox>
+            </Border>
         </DockPanel>
 
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="25"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition/>
-                <RowDefinition Height="25"/>
-            </Grid.RowDefinitions>
-
-            <TabControl Grid.Row="1" Grid.Column="1">
-                <TabItem Header="Информация">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
-                        <ToolBarTray Orientation="Vertical">
-                            <ToolBar Width="30">
-                                <Button Command="{Binding Information.Editing.AddCommand}" Height="30" FontSize="16" MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="AddButton"/>
-                                    </Button.Style>
-
-                                    <TextBlock Text="+" />
-                                </Button>
-
-                                <Button Height="30" FontSize="14" MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="DeleteButton"/>
-                                    </Button.Style>
-
-                                    <TextBlock Text="X" />
-                                </Button>
-
-                                <Separator/>
-
-                                <Button Height="30" FontSize="12"  MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="Steps2"/>
-                                    </Button.Style>
-
-                                    <TextBlock Text="S" />
-                                </Button>
-
-                                <Button Height="30"  MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="Steps"/>
-                                    </Button.Style>
-
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="14"/>
-                                            <RowDefinition Height="12"/>
-                                        </Grid.RowDefinitions>
-                                        
-                                        <TextBlock FontSize="11" Text="S"  />
-                                        <TextBlock Grid.Row="2" FontSize="9" Text="as" Padding="6,0,0,5" HorizontalAlignment="Right" />
-                                    </Grid>
-                                </Button>
-                            </ToolBar>
-                        </ToolBarTray>
-
-                        <ContentControl Grid.Column="2" Template="{StaticResource InformationTab}" DataContext="{Binding Information}"/>
-                    </Grid>
-                    
-                </TabItem>
-
-                <TabItem Header="Документы">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
-                        <ToolBarTray Orientation="Vertical">
-                            <ToolBar Width="30">
-                                <Button Command="{Binding Documents.Editing.AddCommand}" Height="30" FontSize="16" MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="AddButton"/>
-                                    </Button.Style>
-
-                                    <TextBlock Text="+" />
-                                </Button>
-
-                                <Button Height="30" FontSize="14" MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="DeleteButton"/>
-                                    </Button.Style>
-
-                                    <TextBlock Text="X" />
-                                </Button>
-
-                                <Separator/>
-
-                                <Button Height="30" FontSize="12"  MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="Steps2"/>
-                                    </Button.Style>
-
-                                    <TextBlock Text="S" />
-                                </Button>
-
-                                <Button Height="30"  MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="Steps"/>
-                                    </Button.Style>
-
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="14"/>
-                                            <RowDefinition Height="12"/>
-                                        </Grid.RowDefinitions>
-
-                                        <TextBlock FontSize="11" Text="S"  />
-                                        <TextBlock Grid.Row="2" FontSize="9" Text="as" Padding="6,0,0,5" HorizontalAlignment="Right" />
-                                    </Grid>
-                                </Button>
-                            </ToolBar>
-                        </ToolBarTray>
-
-                        <ContentControl Grid.Column="2" Template="{StaticResource DocumentsTab}" DataContext="{Binding Documents}"/>
-                    </Grid>
-                </TabItem>
-            </TabControl>
-
+        <Grid Grid.Row="1" Margin="15" Style="{StaticResource DarkBox}">
+            <ContentControl Grid.Row="1" Grid.Column="1">
+                <ContentControl.Visibility>
+                    <Binding Path="IsDefended">
+                        <Binding.Converter>
+                            <converters:InverseVisibilityConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </ContentControl.Visibility>
+                
+                <ContentControl.Template>
+                    <StaticResource ResourceKey="Filler"/>
+                </ContentControl.Template>
+            </ContentControl>
             
+            <ContentControl Grid.Row="1" Grid.Column="1">
+                <ContentControl.Visibility>
+                    <Binding Path="IsDefended">
+                        <Binding.Converter>
+                            <converters:BooleanVisibilityConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </ContentControl.Visibility>
+                
+                <ContentControl.Template>
+                    <StaticResource ResourceKey="Editor"/>
+                </ContentControl.Template>
+            </ContentControl>
         </Grid>
         
     </Grid>

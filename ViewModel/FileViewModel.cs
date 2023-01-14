@@ -1,8 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using WisdomLight.ViewModel.Fields;
-using WisdomLight.ViewModel.Fields.Editors;
 using WisdomLight.ViewModel.Commands;
 using System.Collections.Generic;
+using WisdomLight.ViewModel.Files.Fields;
+using WisdomLight.ViewModel.Data.Collections;
+using WisdomLight.ViewModel.Data.Files.Fields;
+using WisdomLight.ViewModel.Data.Files.Fields.Tools;
+using WisdomLight.ViewModel.Data.Files.Fields.Tools.Editors;
 
 namespace WisdomLight.ViewModel
 {
@@ -32,6 +35,17 @@ namespace WisdomLight.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        private bool _isDefended;
+        public bool IsDefended
+        {
+            get => _isDefended;
+            set
+            {
+                _isDefended = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Auto Save Logic
@@ -54,25 +68,47 @@ namespace WisdomLight.ViewModel
         }
         #endregion
 
-        public FileViewModel(List<IExpression> expressions)
+        private string _originalName;
+
+        private string _name;
+        public string Name
         {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+        // Logic for selection
+        // for (int i = 0; i < Documents.Editing.SelectedItems.Count; i++)
+        // {
+        //     paths.Add(Documents.Editing.SelectedItems[i]);
+        //     pathEditing.Add(Documents.Editing.SelectedItems[i]);
+        // }
+
+        //FewSelection<string> documentSelection = new FewSelection<string>();
+        //documentSelection.SelectedItems = new List<string>();
+        //documentSelection.Items = new EditableCollection<string>(
+        //    pathEditing, "",
+        //    new RelayCommand(
+        //        argument => documentSelection.SelectedItems.Add((string)argument)
+        //    ),
+        //    new RelayCommand(
+        //        argument => documentSelection.SelectedItems.Remove((string)argument)
+        //    )
+        //);
+        //documentSelection.AddCommand = new RelayCommand(
+        //    arg
+        //);
+
+        public FileViewModel(string fileName, List<IExpression> expressions)
+        {
+            _originalName = fileName;
+            Name = fileName;
+
             ObservableCollection<string> paths = new ObservableCollection<string>();
             ObservableCollection<string> pathEditing = new ObservableCollection<string>();
-
-            //FewSelection<string> documentSelection = new FewSelection<string>();
-            //documentSelection.SelectedItems = new List<string>();
-            //documentSelection.Items = new EditableCollection<string>(
-            //    pathEditing, "",
-            //    new RelayCommand(
-            //        argument => documentSelection.SelectedItems.Add((string)argument)
-            //    ),
-            //    new RelayCommand(
-            //        argument => documentSelection.SelectedItems.Remove((string)argument)
-            //    )
-            //);
-            //documentSelection.AddCommand = new RelayCommand(
-            //    arg
-            //);
 
             Documents = new DefendingEditor<string, string>(
                 paths, new EditableCollection<string>(
@@ -83,12 +119,6 @@ namespace WisdomLight.ViewModel
                             string path = "";
                             paths.Add(path);
                             pathEditing.Add(path);
-
-                            //for (int i = 0; i < Documents.Editing.SelectedItems.Count; i++)
-                            //{
-                            //    paths.Add(Documents.Editing.SelectedItems[i]);
-                            //    pathEditing.Add(Documents.Editing.SelectedItems[i]);
-                            //}
                         }
                     ),
                     new RelayCommand(
@@ -127,11 +157,6 @@ namespace WisdomLight.ViewModel
                             );
                             fields.Add(field.Source);
                             fieldsEditing.Add(field);
-                            //for (int i = 0; i < Documents.Editing.SelectedItems.Count; i++)
-                            //{
-                            //    fields.Add(Documents.Editing.SelectedItems[i].Source);
-                            //    fieldsEditing.Add(Documents.Editing.SelectedItems[i]);
-                            //}
                         }
                     ),
                     new RelayCommand(
@@ -150,5 +175,47 @@ namespace WisdomLight.ViewModel
                 )
             );
         }
+
+
+        //private void Create_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Save();
+
+        //    Pair<string, bool> head = UserAgreement();
+        //    if (head.Value)
+        //    {
+        //        //FileDocument.WriteDocuments(ViewModel, $"{head.Name}\\");
+        //    }
+        //}
+
+        //private void OnClosing(object sender, CancelEventArgs e)
+        //{
+        //    if (Keyboard.FocusedElement is TextBox textBox)
+        //    {
+        //        TraversalRequest tRequest = new
+        //            TraversalRequest(FocusNavigationDirection.Next);
+        //        _ = textBox.MoveFocus(tRequest);
+        //    }
+
+        //    Save();
+        //}
+
+        //private void Save()
+        //{
+        //    //if (_originalFileName != FileName)
+        //    //{
+        //    //    RenameFile(_originalFileName, FileName);
+        //    //    _originalFileName = FileName;
+        //    //}
+
+        //    //if (ViewModel.WasChanged())
+        //    //    SavePreferences();
+        //}
+
+        //private void SavePreferences()
+        //{
+        //    TruncateFile(_originalFileName);
+        //    SaveRuntime(FileName, ViewModel);
+        //}
     }
 }

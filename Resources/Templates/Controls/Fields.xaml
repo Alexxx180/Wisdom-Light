@@ -1,38 +1,46 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ControlTemplate x:Key="TypeSelector">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:WisdomLight.View.Controls"
+                    xmlns:viewmodel="clr-namespace:WisdomLight.ViewModel">
+    <ItemContainerTemplate x:Key="FileSelection">
+        <!--CommandParameter="{Binding Full File Path + File Name with Extension}"-->
+        <controls:CommandControl CommandParameter="{Binding}" Height="30">
+            <controls:CommandControl.Command>
+                <Binding Path="DataContext.OpenCommand" Mode="OneWay">
+                    <Binding.RelativeSource>
+                        <RelativeSource AncestorType="{x:Type Grid}">
+                            <RelativeSource.Mode>
+                                FindAncestor
+                            </RelativeSource.Mode>
+                        </RelativeSource>
+                    </Binding.RelativeSource>
+                </Binding>
+            </controls:CommandControl.Command>
+            <controls:CommandControl.Content>
+                <TextBlock Text="{Binding}" Style="{StaticResource GlobalFont}" Margin="5,3" />
+            </controls:CommandControl.Content>
+        </controls:CommandControl>
+    </ItemContainerTemplate>
+    
+    <ItemContainerTemplate x:Key="TypeSelector">
         <TextBlock Text="{Binding Type}" />
-    </ControlTemplate>
+    </ItemContainerTemplate>
 
     <ItemContainerTemplate x:Key="FieldTypeSelector">
-        <Grid Margin="25, 0">
+        <Grid Margin="25, 0" Style="{StaticResource Light}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Style="{StaticResource NameBoxLight}">
-                <TextBox.Text>
-                    <Binding Path="Source" Mode="TwoWay">
-                        <Binding.UpdateSourceTrigger>
-                            LostFocus
-                        </Binding.UpdateSourceTrigger>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+            <TextBox Style="{StaticResource Box}" Text="{Binding Path=Source.Name}"/>
 
             <ComboBox Grid.Column="1">
                 <ComboBox.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <TextBlock Text="{Binding Type}" />
-                    </ItemContainerTemplate>
+                    <StaticResource ResourceKey="TypeSelector"/>
                 </ComboBox.ItemTemplate>
                 <ComboBox.SelectedItem>
-                    <Binding Path="Source" Mode="TwoWay">
-                        <Binding.UpdateSourceTrigger>
-                            PropertyChanged
-                        </Binding.UpdateSourceTrigger>
-                    </Binding>
+                    <Binding Path="Source"/>
                 </ComboBox.SelectedItem>
                 <ComboBox.ItemsSource>
                     <Binding Path="Expressions"/>
@@ -42,13 +50,8 @@
     </ItemContainerTemplate>
 
     <ControlTemplate x:Key="DocumentPathField">
-        <Grid Height="25">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <TextBox Style="{StaticResource NameBoxLight}">
+        <UniformGrid Margin="25, 0" Columns="2" Height="25">
+            <TextBox Style="{StaticResource Box}">
                 <TextBox.Text>
                     <Binding Mode="TwoWay">
                         <Binding.UpdateSourceTrigger>
@@ -57,17 +60,24 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-        </Grid>
+            
+            <TextBox Style="{StaticResource NamingLight}">
+                <TextBox.Text>
+                    <Binding Mode="TwoWay">
+                        <Binding.UpdateSourceTrigger>
+                            LostFocus
+                        </Binding.UpdateSourceTrigger>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </UniformGrid>
     </ControlTemplate>
 
     <ControlTemplate x:Key="DocumentPathText">
-        <Grid Height="25">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Text="{Binding}" Style="{StaticResource NameBoxLight}"/>
-        </Grid>
+        <UniformGrid Margin="25, 0" Height="25" Columns="2"
+                     Style="{StaticResource Light}">
+            <TextBlock Text="{Binding}" />
+            <TextBlock Text="{Binding}"/>
+        </UniformGrid>
     </ControlTemplate>
 </ResourceDictionary>
