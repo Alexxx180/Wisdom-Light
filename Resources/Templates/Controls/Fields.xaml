@@ -17,7 +17,7 @@
                 </Binding>
             </controls:CommandControl.Command>
             <controls:CommandControl.Content>
-                <TextBlock Text="{Binding}" Style="{StaticResource GlobalFont}" Margin="5,3" />
+                <TextBlock Text="{Binding}" Style="{StaticResource GlobalFont}" Margin="5,3"/>
             </controls:CommandControl.Content>
         </controls:CommandControl>
     </ItemContainerTemplate>

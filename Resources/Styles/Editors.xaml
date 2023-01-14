@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:Class="WisdomLight.View.Controls.Events.EditEvents">
     <Style x:Key="Box" TargetType="TextBox">
-        <Setter Property="CaretBrush" Value="#FF002FA7"/>
+        <Setter Property="CaretBrush" Value="#FF6F6F6F"/>
         <Setter Property="SelectionBrush" Value="Black"/>
         <Setter Property="SelectionOpacity" Value="0.4"/>
         <Setter Property="Padding" Value="5,0,5,0"/>

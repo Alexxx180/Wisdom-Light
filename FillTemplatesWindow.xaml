@@ -16,7 +16,7 @@
         </Grid.DataContext>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="27"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -39,7 +39,13 @@
                     </MenuItem>
                     <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding IsDefended}" />
                 </MenuItem>
-                <MenuItem Header="Справка"/>
+                <MenuItem Header="Справка">
+                    <MenuItem Header="Начало работы"/>
+                    <MenuItem Header="Оператор"/>
+                    <MenuItem Header="Пользователь"/>
+                    <Separator/>
+                    <MenuItem Header="О Программе"/>
+                </MenuItem>
             </Menu>
 
             <Border DockPanel.Dock="Right" Style="{StaticResource DarkBox}">

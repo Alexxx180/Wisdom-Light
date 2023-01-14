@@ -11,7 +11,7 @@ namespace WisdomLight.View.Binds.Converters
     {
         private protected virtual bool IsVisible(object value)
         {
-            return value.ToBool();
+            return (bool)value;
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

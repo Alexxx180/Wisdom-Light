@@ -16,13 +16,17 @@ namespace WisdomLight.ViewModel
 
         public MainViewModel(
             ObservableCollection<string> templates,
-            ICommand add, ICommand drop, ICommand open)
+            ICommand add, ICommand drop, ICommand newCommand,
+            ICommand open, ICommand close, bool isDefended, bool isDefaultPath)
         {
             Templates = templates;
             AddCommand = add;
             DropCommand = drop;
             OpenCommand = open;
-             //new FillTemplatesWindow("Проверка");
+            CloseCommand = close;
+            NewCommand = newCommand;
+            IsDefended = isDefended;
+            IsDefaultPath = isDefaultPath;
         }
 
         #region Templates Logic
@@ -86,12 +90,36 @@ namespace WisdomLight.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        private bool _isDefended;
+        public bool IsDefended
+        {
+            get => _isDefended;
+            set
+            {
+                _isDefended = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isDefaultPath;
+        public bool IsDefaultPath
+        {
+            get => _isDefaultPath;
+            set
+            {
+                _isDefaultPath = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         public ICommand AddCommand { get; }
         public ICommand DropCommand { get; }
 
+        public ICommand NewCommand { get; }
         public ICommand OpenCommand { get; }
+        public ICommand CloseCommand { get; }
 
         //#region TemplateDeterming Logic
         //private FillTemplatesWindow TemplateProgram()
