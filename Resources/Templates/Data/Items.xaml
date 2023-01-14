@@ -2,31 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fields="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields"
                     xmlns:tools="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields.Tools">
-    <DataTemplate x:Key="NumberField" DataType="{x:Type fields:NumberExpression}">
-        <Grid Height="35">
-            <Grid.Resources>
-                <Style TargetType="TextBox">
-                    <Setter Property="FontSize" Value="20"/>
-                </Style>
-            </Grid.Resources>
-
+    <ControlTemplate x:Key="NumberField">
+        <Grid Height="25" Style="{StaticResource Light}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <UniformGrid Grid.Column="1" Columns="2">
-                <TextBox Style="{StaticResource Box}">
-                    <TextBox.Text>
-                        <Binding Path="Name" Mode="TwoWay">
-                            <Binding.UpdateSourceTrigger>
-                                LostFocus
-                            </Binding.UpdateSourceTrigger>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
+                <TextBlock Text="{Binding Path=Name}"/>
 
-                <TextBox Style="{StaticResource NoBox}">
+                <TextBox Style="{StaticResource LightBox}">
                     <TextBox.Text>
                         <Binding Path="No" Mode="TwoWay">
                             <Binding.UpdateSourceTrigger>
@@ -37,33 +23,19 @@
                 </TextBox>
             </UniformGrid>
         </Grid>
-    </DataTemplate>
+    </ControlTemplate>
 
-    <DataTemplate x:Key="TextField" DataType="{x:Type fields:TextExpression}">
-        <Grid Height="35">
-            <Grid.Resources>
-                <Style TargetType="TextBox">
-                    <Setter Property="FontSize" Value="20"/>
-                </Style>
-            </Grid.Resources>
-
+    <ControlTemplate x:Key="TextField">
+        <Grid Height="25" Style="{StaticResource Light}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="25" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <UniformGrid Grid.Column="1" Columns="2">
-                <TextBox Style="{StaticResource NamingLight}">
-                    <TextBox.Text>
-                        <Binding Path="Name" Mode="TwoWay">
-                            <Binding.UpdateSourceTrigger>
-                                LostFocus
-                            </Binding.UpdateSourceTrigger>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
+                <TextBlock Text="{Binding Path=Name}"/>
 
-                <TextBox Style="{StaticResource NamingLight}">
+                <TextBox Style="{StaticResource LightBox}">
                     <TextBox.Text>
                         <Binding Path="Value" Mode="TwoWay">
                             <Binding.UpdateSourceTrigger>
@@ -74,9 +46,9 @@
                 </TextBox>
             </UniformGrid>
         </Grid>
-    </DataTemplate>
+    </ControlTemplate>
 
-    <DataTemplate x:Key="DateField" DataType="{x:Type fields:DateExpression}">
+    <ControlTemplate x:Key="DateField">
         <Grid Height="35">
             <Grid.Resources>
                 <Style TargetType="TextBox">
@@ -90,15 +62,7 @@
             </Grid.ColumnDefinitions>
 
             <UniformGrid Grid.Column="1" Columns="2">
-                <TextBox Style="{StaticResource NamingLight}">
-                    <TextBox.Text>
-                        <Binding Path="Name" Mode="TwoWay">
-                            <Binding.UpdateSourceTrigger>
-                                LostFocus
-                            </Binding.UpdateSourceTrigger>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
+                <TextBlock Text="{Binding Path=Name}"/>
 
                 <DatePicker>
                     <DatePicker.SelectedDate>
@@ -111,7 +75,7 @@
                 </DatePicker>
             </UniformGrid>
         </Grid>
-    </DataTemplate>
+    </ControlTemplate>
 
     <DataTemplate DataType="{x:Type tools:FieldSelector}">
         <ContentControl Template="{StaticResource FieldTypeSelector}" DataContext="{Binding}"/>

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:WisdomLight.View.Binds.Converters"
+        xmlns:fields="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields"
         mc:Ignorable="d"
         x:Name="FileWindow"
         Icon="/Resources/Images/Icons/Wisdom3.ico"
@@ -16,9 +17,17 @@
         </Grid.DataContext>
 
         <Grid.Resources>
-            <StaticResource x:Key="TextFieldInfo" ResourceKey="TextField"/>
-            <StaticResource x:Key="NumberFieldInfo" ResourceKey="NumberField"/>
-            <StaticResource x:Key="DateFieldInfo" ResourceKey="DateField"/>
+            <DataTemplate DataType="{x:Type fields:NumberExpression}" >
+                <ContentControl Template="{StaticResource NumberField}"/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type fields:TextExpression}">
+                <ContentControl Template="{StaticResource TextField}"/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type fields:DateExpression}">
+                <ContentControl Template="{StaticResource DateField}"/>
+            </DataTemplate>
         </Grid.Resources>
         
         <Grid.RowDefinitions>
