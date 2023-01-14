@@ -14,6 +14,12 @@
         <Grid.DataContext>
             <Binding ElementName="FileWindow" Path="ViewModel"/>
         </Grid.DataContext>
+
+        <Grid.Resources>
+            <StaticResource x:Key="TextFieldInfo" ResourceKey="TextField"/>
+            <StaticResource x:Key="NumberFieldInfo" ResourceKey="NumberField"/>
+            <StaticResource x:Key="DateFieldInfo" ResourceKey="DateField"/>
+        </Grid.Resources>
         
         <Grid.RowDefinitions>
             <RowDefinition Height="27"/>
@@ -23,17 +29,17 @@
         <DockPanel>
             <Menu Style="{StaticResource LightBox}">
                 <MenuItem Header="Файл">
-                    <MenuItem Header="Создать" />
+                    <MenuItem Header="Создать" IsEnabled="{Binding IsDefended}" />
                     <MenuItem Header="Открыть..." />
                     <Separator/>
                     <MenuItem Header="Сохранить" />
-                    <MenuItem Header="Сохранить как" />
+                    <MenuItem Header="Сохранить как" IsEnabled="{Binding IsDefended}" />
                     <MenuItem Header="Экспорт" />
                     <Separator/>
                     <MenuItem Header="Выход" />
                 </MenuItem>
                 <MenuItem Header="Настройки">
-                    <MenuItem Header="Обрабатывать">
+                    <MenuItem Header="Обрабатывать" IsEnabled="{Binding IsDefended}">
                         <MenuItem Header="Текст" IsCheckable="True"/>
                         <MenuItem Header="Таблицы" IsCheckable="True"/>
                     </MenuItem>
@@ -41,8 +47,8 @@
                 </MenuItem>
                 <MenuItem Header="Справка">
                     <MenuItem Header="Начало работы"/>
-                    <MenuItem Header="Оператор"/>
-                    <MenuItem Header="Пользователь"/>
+                    <MenuItem Header="Оператору" IsEnabled="{Binding IsDefended}"/>
+                    <MenuItem Header="Пользователю"/>
                     <Separator/>
                     <MenuItem Header="О Программе"/>
                 </MenuItem>

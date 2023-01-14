@@ -35,6 +35,7 @@ namespace WisdomLight.ViewModel
                 OnPropertyChanged();
             }
         }
+        #endregion
 
         private bool _isDefended;
         public bool IsDefended
@@ -46,7 +47,6 @@ namespace WisdomLight.ViewModel
                 OnPropertyChanged();
             }
         }
-        #endregion
 
         #region Auto Save Logic
         private bool _isChanged;
@@ -147,14 +147,16 @@ namespace WisdomLight.ViewModel
                     new RelayCommand(
                         argument =>
                         {
+                            TextExpression current = new TextExpression() { Type = "Текст" };
                             FieldSelector field = new FieldSelector(
                                 new List<IExpression>
                                 {
-                                    new TextExpression() { Type = "Текст" },
+                                    current,
                                     new NumberExpression() { Type = "Число" },
                                     new DateExpression() { Type = "Дата" }
                                 }
                             );
+                            field.Source = current;
                             fields.Add(field.Source);
                             fieldsEditing.Add(field);
                         }
