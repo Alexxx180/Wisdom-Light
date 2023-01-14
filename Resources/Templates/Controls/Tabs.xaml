@@ -3,30 +3,36 @@
                     xmlns:converters="clr-namespace:WisdomLight.Binds.Converters">
     <ControlTemplate x:Key="InformationTab">
         <Grid>
-            <ContentControl Visibility="Collapsed">
-                <!--<ContentControl.Visibility>
-                    <Binding Path="IsDefended">
-                        <Binding.Converter>
-                            <converters:InverseVisibilityConverter/>
-                        </Binding.Converter>
-                    </Binding>
-                </ContentControl.Visibility>-->
-
-                <ListBox ItemsSource="{Binding Data}"/>
-            </ContentControl>
-
-            <ListBox ItemsSource="{Binding Editing.Fields}" SelectionMode="Multiple" HorizontalContentAlignment="Stretch">
-                <!--<StackPanel.Visibility>
+            <ListBox Visibility="Collapsed" ItemsSource="{Binding Data}" HorizontalContentAlignment="Stretch">
+                <!--<ListBox.Visibility>
                     <Binding Path="IsDefended">
                         <Binding.Converter>
                             <converters:BooleanVisibilityConverter/>
                         </Binding.Converter>
                     </Binding>
-                </StackPanel.Visibility>-->
+                </ListBox.Visibility>-->
+            
+                
+            </ListBox>
 
+            <ListBox SelectionMode="Multiple">
+                <ListBox.Visibility>
+                    <Binding Path="IsDefended">
+                        <Binding.Converter>
+                            <converters:BooleanVisibilityConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </ListBox.Visibility>
+                
+                <ListBox.HorizontalContentAlignment>
+                    Stretch
+                </ListBox.HorizontalContentAlignment>
                 <ListBox.ItemTemplate>
                     <StaticResource ResourceKey="FieldTypeSelector"/>
                 </ListBox.ItemTemplate>
+                <ListBox.ItemsSource>
+                    <Binding Path="Editing.Fields"/>
+                </ListBox.ItemsSource>
             </ListBox>
         </Grid>
     </ControlTemplate>

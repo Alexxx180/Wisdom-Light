@@ -42,7 +42,7 @@
                         <MenuItem Header="Текст" IsCheckable="True"/>
                         <MenuItem Header="Таблицы" IsCheckable="True"/>
                     </MenuItem>
-                    <MenuItem Header="Продвинутый" IsCheckable="True" />
+                    <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding Information.IsDefended}" />
                 </MenuItem>
                 <MenuItem Header="Справка"/>
             </Menu>
