@@ -42,7 +42,6 @@
                     <ContentControl Template="{StaticResource EditorTools}"/>
                     <ContentControl Grid.Column="2" Template="{StaticResource InformationTabEditing}"/>
                 </Grid>
-
             </TabItem>
 
             <TabItem Header="Документы">

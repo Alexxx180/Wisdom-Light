@@ -6,6 +6,7 @@ using WisdomLight.ViewModel.Data.Collections;
 using WisdomLight.ViewModel.Data.Files.Fields;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools.Editors;
+using WisdomLight.Model;
 
 namespace WisdomLight.ViewModel
 {
@@ -25,8 +26,8 @@ namespace WisdomLight.ViewModel
         #endregion
 
         #region Information Members
-        private DefendingEditor<IExpression, FieldSelector> _information;
-        public DefendingEditor<IExpression, FieldSelector> Information
+        private DefendingEditor<Bridge<IExpression>, FieldSelector> _information;
+        public DefendingEditor<Bridge<IExpression>, FieldSelector> Information
         {
             get => _information;
             set
@@ -138,10 +139,10 @@ namespace WisdomLight.ViewModel
             );
 
 
-            ObservableCollection<IExpression> fields = new ObservableCollection<IExpression>();
+            ObservableCollection<Bridge<IExpression>> fields = new ObservableCollection<Bridge<IExpression>>();
             ObservableCollection<FieldSelector> fieldsEditing = new ObservableCollection<FieldSelector>();
 
-            Information = new DefendingEditor<IExpression, FieldSelector>(
+            Information = new DefendingEditor<Bridge<IExpression>, FieldSelector>(
                 fields, new EditableCollection<FieldSelector>(
                     fieldsEditing,
                     new RelayCommand(
@@ -156,7 +157,7 @@ namespace WisdomLight.ViewModel
                                     new DateExpression() { Type = "Дата" }
                                 }
                             );
-                            field.Source = current;
+                            field.Source = new Bridge<IExpression>(current);
                             fields.Add(field.Source);
                             fieldsEditing.Add(field);
                         }

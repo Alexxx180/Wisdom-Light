@@ -33,14 +33,14 @@
                 <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Style="{StaticResource Box}" Text="{Binding Path=Source.Name}"/>
+            <TextBox Style="{StaticResource Box}" Text="{Binding Path=Source.Item.Name}"/>
 
             <ComboBox Grid.Column="1">
                 <ComboBox.ItemTemplate>
                     <StaticResource ResourceKey="TypeSelector"/>
                 </ComboBox.ItemTemplate>
                 <ComboBox.SelectedItem>
-                    <Binding Path="Source"/>
+                    <Binding Path="Source.Item"/>
                 </ComboBox.SelectedItem>
                 <ComboBox.ItemsSource>
                     <Binding Path="Expressions"/>

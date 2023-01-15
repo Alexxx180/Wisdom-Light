@@ -5,7 +5,7 @@ using WisdomLight.ViewModel.Files.Fields;
 
 namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
 {
-    public class FieldSelector : NotifyPropertyChanged, ISource<IExpression>, ICloneable<FieldSelector>
+    public class FieldSelector : NotifyPropertyChanged, ISource<Bridge<IExpression>>, ICloneable<FieldSelector>
     {
         public FieldSelector() { }
 
@@ -14,8 +14,8 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
             Expressions = expressions;
         }
 
-        private IExpression _source;
-        public IExpression Source
+        private Bridge<IExpression> _source;
+        public Bridge<IExpression> Source
         {
             get => _source;
             set
@@ -27,7 +27,8 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
 
         public FieldSelector Clone()
         {
-            return new FieldSelector(new List<IExpression>(Expressions))
+            return new FieldSelector
+                (new List<IExpression>(Expressions))
             {
                 Source = Source.Clone()
             };
