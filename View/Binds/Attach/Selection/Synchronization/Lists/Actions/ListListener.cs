@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Windows;
 
-namespace WisdomLight.View.Binds.Attach.Selection.Synchronization.Lists
+namespace WisdomLight.View.Binds.Attach.Selection.Synchronization.Lists.Actions
 {
     public class ListListener : IWeakEventListener
     {
         public delegate void CollectionChangedAction(object sender, NotifyCollectionChangedEventArgs e);
-        
+
         private CollectionChangedAction CollectionChanged { get; }
 
         /// <summary>

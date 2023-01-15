@@ -49,11 +49,11 @@
         </Grid>
     </ItemContainerTemplate>
 
-    <ControlTemplate x:Key="DocumentPathField">
-        <UniformGrid Margin="25, 0" Columns="2" Height="25">
+    <ItemContainerTemplate x:Key="DocumentPathField">
+        <UniformGrid Margin="25, 0" Rows="2" Height="50">
             <TextBox Style="{StaticResource Box}">
                 <TextBox.Text>
-                    <Binding Mode="TwoWay">
+                    <Binding Path="Name" Mode="TwoWay">
                         <Binding.UpdateSourceTrigger>
                             LostFocus
                         </Binding.UpdateSourceTrigger>
@@ -61,9 +61,9 @@
                 </TextBox.Text>
             </TextBox>
             
-            <TextBox Style="{StaticResource NamingLight}">
+            <TextBox Style="{StaticResource Box}">
                 <TextBox.Text>
-                    <Binding Mode="TwoWay">
+                    <Binding Path="Type" Mode="TwoWay">
                         <Binding.UpdateSourceTrigger>
                             LostFocus
                         </Binding.UpdateSourceTrigger>
@@ -71,13 +71,13 @@
                 </TextBox.Text>
             </TextBox>
         </UniformGrid>
-    </ControlTemplate>
+    </ItemContainerTemplate>
 
-    <ControlTemplate x:Key="DocumentPathText">
-        <UniformGrid Margin="25, 0" Height="25" Columns="2"
+    <ItemContainerTemplate x:Key="DocumentPathText">
+        <UniformGrid Margin="25, 0" Rows="2" Height="50"
                      Style="{StaticResource Light}">
-            <TextBlock Text="{Binding}" />
-            <TextBlock Text="{Binding}"/>
+            <TextBlock Text="{Binding Path=Name}" />
+            <TextBlock Text="{Binding Path=Type}"/>
         </UniformGrid>
-    </ControlTemplate>
+    </ItemContainerTemplate>
 </ResourceDictionary>

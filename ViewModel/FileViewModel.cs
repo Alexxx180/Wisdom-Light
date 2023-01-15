@@ -7,14 +7,15 @@ using WisdomLight.ViewModel.Data.Files.Fields;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools.Editors;
 using WisdomLight.Model;
+using WisdomLight.ViewModel.Data;
 
 namespace WisdomLight.ViewModel
 {
     public class FileViewModel : NotifyPropertyChanged
     {
         #region Documents
-        private DefendingEditor<string, string> _documents;
-        public DefendingEditor<string, string> Documents
+        private DefendingEditor<DocumentLinker, DocumentLinker> _documents;
+        public DefendingEditor<DocumentLinker, DocumentLinker> Documents
         {
             get => _documents;
             set
@@ -108,30 +109,34 @@ namespace WisdomLight.ViewModel
             _originalName = fileName;
             Name = fileName;
 
-            ObservableCollection<string> paths = new ObservableCollection<string>();
-            ObservableCollection<string> pathEditing = new ObservableCollection<string>();
+            ObservableCollection<DocumentLinker> paths = new ObservableCollection<DocumentLinker>();
+            ObservableCollection<DocumentLinker> pathEditing = new ObservableCollection<DocumentLinker>();
 
-            Documents = new DefendingEditor<string, string>(
-                paths, new EditableCollection<string>(
+            Documents = new DefendingEditor<DocumentLinker, DocumentLinker>(
+                paths, new EditableCollection<DocumentLinker>(
                     pathEditing,
-                    new List<string>(),
+                    new List<DocumentLinker>(),
                     new RelayCommand(
                         argument =>
                         {
-                            string path = "";
-                            paths.Add(path);
-                            pathEditing.Add(path);
+                            DocumentLinker linker = new DocumentLinker
+                            {
+                                Name = "Не понял",
+                                Type = "Это че"
+                            };
+                            
+                            paths.Add(linker);
+                            pathEditing.Add(linker);
                         }
                     ),
                     new RelayCommand(
                         argument =>
                         {
-                            int count = Documents.Editing.SelectedItems.Count - 1;
-                            while (count > -1)
+                            int count = Documents.Editing.SelectedItems.Count;
+                            while (count > 0)
                             {
-                                paths.Remove(Documents.Editing.SelectedItems[count]);
-                                pathEditing.Remove(Documents.Editing.SelectedItems[count]);
-                                Documents.Editing.SelectedItems.RemoveAt(count);
+                                _ = paths.Remove(Documents.Editing.SelectedItems[0]);
+                                _ = pathEditing.Remove(Documents.Editing.SelectedItems[0]);
                                 count--;
                             }
                         }
@@ -170,8 +175,8 @@ namespace WisdomLight.ViewModel
                             int count = Information.Editing.SelectedItems.Count;
                             while (count > 0)
                             {
-                                fields.Remove(Information.Editing.SelectedItems[0].Source);
-                                fieldsEditing.Remove(Information.Editing.SelectedItems[0]);
+                                _ = fields.Remove(Information.Editing.SelectedItems[0].Source);
+                                _ = fieldsEditing.Remove(Information.Editing.SelectedItems[0]);
                                 count--;
                             }
                         }

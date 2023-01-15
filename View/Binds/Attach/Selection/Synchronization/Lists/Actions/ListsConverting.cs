@@ -1,6 +1,6 @@
 ﻿using WisdomLight.View.Binds.Converters.Items;
 
-namespace WisdomLight.View.Binds.Attach.Selection.Synchronization.Lists
+namespace WisdomLight.View.Binds.Attach.Selection.Synchronization.Lists.Actions
 {
     public class ListsConverting
     {

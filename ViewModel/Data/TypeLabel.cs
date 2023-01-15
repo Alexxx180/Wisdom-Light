@@ -2,6 +2,6 @@
 {
     public class TypeLabel : NameLabel
     {
-        public string Type { get; set; }
+        public virtual string Type { get; set; }
     }
 }

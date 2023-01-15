@@ -43,7 +43,7 @@
                     </Grid.ColumnDefinitions>
 
                     <ContentControl Template="{StaticResource FillerTools}"/>
-                    <ContentControl Grid.Column="2" Template="{StaticResource InformationTabFilling}"/>
+                    <ContentControl Grid.Column="2" Template="{StaticResource DocumentsTabFilling}"/>
                 </Grid>
             </TabItem>
         </TabControl>

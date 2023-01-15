@@ -40,7 +40,7 @@
                     </Grid.ColumnDefinitions>
 
                     <ContentControl Template="{StaticResource EditorTools}"/>
-                    <ContentControl Grid.Column="2" Template="{StaticResource InformationTabEditing}"/>
+                    <ContentControl Grid.Column="1" Template="{StaticResource InformationTabEditing}"/>
                 </Grid>
             </TabItem>
 
@@ -52,7 +52,7 @@
                     </Grid.ColumnDefinitions>
 
                     <ContentControl Template="{StaticResource EditorTools}"/>
-                    <ContentControl Grid.Column="2" Template="{StaticResource DocumentsTabEditing}"/>
+                    <ContentControl Grid.Column="1" Template="{StaticResource DocumentsTabEditing}"/>
                 </Grid>
             </TabItem>
         </TabControl>

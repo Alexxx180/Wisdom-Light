@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields"
                     xmlns:selection="clr-namespace:WisdomLight.View.Binds.Attach.Selection">
     <ControlTemplate x:Key="InformationTabFilling">
         <ListBox>
@@ -19,7 +18,13 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="InformationTabEditing">
-        <ListBox SelectionMode="Multiple" selection:MultiSelection.SyncSelectedItems="{Binding Editing.SelectedItems}">
+        <ListBox DataContext="{Binding Editing}">
+            <selection:MultiSelection.SyncSelectedItems>
+                <Binding Path="SelectedItems"/>
+            </selection:MultiSelection.SyncSelectedItems>
+            <ListBox.SelectionMode>
+                Multiple
+            </ListBox.SelectionMode>
             <ListBox.HorizontalContentAlignment>
                 Stretch
             </ListBox.HorizontalContentAlignment>
@@ -27,7 +32,7 @@
                 <StaticResource ResourceKey="FieldTypeSelector"/>
             </ListBox.ItemTemplate>
             <ListBox.ItemsSource>
-                <Binding Path="Editing.Fields"/>
+                <Binding Path="Fields"/>
             </ListBox.ItemsSource>
         </ListBox>
     </ControlTemplate>
