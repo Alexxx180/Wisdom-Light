@@ -114,6 +114,7 @@ namespace WisdomLight.ViewModel
             Documents = new DefendingEditor<string, string>(
                 paths, new EditableCollection<string>(
                     pathEditing,
+                    new List<string>(),
                     new RelayCommand(
                         argument =>
                         {
@@ -145,6 +146,7 @@ namespace WisdomLight.ViewModel
             Information = new DefendingEditor<Bridge<IExpression>, FieldSelector>(
                 fields, new EditableCollection<FieldSelector>(
                     fieldsEditing,
+                    new List<FieldSelector>(),
                     new RelayCommand(
                         argument =>
                         {
@@ -165,12 +167,11 @@ namespace WisdomLight.ViewModel
                     new RelayCommand(
                         argument =>
                         {
-                            int count = Information.Editing.SelectedItems.Count - 1;
-                            while (count > -1)
+                            int count = Information.Editing.SelectedItems.Count;
+                            while (count > 0)
                             {
-                                fields.Remove(Information.Editing.SelectedItems[count].Source);
-                                fieldsEditing.Remove(Information.Editing.SelectedItems[count]);
-                                Documents.Editing.SelectedItems.RemoveAt(count);
+                                fields.Remove(Information.Editing.SelectedItems[0].Source);
+                                fieldsEditing.Remove(Information.Editing.SelectedItems[0]);
                                 count--;
                             }
                         }

@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
-namespace WisdomLight.View.Binds.Converters
+namespace WisdomLight.View.Binds.Converters.Items.Values
 {
-    public class InverseConverter : IValueConverter
+    public class WrapConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return !(bool)value;
+            return (bool)value ?
+                TextWrapping.Wrap :
+                TextWrapping.NoWrap;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return !(bool)value;
+            return (TextWrapping)value == TextWrapping.Wrap;
         }
     }
 }

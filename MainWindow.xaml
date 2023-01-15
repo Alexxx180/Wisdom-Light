@@ -9,7 +9,8 @@
         Width="640" Height="480"
         MinWidth="320" MinHeight="200"
         WindowStartupLocation="CenterScreen"
-        xmlns:converters="clr-namespace:WisdomLight.View.Binds.Converters"
+        xmlns:visible="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Visible"
+        xmlns:bool="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Bool"
         x:Name="ThisWindow">
     <Grid>
         <Grid DataContext="{Binding ElementName=ThisWindow, Path=ViewModel}">
@@ -34,7 +35,7 @@
                             <MenuItem.IsEnabled>
                                 <Binding Path="IsDefaultPath">
                                     <Binding.Converter>
-                                        <converters:InverseConverter/>
+                                        <bool:InverseConverter/>
                                     </Binding.Converter>
                                 </Binding>
                             </MenuItem.IsEnabled>
@@ -82,7 +83,7 @@
                     <ToolBarTray.Visibility>
                         <Binding Path="IsDefended">
                             <Binding.Converter>
-                                <converters:BooleanVisibilityConverter/>
+                                <visible:BooleanVisibilityConverter/>
                             </Binding.Converter>
                         </Binding>
                     </ToolBarTray.Visibility>

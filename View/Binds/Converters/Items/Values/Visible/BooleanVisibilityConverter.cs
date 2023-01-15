@@ -2,16 +2,19 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using WisdomLight.ViewModel.Customing;
-using static WisdomLight.ViewModel.Customing.Converters;
 
-namespace WisdomLight.View.Binds.Converters
+namespace WisdomLight.View.Binds.Converters.Items.Values.Visible
 {
     public class BooleanVisibilityConverter : IValueConverter
     {
         private protected virtual bool IsVisible(object value)
         {
             return (bool)value;
+        }
+
+        private protected virtual bool IsTrue(object value)
+        {
+            return (Visibility)value == Visibility.Visible;
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -23,7 +26,7 @@ namespace WisdomLight.View.Binds.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return null;
+            return IsTrue(value);
         }
     }
 }

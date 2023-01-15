@@ -10,7 +10,7 @@
                 <TextBlock Text="+" />
             </Button>
 
-            <Button Height="30" FontSize="14" MinWidth="25">
+            <Button Command="{Binding DropCommand}" Height="30" FontSize="14" MinWidth="25">
                 <Button.Style>
                     <StaticResource ResourceKey="DeleteButton"/>
                 </Button.Style>

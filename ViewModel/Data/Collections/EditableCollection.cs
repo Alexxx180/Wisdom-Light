@@ -8,11 +8,14 @@ namespace WisdomLight.ViewModel.Data.Collections
     {
         public EditableCollection() { }
 
-        public EditableCollection(ObservableCollection<T> fields, ICommand add, ICommand drop)
+        public EditableCollection(ObservableCollection<T> fields,
+            List<T> selectedItems,
+            ICommand add, ICommand drop)
         {
             Fields = fields;
             AddCommand = add;
             DropCommand = drop;
+            SelectedItems = selectedItems;
         }
 
         private ObservableCollection<T> _fields;

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:converters="clr-namespace:WisdomLight.View.Binds.Converters"
+        xmlns:converters="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Visible"
         xmlns:fields="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields"
         xmlns:model="clr-namespace:WisdomLight.Model"
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=mscorlib"
@@ -20,14 +20,6 @@
         </Grid.DataContext>
 
         <Grid.Resources>
-            <!--<x:Array Type="{x:Type system:Type}" x:Key="NumberType">
-                <x:Type TypeName="fields:NumberExpression" />
-            </x:Array>
-
-            <model:GenericType BaseType="{x:Type TypeName=model:Bridge}" 
-                           InnerTypes="{StaticResource NumberType}"
-                           x:Key="DictionaryNumber" />-->
-
             <DataTemplate DataType="{x:Type fields:NumberExpression}">
                 <ContentControl Template="{StaticResource NumberField}"/>
             </DataTemplate>
