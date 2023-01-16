@@ -4,16 +4,12 @@ using System.Linq;
 using System.Collections.Generic;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
+using WisdomLight.Model;
 
-namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating
+namespace WisdomLight.ViewModel.Data.Files.Processors.Export
 {
     public static class AutoFiller
     {
-        internal static void Save(string path, MemoryStream stream)
-        {
-            JsonProcessor.Save(path, stream.ToArray());
-        }
-
         internal static void ReplaceInParagraphs(
             IEnumerable<Paragraph> paragraphs,
             string find, string replaceWith)

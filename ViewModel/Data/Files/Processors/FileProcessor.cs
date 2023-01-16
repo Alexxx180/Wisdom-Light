@@ -1,35 +1,25 @@
-﻿using System;
-using System.IO;
-using System.Text.Json;
-using WisdomLight.Model;
-using Serilog;
-using System.Windows.Forms;
-using static System.Environment;
+﻿using System.IO;
 using WisdomLight.ViewModel.Customing;
 using WisdomLight.Model.Exceptions.IO;
 
-namespace WisdomLight.ViewModel.Data.Files.Writers.Processors
+namespace WisdomLight.ViewModel.Data.Files.Processors
 {
-    public class FileProcessor
+    internal abstract class FileProcessor : Saver
     {
-        internal static void TruncateFile(string fileName)
-        {
-            Log.Information("Truncating file: " + fileName);
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
-        }
-
-        private protected static void Save(string path, byte[] bytes)
+        /// <summary>
+        /// Delete file
+        /// </summary>
+        /// <param name="path">Original full file path</param>
+        /// <exception cref="MoveException">Renaming failure</exception>
+        internal static void Delete(string path)
         {
             try
             {
-                File.WriteAllBytes(path, bytes);
+                File.Delete(path);
             }
             catch (IOException exception)
             {
-                throw new SaveException(exception.Message, path);
+                throw new SaveException(exception, path);
             }
         }
 
@@ -48,7 +38,7 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.Processors
             }
             catch (IOException exception)
             {
-                throw new MoveException(exception.Message, original, next);
+                throw new MoveException(exception, original, next);
             }
         }
 
@@ -62,7 +52,7 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.Processors
         internal static void Rename(string path, string original, string next)
         {
             string name = original.ToPath(path);
-            if (!File.Exists(name))
+            if (File.Exists(name))
                 Move(name, next.ToPath(path));
         }
 
@@ -79,15 +69,18 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.Processors
             Rename(path, original.ToFile(extension), next.ToFile(extension));
         }
 
-        internal static FolderBrowserDialog CallLocator(string description)
-        {
-            return new FolderBrowserDialog
-            {
-                Description = description,
-                UseDescriptionForTitle = true,
-                SelectedPath = GetFolderPath(SpecialFolder.DesktopDirectory).Close(),
-                ShowNewFolderButton = true
-            };
-        }
+        /// <summary>
+        /// Deserialize object from file
+        /// </summary>
+        /// <param name="path">Original full file path</param>
+        /// <exception cref="ReadException">Reading failure</exception>
+        protected internal abstract T Read<T>(string path);
+
+        /// <summary>
+        /// Serialize object into file
+        /// </summary>
+        /// <param name="path">Original full file path</param>
+        /// <exception cref="SaveException">Reading failure</exception>
+        protected internal abstract void Write<T>(string path, T serializable);
     }
 }

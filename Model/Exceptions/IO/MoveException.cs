@@ -1,4 +1,5 @@
-﻿using WisdomLight.ViewModel.Customing;
+﻿using System.IO;
+using WisdomLight.ViewModel.Customing;
 
 namespace WisdomLight.Model.Exceptions.IO
 {
@@ -6,8 +7,8 @@ namespace WisdomLight.Model.Exceptions.IO
     {
         public string NewPath { get; set; }
 
-        public MoveException(string message, string original,
-            string next) : base(message, original)
+        public MoveException(IOException exception, string original,
+            string next) : base(exception, original)
         {
             NewPath = next;
         }

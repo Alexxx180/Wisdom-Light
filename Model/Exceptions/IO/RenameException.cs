@@ -1,4 +1,5 @@
-﻿using WisdomLight.ViewModel.Customing;
+﻿using System.IO;
+using WisdomLight.ViewModel.Customing;
 
 namespace WisdomLight.Model.Exceptions.IO
 {
@@ -6,8 +7,8 @@ namespace WisdomLight.Model.Exceptions.IO
     {
         public string Directory { get; set; }
 
-        public RenameException(string message, string path,
-            string original, string next) : base(message, original, next)
+        public RenameException(IOException exception, string path,
+            string original, string next) : base(exception, original, next)
         {
             Directory = path;
             NewPath = next;

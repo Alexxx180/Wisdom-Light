@@ -7,7 +7,8 @@ namespace WisdomLight.Model.Exceptions.IO
     {
         public string OriginalPath { get; set; }
 
-        public SaveException(string message, string original) : base(message)
+        public SaveException(IOException exception, string original)
+            : base(exception.Message, exception.HResult)
         {
             OriginalPath = original;
         }

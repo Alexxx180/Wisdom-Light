@@ -121,8 +121,8 @@ namespace WisdomLight.ViewModel
                         {
                             DocumentLinker linker = new DocumentLinker
                             {
-                                Name = "Не понял",
-                                Type = "Это че"
+                                Name = "",
+                                Type = ""
                             };
                             
                             paths.Add(linker);
@@ -221,10 +221,10 @@ namespace WisdomLight.ViewModel
         //    //    SavePreferences();
         //}
 
-        private void SavePreferences()
-        {
-            TruncateFile(_originalFileName);
-            SaveRuntime(FileName, ViewModel);
-        }
+        //private void SavePreferences()
+        //{
+        //    TruncateFile(_originalFileName);
+        //    SaveRuntime(FileName, ViewModel);
+        //}
     }
 }

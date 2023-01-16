@@ -3,22 +3,16 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WisdomLight.ViewModel;
 using System.Collections.Generic;
-using WisdomLight.Model;
-using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.JsonProcessor;
-using static WisdomLight.ViewModel.Data.Files.Writers.ResultRenderer;
-using System.Windows.Input;
-using System.Windows.Controls;
 using WisdomLight.ViewModel.Files.Fields;
 using WisdomLight.ViewModel.Data.Files.Fields;
 
 namespace WisdomLight
 {
     /// <summary>
-    /// Add new discipline program window
+    /// File-template program window
     /// </summary>
     public partial class FillTemplatesWindow : Window, INotifyPropertyChanged
     {
-        #region DisciplineProgramWindow Members
         private FileViewModel _viewModel;
         public FileViewModel ViewModel
         {
@@ -29,7 +23,6 @@ namespace WisdomLight
                 OnPropertyChanged();
             }
         }
-        #endregion
 
         public FillTemplatesWindow(string fileName)
         {
@@ -43,14 +36,6 @@ namespace WisdomLight
                 }
             );
         }
-
-        public FillTemplatesWindow(Document program, string fileName) : this(fileName)
-        {
-            //ViewModel.SetFromTemplate(program);
-            //ViewModel.IsChanged = false;
-        }
-
-        
 
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;

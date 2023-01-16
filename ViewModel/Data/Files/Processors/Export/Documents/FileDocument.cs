@@ -2,46 +2,44 @@
 using System.Collections.Generic;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
-using Serilog;
-using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.AutoFiller;
-using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.JsonProcessor;
 using WisdomLight.ViewModel.Customing;
 using WisdomLight.ViewModel.Files.Fields;
+using WisdomLight.Model.Exceptions.IO;
 
-namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Documents
+namespace WisdomLight.ViewModel.Data.Files.Processors.Export.Documents
 {
-    public class FileDocument
+    internal class FileDocument : Saver
     {
         internal void WriteDocuments(IList<DocumentLinker> paths,
             List<IExpression> expressions, string saveTo)
         {
             for (byte i = 0; i < paths.Count; i++)
             {
-                string templatePath = paths[i].Type;
+                string template = paths[i].Type;
 
-                if (!File.Exists(templatePath))
+                if (!File.Exists(template))
                     continue;
 
-                string fileName = Path.GetFileName(templatePath);
-                WriteDocument(templatePath, saveTo + fileName, expressions);
+                string fullName = saveTo + Path.GetFileName(template);
+
+                try
+                {
+                    FullProcessing(template, fullName, expressions);
+                }
+                catch (SaveException exception)
+                {
+                    DialogManager.Message(exception);
+                }
             }
         }
 
-        private void WriteDocument(string templatePath,
-             string filePath, List<IExpression> expressions)
-        {
-            try
-            {
-                TruncateFile(filePath);
-                FullProcessing(templatePath, filePath, expressions);
-            }
-            catch (IOException exception)
-            {
-                Log.Error("File processing exception: " + exception.Message);
-                WriteMessage(exception.Message);
-            }
-        }
-
+        /// <summary>
+        /// Process and aave the file with the new name
+        /// </summary>
+        /// <param name="templatePath">Path to original template</param>
+        /// <param name="generatePath">Save result to</param>
+        /// <param name="expressions"></param>
+        /// <exception cref="SaveException">Saving failure</exception>
         private static void FullProcessing(string templatePath,
             string generatePath, List<IExpression> expressions)
         {
@@ -70,7 +68,7 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Documents
                 }
 
                 // Save the file with the new name
-                Save(generatePath, stream);
+                Save(generatePath, stream.ToArray());
             }
         }
 
@@ -86,8 +84,8 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Documents
                 string search = expression.Name;
                 string replaceWith = expression.Value;
 
-                ReplaceInParagraphs(paragraphs, search, replaceWith);
-                ReplaceInCells(cells, search, replaceWith);
+                AutoFiller.ReplaceInParagraphs(paragraphs, search, replaceWith);
+                AutoFiller.ReplaceInCells(cells, search, replaceWith);
             }
         }
     }

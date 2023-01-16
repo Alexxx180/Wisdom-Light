@@ -1,4 +1,4 @@
-﻿namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating
+﻿namespace WisdomLight.Model
 {
     internal class Match
     {
