@@ -4,20 +4,20 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Serilog;
 using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.AutoFiller;
-using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Processors;
+using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.JsonProcessor;
 using WisdomLight.ViewModel.Customing;
 using WisdomLight.ViewModel.Files.Fields;
 
 namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Documents
 {
-    public static class FileDocument
+    public class FileDocument
     {
-        internal static void WriteDocuments
-            (List<string> paths, List<IExpression> expressions, string saveTo)
+        internal void WriteDocuments(IList<DocumentLinker> paths,
+            List<IExpression> expressions, string saveTo)
         {
             for (byte i = 0; i < paths.Count; i++)
             {
-                string templatePath = paths[i];
+                string templatePath = paths[i].Type;
 
                 if (!File.Exists(templatePath))
                     continue;
@@ -27,7 +27,7 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Documents
             }
         }
 
-        private static void WriteDocument(string templatePath,
+        private void WriteDocument(string templatePath,
              string filePath, List<IExpression> expressions)
         {
             try
@@ -57,9 +57,9 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Documents
                         docText = sr.ReadToEnd();
                     }
 
-                    var body = template.MainDocumentPart.Document.Body;
-                    var paragraphs = body.Elements<Paragraph>();
-                    var cells = body.Descendants<TableCell>();
+                    Body body = template.MainDocumentPart.Document.Body;
+                    IEnumerable<Paragraph> paragraphs = body.Elements<Paragraph>();
+                    IEnumerable<TableCell> cells = body.Descendants<TableCell>();
 
                     Process(paragraphs, cells, expressions);
 
@@ -77,8 +77,7 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Documents
         private static void Process(
             IEnumerable<Paragraph> paragraphs,
             IEnumerable<TableCell> cells,
-            List<IExpression> expressions
-            )
+            List<IExpression> expressions)
         {
             for (byte i = 0; i < expressions.Count; i++)
             {

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using WisdomLight.ViewModel;
 using System.Collections.Generic;
 using WisdomLight.Model;
-using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Processors;
+using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.JsonProcessor;
 using static WisdomLight.ViewModel.Data.Files.Writers.ResultRenderer;
 using System.Windows.Input;
 using System.Windows.Controls;

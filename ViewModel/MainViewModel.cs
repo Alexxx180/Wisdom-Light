@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Serilog;
 using WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating;
-using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Processors;
+using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.JsonProcessor;
 using static WisdomLight.ViewModel.Data.Files.Writers.ResultRenderer;
 
 namespace WisdomLight.ViewModel

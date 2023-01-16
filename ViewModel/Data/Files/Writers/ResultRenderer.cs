@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using WisdomLight.Model;
-using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.Processors;
+using static WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating.JsonProcessor;
 
 namespace WisdomLight.ViewModel.Data.Files.Writers
 {

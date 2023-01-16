@@ -221,10 +221,10 @@ namespace WisdomLight.ViewModel
         //    //    SavePreferences();
         //}
 
-        //private void SavePreferences()
-        //{
-        //    TruncateFile(_originalFileName);
-        //    SaveRuntime(FileName, ViewModel);
-        //}
+        private void SavePreferences()
+        {
+            TruncateFile(_originalFileName);
+            SaveRuntime(FileName, ViewModel);
+        }
     }
 }

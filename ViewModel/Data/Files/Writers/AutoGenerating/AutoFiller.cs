@@ -11,13 +11,12 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating
     {
         internal static void Save(string path, MemoryStream stream)
         {
-            Processors.Save(path, stream.ToArray());
+            JsonProcessor.Save(path, stream.ToArray());
         }
 
         internal static void ReplaceInParagraphs(
             IEnumerable<Paragraph> paragraphs,
-            string find, string replaceWith
-            )
+            string find, string replaceWith)
         {
             foreach (var textParagraph in paragraphs)
                 ReplaceText(textParagraph, find, replaceWith);
@@ -79,16 +78,16 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating
             Break textBreak;
 
             var run = text.Parent as Run;
-            for (int i = 1; i < lines.Count(); i++)
+            for (int i = 1; i < lines.Length; i++)
             {
                 textBreak = new Break();
-                run.InsertAfter(textBreak, currentElement);
-                currentElement = textBreak;
+                currentElement = run.InsertAfter(textBreak, currentElement);
+                //currentElement = textBreak;
                 text = new Text(lines[i]);
-                run.InsertAfter(text, currentElement);
+                currentElement = run.InsertAfter(text, currentElement);
 
                 currentTextIndex++;
-                currentElement = text;
+                //currentElement = text;
             }
             return currentTextIndex;
         }
@@ -105,12 +104,8 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating
         /// </param>
         /// <param name="find">Text to find.</param>
         /// <returns>Match expression.</returns>
-        private static Match IsMatch(
-            IEnumerable<Text> texts,
-            int textElementIndex,
-            int charElementIndex,
-            string find
-            )
+        private static Match IsMatch(IEnumerable<Text> texts,
+            int textElementIndex, int charElementIndex, string find)
         {
             int findIndex = 0;
             for (int i = textElementIndex; i < texts.Count(); i++)
@@ -153,7 +148,8 @@ namespace WisdomLight.ViewModel.Data.Files.Writers.AutoGenerating
         /// <param name="paragraph">Paragraph to search in.</param>
         /// <param name="find">Text expression to find.</param>
         /// <param name="replaceWith">Text expression to replace with.</param>
-        private static void ReplaceText(Paragraph paragraph, string find, string replaceWith)
+        private static void ReplaceText
+            (Paragraph paragraph, string find, string replaceWith)
         {
             var texts = paragraph.Descendants<Text>();
             for (int t = 0; t < texts.Count(); t++)

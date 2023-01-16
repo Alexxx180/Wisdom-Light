@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Serilog;
 
 namespace WisdomLight
@@ -8,6 +9,13 @@ namespace WisdomLight
     /// </summary>
     public partial class App : Application
     {
+        public static string Runtime => Environment.CurrentDirectory + @"\Resources\Runtime\";
+
+        static App()
+        {
+            Log.Debug($"Runtime directory: {Runtime}");
+        }
+
         private void OnStartup(object sender, StartupEventArgs e)
         {
             Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
