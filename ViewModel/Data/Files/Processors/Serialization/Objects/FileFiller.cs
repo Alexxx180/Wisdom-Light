@@ -1,18 +1,29 @@
-﻿namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects
+﻿using System.Text.Json.Serialization;
+
+namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects
 {
     public class FileFiller
     {
         private FileProcessor Processor { get; set; }
         private FileProcessor[] _processors;
+        
+        [JsonInclude]
+        public byte Current { get; private set; }
 
-        internal void SetAvailable(params FileProcessor[] processors)
+        public FileFiller()
         {
-            _processors = processors;
+            _processors = App.Processors;
         }
 
-        internal void Change(int selection)
+        public FileFiller(byte current) : this()
+        {
+            Current = current;
+        }
+
+        internal void Change(byte selection)
         {
             Processor = _processors[selection];
+            Current = selection;
         }
 
         internal void Save(string path, FileViewModel program)

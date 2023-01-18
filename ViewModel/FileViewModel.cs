@@ -10,12 +10,16 @@ using WisdomLight.Model;
 using WisdomLight.ViewModel.Data;
 using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 using System.Windows.Input;
+using System.Text.Json.Serialization;
+using WisdomLight.ViewModel.Data.Files.Processors;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Json;
 
 namespace WisdomLight.ViewModel
 {
     public class FileViewModel : NameLabel
     {
-        protected internal FileFiller Serializer { get; }
+        [JsonInclude]
+        public FileFiller Serializer { get; private set; }
 
         #region Documents
         private DefendingEditor<DocumentLinker, DocumentLinker> _documents;
@@ -74,14 +78,7 @@ namespace WisdomLight.ViewModel
         }
         #endregion
 
-        /// <summary>
-        /// Reseting processors to include new
-        /// features in future accordingly
-        /// </summary>
-        public FileViewModel()
-        {
-            Serializer.SetAvailable(App.Processors);
-        }
+        public FileViewModel() { }
 
         public FileViewModel(FileFiller serializer,
             ICommand next, ICommand open,

@@ -2,6 +2,15 @@
 {
     public class TypeLabel : NameLabel
     {
-        public virtual string Type { get; set; }
+        private string _type;
+        public virtual string Type
+        {
+            get => _type;
+            set
+            {
+                _type = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

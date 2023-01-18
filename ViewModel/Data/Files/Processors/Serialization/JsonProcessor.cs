@@ -1,13 +1,47 @@
 ﻿using System.IO;
-using System.Text.Json;
+using Newtonsoft.Json;
+//using System.Text.Json;
 using WisdomLight.ViewModel.Customing;
 using WisdomLight.Model.Exceptions.IO;
 using WisdomLight.Model.Exceptions.Json;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Json;
+using WisdomLight.ViewModel.Data.Files.Fields;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Handling;
+using System.Collections.Generic;
+using System;
 
 namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
 {
     internal class JsonProcessor : FileProcessor
     {
+        private static readonly JsonSerializer _serializer;
+        
+        static JsonProcessor()
+        {
+            _serializer = new JsonSerializer()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = new KnownTypesBinder
+                {
+                    KnownTypes = new List<Type>
+                    {
+                        typeof(TextExpression),
+                        typeof(NumberExpression),
+                        typeof(DateExpression)
+                    }
+                }
+            };
+            //_options = new JsonSerializerOptions
+            //{
+            //    Converters =
+            //    {
+            //        new JsonExpressionsConverter<TextExpression>(),
+            //        new JsonExpressionsConverter<NumberExpression>(),
+            //        new JsonExpressionsConverter<DateExpression>()
+            //    }
+            //};
+        }
+
         /// <summary>
         /// Rename JSON files on the same file path
         /// </summary>
@@ -33,8 +67,18 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
             try
             {
                 byte[] fileBytes = File.ReadAllBytes(path);
-                Utf8JsonReader utf8Reader = new Utf8JsonReader(fileBytes);
-                deserilizeable = JsonSerializer.Deserialize<T>(ref utf8Reader);
+                //Utf8JsonReader utf8Reader = new Utf8JsonReader(fileBytes);
+                //ref utf8Reader
+                //new JsonTextReader(new Te)
+                using (StreamReader file = File.OpenText(path))
+                {
+                    
+
+                    deserilizeable = (T)_serializer.Deserialize(new JsonTextReader(file)
+                    {
+                        
+                    }, typeof(T));
+                }
             }
             catch (JsonException exception)
             {
@@ -56,8 +100,12 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
         /// <exception cref="SaveException">Saving failure</exception>
         protected internal override void Write<T>(string path, T serilizeable)
         {
-            byte[] jsonBytesUtf8 = JsonSerializer.SerializeToUtf8Bytes(serilizeable);
-            Save(path, jsonBytesUtf8);
+            using (StreamWriter file = File.CreateText(path))
+            {
+                _serializer.Serialize(file, serilizeable);
+            }
+            //byte[] jsonBytesUtf8 = JsonSerializer.SerializeToUtf8Bytes(serilizeable);
+            //Save(path, jsonBytesUtf8);
         }
     }
 }

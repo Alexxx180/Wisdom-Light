@@ -14,10 +14,12 @@ namespace WisdomLight.ViewModel.Data.Files.Dialogs
             {
                 Title = Title,
                 Filter = Filter,
+                FilterIndex = FilterIndex,
                 InitialDirectory = GetFolderPath(SpecialFolder.DesktopDirectory).Close()
             };
             DialogResult status = dialog.ShowDialog();
-            Result = new KeyConfirmer((byte)dialog.FilterIndex, dialog.FileName, status);
+            byte selected = (byte)(dialog.FilterIndex - 1);
+            Result = new KeyConfirmer(selected, dialog.FileName, status);
         }
     }
 }

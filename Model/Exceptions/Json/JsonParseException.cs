@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+﻿using Newtonsoft.Json;
 using WisdomLight.ViewModel.Customing;
 
 namespace WisdomLight.Model.Exceptions.Json
@@ -8,8 +8,7 @@ namespace WisdomLight.Model.Exceptions.Json
         public string OriginalPath { get; set; }
 
         public JsonParseException(JsonException exception, string original)
-            : base(exception.Message, exception.Path, exception.LineNumber,
-                  exception.BytePositionInLine, exception.InnerException)
+            : base(exception.Message)
         {
             OriginalPath = original;
         }

@@ -33,13 +33,15 @@ namespace WisdomLight
 
         private void OpenCommand(object argument)
         {
-            KeyConfirmer dialog = DialogManager.Open();
+            KeyConfirmer dialog = DialogManager.Open(ViewModel.Serializer.Current);
+            ViewModel.Serializer.Change(dialog.Key);
             new FillTemplatesWindow(ViewModel.Serializer.Load(dialog.Status.Path)).Show();
         }
 
         private void SaveAsCommand(object argument)
         {
-            KeyConfirmer dialog = DialogManager.Save();
+            KeyConfirmer dialog = DialogManager.Save(ViewModel.Serializer.Current);
+            ViewModel.Serializer.Change(dialog.Key);
             ViewModel.Serializer.Save(dialog.Status.Path, ViewModel);
         }
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
 using WisdomLight.Model;
 using WisdomLight.ViewModel.Commands;
@@ -11,7 +12,8 @@ namespace WisdomLight.ViewModel
 {
     public class MainViewModel : NotifyPropertyChanged
     {
-        protected internal FileFiller Serializer { get; }
+        [JsonInclude]
+        public FileFiller Serializer { get; private set; }
 
         public MainViewModel(FileFiller serializer)
         {
@@ -23,6 +25,7 @@ namespace WisdomLight.ViewModel
             ICommand add, ICommand drop, ICommand newCommand,
             ICommand open, ICommand close, bool isDefended, bool isDefaultPath)
         {
+            Serializer = new FileFiller();
             Templates = templates;
             AddCommand = add;
             DropCommand = drop;

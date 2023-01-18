@@ -7,5 +7,6 @@ namespace WisdomLight.ViewModel.Data.Files.Dialogs
         public KeyConfirmer Result { get; private protected set; }
 
         public string Filter { get; set; }
+        public byte FilterIndex { get; set; }
     }
 }

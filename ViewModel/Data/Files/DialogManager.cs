@@ -19,23 +19,25 @@ namespace WisdomLight.ViewModel.Data.Files
             return MessageBox.Show(message, nameof(Error), MessageBoxButton.OK, Error);
         }
 
-        public static KeyConfirmer Save()
+        public static KeyConfirmer Save(byte filterIndex = 1)
         {
             SaveDialog dialog = new SaveDialog
             {
                 Title = "Сохранить как...",
-                Filter = Filter("Шаблон данных JSON", "*.json")
+                Filter = Filter("Шаблон данных JSON", "*.json"),
+                FilterIndex = filterIndex
             };
             dialog.ShowDialog();
             return dialog.Result;
         }
 
-        public static KeyConfirmer Open()
+        public static KeyConfirmer Open(byte filterIndex = 1)
         {
             OpenDialog dialog = new OpenDialog
             {
                 Title = "Выберите шаблон данных",
-                Filter = Filter("Шаблон данных JSON", "*.json")
+                Filter = Filter("Шаблон данных JSON", "*.json"),
+                FilterIndex = filterIndex
             };
             dialog.ShowDialog();
             return dialog.Result;

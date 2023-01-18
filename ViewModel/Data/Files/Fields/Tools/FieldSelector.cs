@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using WisdomLight.Model;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools.Editors;
 using WisdomLight.ViewModel.Files.Fields;
@@ -34,6 +35,6 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
             };
         }
 
-        public List<IExpression> Expressions { get; }
+        public List<IExpression> Expressions { get; set; }
     }
 }

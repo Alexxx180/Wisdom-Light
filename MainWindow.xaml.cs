@@ -4,6 +4,7 @@ using WisdomLight.ViewModel;
 using WisdomLight.ViewModel.Commands;
 using WisdomLight.Model;
 using WisdomLight.ViewModel.Data.Files;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 
 namespace WisdomLight
 {
@@ -30,7 +31,8 @@ namespace WisdomLight
 
         private void OpenCommand(object argument)
         {
-            KeyConfirmer dialog = DialogManager.Open();
+            KeyConfirmer dialog = DialogManager.Open(ViewModel.Serializer.Current);
+            ViewModel.Serializer.Change(dialog.Key);
             new FillTemplatesWindow(ViewModel.Serializer.Load(dialog.Status.Path)).Show();
         }
         #endregion
@@ -38,10 +40,7 @@ namespace WisdomLight
         public MainWindow()
         {
             ViewModel = new MainViewModel(
-                new ObservableCollection<string>()
-                {
-                    "Тест"
-                },
+                new ObservableCollection<string>() { "Тест" },
                 new RelayCommand(argument => AddCommand(argument)),
                 new RelayCommand(argument => DropCommand(argument)),
                 new RelayCommand(argument => NewCommand(argument)),

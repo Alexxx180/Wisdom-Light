@@ -1,4 +1,7 @@
-﻿using WisdomLight.Model;
+﻿using Newtonsoft.Json;
+using WisdomLight.Model;
+using WisdomLight.ViewModel.Data.Files.Fields;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Json;
 
 namespace WisdomLight.ViewModel.Files.Fields
 {
@@ -6,6 +9,6 @@ namespace WisdomLight.ViewModel.Files.Fields
     {
         public string Name { get; set; }
         public string Value { get; }
-        public string Type { get; }
+        public string Type { get; set; }
     }
 }
