@@ -2,21 +2,27 @@
 {
     public class FileFiller
     {
-        private FileProcessor _processor;
+        private FileProcessor Processor { get; set; }
+        private FileProcessor[] _processors;
 
-        internal FileFiller(FileProcessor processor)
+        internal void SetAvailable(params FileProcessor[] processors)
         {
-            _processor = processor;
+            _processors = processors;
+        }
+
+        internal void Change(int selection)
+        {
+            Processor = _processors[selection];
         }
 
         internal void Save(string path, FileViewModel program)
         {
-            _processor.Write(path, program);
+            Processor.Write(path, program);
         }
 
         internal FileViewModel Load(string path)
         {
-            return _processor.Read<FileViewModel>(path);
+            return Processor.Read<FileViewModel>(path);
         }
     }
 }

@@ -2,9 +2,11 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WisdomLight.ViewModel;
-using System.Collections.Generic;
-using WisdomLight.ViewModel.Files.Fields;
-using WisdomLight.ViewModel.Data.Files.Fields;
+using WisdomLight.ViewModel.Commands;
+using WisdomLight.ViewModel.Data.Files;
+using WisdomLight.Model;
+using System.Windows.Input;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 
 namespace WisdomLight
 {
@@ -24,17 +26,41 @@ namespace WisdomLight
             }
         }
 
-        public FillTemplatesWindow(string fileName)
+        #region Commands
+        private void NewCommand(object argument)
+        {
+            new FillTemplatesWindow(ViewModel.Serializer).Show();
+        }
+
+        private void OpenCommand(object argument)
+        {
+            KeyConfirmer dialog = DialogManager.Open();
+            new FillTemplatesWindow(ViewModel.Serializer.Load(dialog.Status.Path)).Show();
+        }
+
+        private void SaveAsCommand(object argument)
+        {
+            KeyConfirmer dialog = DialogManager.Save();
+            ViewModel.Serializer.Save(dialog.Status.Path, ViewModel);
+        }
+        #endregion
+
+        public FillTemplatesWindow(FileFiller serializer)
         {
             InitializeComponent();
             ViewModel = new FileViewModel(
-                fileName,
-                new List<IExpression> {
-                    new TextExpression() { Type = "Текст" },
-                    new NumberExpression() { Type = "Число" },
-                    new DateExpression() { Type = "Дата" }
-                }
+               serializer,
+               new RelayCommand(argument => NewCommand(argument)),
+               new RelayCommand(argument => OpenCommand(argument)),
+               new RelayCommand(argument => SaveAsCommand(argument)),
+               new RelayCommand(argument => Close())
             );
+        }
+
+        public FillTemplatesWindow(FileViewModel viewModel)
+        {
+            InitializeComponent();
+            ViewModel = viewModel;
         }
 
         #region INotifyPropertyChanged Members

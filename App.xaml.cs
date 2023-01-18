@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows;
 using Serilog;
+using WisdomLight.ViewModel.Data.Files.Processors;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 
 namespace WisdomLight
 {
@@ -9,11 +12,16 @@ namespace WisdomLight
     /// </summary>
     public partial class App : Application
     {
+        internal static readonly FileProcessor[] Processors;
         public static string Runtime => Environment.CurrentDirectory + @"\Resources\Runtime\";
 
         static App()
         {
             Log.Debug($"Runtime directory: {Runtime}");
+            Processors = new FileProcessor[]
+            {
+                new JsonProcessor()
+            };
         }
 
         private void OnStartup(object sender, StartupEventArgs e)

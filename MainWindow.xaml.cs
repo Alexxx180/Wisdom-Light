@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using WisdomLight.ViewModel;
 using WisdomLight.ViewModel.Commands;
+using WisdomLight.Model;
+using WisdomLight.ViewModel.Data.Files;
 
 namespace WisdomLight
 {
@@ -23,17 +25,13 @@ namespace WisdomLight
 
         private void NewCommand(object argument)
         {
-            new FillTemplatesWindow((string)argument).Show();
+            new FillTemplatesWindow(ViewModel.Serializer).Show();
         }
 
         private void OpenCommand(object argument)
         {
-            new FillTemplatesWindow((string)argument).Show();
-        }
-
-        private void CloseCommand()
-        {
-            Close();
+            KeyConfirmer dialog = DialogManager.Open();
+            new FillTemplatesWindow(ViewModel.Serializer.Load(dialog.Status.Path)).Show();
         }
         #endregion
 
@@ -48,7 +46,7 @@ namespace WisdomLight
                 new RelayCommand(argument => DropCommand(argument)),
                 new RelayCommand(argument => NewCommand(argument)),
                 new RelayCommand(argument => OpenCommand(argument)),
-                new RelayCommand(argument => CloseCommand()),
+                new RelayCommand(argument => Close()),
                 false, true
             );
             InitializeComponent();

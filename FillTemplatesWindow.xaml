@@ -41,14 +41,14 @@
         <DockPanel>
             <Menu Style="{StaticResource LightBox}">
                 <MenuItem Header="Файл">
-                    <MenuItem Header="Создать" IsEnabled="{Binding IsDefended}" />
-                    <MenuItem Header="Открыть..." />
+                    <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding IsDefended}" />
+                    <MenuItem Header="Открыть..." Command="{Binding OpenCommand}" />
                     <Separator/>
                     <MenuItem Header="Сохранить" />
-                    <MenuItem Header="Сохранить как" IsEnabled="{Binding IsDefended}" />
+                    <MenuItem Header="Сохранить как" Command="{Binding SaveAsCommand}" IsEnabled="{Binding IsDefended}" />
                     <MenuItem Header="Экспорт" />
                     <Separator/>
-                    <MenuItem Header="Выход" />
+                    <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
                 </MenuItem>
                 <MenuItem Header="Настройки">
                     <MenuItem Header="Обрабатывать" IsEnabled="{Binding IsDefended}">

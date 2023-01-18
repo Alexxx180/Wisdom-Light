@@ -6,6 +6,16 @@ namespace WisdomLight.ViewModel.Customing
 {
     public static class Decorators
     {
+        public static string Filter(string header, string type)
+        {
+            return $"{header} ({type})|{type}";
+        }
+
+        public static string Filter(this string text, string header, string type)
+        {
+            return $"{text}|{header} ({type})|{type}";
+        }
+
         public static string Form(this string text, string header, string message)
         {
             return $"{text}\n- {header}: {message}";

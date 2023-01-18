@@ -8,11 +8,15 @@ using WisdomLight.ViewModel.Data.Files.Fields.Tools;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools.Editors;
 using WisdomLight.Model;
 using WisdomLight.ViewModel.Data;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
+using System.Windows.Input;
 
 namespace WisdomLight.ViewModel
 {
-    public class FileViewModel : NotifyPropertyChanged
+    public class FileViewModel : NameLabel
     {
+        protected internal FileFiller Serializer { get; }
+
         #region Documents
         private DefendingEditor<DocumentLinker, DocumentLinker> _documents;
         public DefendingEditor<DocumentLinker, DocumentLinker> Documents
@@ -70,44 +74,24 @@ namespace WisdomLight.ViewModel
         }
         #endregion
 
-        private string _originalName;
-
-        private string _name;
-        public string Name
+        /// <summary>
+        /// Reseting processors to include new
+        /// features in future accordingly
+        /// </summary>
+        public FileViewModel()
         {
-            get => _name;
-            set
-            {
-                _name = value;
-                OnPropertyChanged();
-            }
+            Serializer.SetAvailable(App.Processors);
         }
-        // Logic for selection
-        // for (int i = 0; i < Documents.Editing.SelectedItems.Count; i++)
-        // {
-        //     paths.Add(Documents.Editing.SelectedItems[i]);
-        //     pathEditing.Add(Documents.Editing.SelectedItems[i]);
-        // }
 
-        //FewSelection<string> documentSelection = new FewSelection<string>();
-        //documentSelection.SelectedItems = new List<string>();
-        //documentSelection.Items = new EditableCollection<string>(
-        //    pathEditing, "",
-        //    new RelayCommand(
-        //        argument => documentSelection.SelectedItems.Add((string)argument)
-        //    ),
-        //    new RelayCommand(
-        //        argument => documentSelection.SelectedItems.Remove((string)argument)
-        //    )
-        //);
-        //documentSelection.AddCommand = new RelayCommand(
-        //    arg
-        //);
-
-        public FileViewModel(string fileName, List<IExpression> expressions)
+        public FileViewModel(FileFiller serializer,
+            ICommand next, ICommand open,
+            ICommand saveas, ICommand close)
         {
-            _originalName = fileName;
-            Name = fileName;
+            Serializer = serializer;
+            NewCommand = next;
+            OpenCommand = open;
+            SaveAsCommand = saveas;
+            CloseCommand = close;
 
             ObservableCollection<DocumentLinker> paths = new ObservableCollection<DocumentLinker>();
             ObservableCollection<DocumentLinker> pathEditing = new ObservableCollection<DocumentLinker>();
@@ -185,46 +169,17 @@ namespace WisdomLight.ViewModel
             );
         }
 
+        public ICommand NewCommand { get; }
+        public ICommand OpenCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand SaveAsCommand { get; }
+        public ICommand CloseCommand { get; }
 
-        //private void Create_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Save();
-
-        //    Pair<string, bool> head = UserAgreement();
-        //    if (head.Value)
-        //    {
-        //        //FileDocument.WriteDocuments(ViewModel, $"{head.Name}\\");
-        //    }
-        //}
-
-        //private void OnClosing(object sender, CancelEventArgs e)
-        //{
         //    if (Keyboard.FocusedElement is TextBox textBox)
         //    {
         //        TraversalRequest tRequest = new
         //            TraversalRequest(FocusNavigationDirection.Next);
         //        _ = textBox.MoveFocus(tRequest);
         //    }
-
-        //    Save();
-        //}
-
-        //private void Save()
-        //{
-        //    //if (_originalFileName != FileName)
-        //    //{
-        //    //    RenameFile(_originalFileName, FileName);
-        //    //    _originalFileName = FileName;
-        //    //}
-
-        //    //if (ViewModel.WasChanged())
-        //    //    SavePreferences();
-        //}
-
-        //private void SavePreferences()
-        //{
-        //    TruncateFile(_originalFileName);
-        //    SaveRuntime(FileName, ViewModel);
-        //}
     }
 }

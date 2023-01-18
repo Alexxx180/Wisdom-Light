@@ -4,10 +4,10 @@ namespace WisdomLight.Model
 {
     public struct Confirmer
     {
-        public Confirmer(DialogResult result, string path)
+        public Confirmer(string path, DialogResult result)
         {
-            Result = result;
             Path = path;
+            Result = result;
         }
 
         public string Path { get; }

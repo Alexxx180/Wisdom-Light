@@ -1,11 +1,22 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using WisdomLight.Model;
+using WisdomLight.ViewModel.Commands;
+using WisdomLight.ViewModel.Data.Files;
+using WisdomLight.ViewModel.Data.Files.Processors;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 
 namespace WisdomLight.ViewModel
 {
     public class MainViewModel : NotifyPropertyChanged
     {
-        public MainViewModel() { }
+        protected internal FileFiller Serializer { get; }
+
+        public MainViewModel(FileFiller serializer)
+        {
+            Serializer = serializer;
+        }
 
         public MainViewModel(
             ObservableCollection<string> templates,
@@ -113,6 +124,7 @@ namespace WisdomLight.ViewModel
         public ICommand NewCommand { get; }
         public ICommand OpenCommand { get; }
         public ICommand CloseCommand { get; }
+        
 
         //#region TemplateDeterming Logic
         //private FillTemplatesWindow TemplateProgram()
