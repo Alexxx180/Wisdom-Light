@@ -85,13 +85,15 @@ namespace WisdomLight.ViewModel
 
         public FileViewModel(FileFiller serializer,
             ICommand next, ICommand open,
-            ICommand saveas, ICommand close)
+            ICommand saveas, ICommand close,
+            bool isDefended)
         {
             Serializer = serializer;
             NewCommand = next;
             OpenCommand = open;
             SaveAsCommand = saveas;
             CloseCommand = close;
+            IsDefended = isDefended;
 
             ObservableCollection<DocumentLinker> paths = new ObservableCollection<DocumentLinker>();
             ObservableCollection<DocumentLinker> pathEditing = new ObservableCollection<DocumentLinker>();

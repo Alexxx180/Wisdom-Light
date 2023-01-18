@@ -5,7 +5,6 @@ using WisdomLight.ViewModel;
 using WisdomLight.ViewModel.Commands;
 using WisdomLight.ViewModel.Data.Files;
 using WisdomLight.Model;
-using System.Windows.Input;
 using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 
 namespace WisdomLight
@@ -29,7 +28,7 @@ namespace WisdomLight
         #region Commands
         private void NewCommand(object argument)
         {
-            new FillTemplatesWindow(ViewModel.Serializer).Show();
+            new FillTemplatesWindow(ViewModel.Serializer, ViewModel.IsDefended).Show();
         }
 
         private void OpenCommand(object argument)
@@ -45,7 +44,7 @@ namespace WisdomLight
         }
         #endregion
 
-        public FillTemplatesWindow(FileFiller serializer)
+        public FillTemplatesWindow(FileFiller serializer, bool isDefended)
         {
             InitializeComponent();
             ViewModel = new FileViewModel(
@@ -53,7 +52,8 @@ namespace WisdomLight
                new RelayCommand(argument => NewCommand(argument)),
                new RelayCommand(argument => OpenCommand(argument)),
                new RelayCommand(argument => SaveAsCommand(argument)),
-               new RelayCommand(argument => Close())
+               new RelayCommand(argument => Close()),
+               isDefended
             );
         }
 

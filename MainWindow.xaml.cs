@@ -25,7 +25,7 @@ namespace WisdomLight
 
         private void NewCommand(object argument)
         {
-            new FillTemplatesWindow(ViewModel.Serializer).Show();
+            new FillTemplatesWindow(ViewModel.Serializer, ViewModel.IsDefended).Show();
         }
 
         private void OpenCommand(object argument)
