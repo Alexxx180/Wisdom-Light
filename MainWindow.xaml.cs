@@ -14,6 +14,13 @@ namespace WisdomLight
     public partial class MainWindow : Window
     {
         #region Commands
+        //    if (Keyboard.FocusedElement is TextBox textBox)
+        //    {
+        //        TraversalRequest tRequest = new
+        //            TraversalRequest(FocusNavigationDirection.Next);
+        //        _ = textBox.MoveFocus(tRequest);
+        //    }
+
         private void AddCommand(object argument)
         {
 
@@ -46,7 +53,7 @@ namespace WisdomLight
                 new RelayCommand(argument => NewCommand(argument)),
                 new RelayCommand(argument => OpenCommand(argument)),
                 new RelayCommand(argument => Close()),
-                false, true
+                true, true
             );
             InitializeComponent();
         }

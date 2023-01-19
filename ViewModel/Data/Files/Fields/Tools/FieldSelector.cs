@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
 using WisdomLight.Model;
-using WisdomLight.ViewModel.Data.Files.Fields.Tools.Editors;
 using WisdomLight.ViewModel.Files.Fields;
 
 namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
 {
-    public class FieldSelector : NotifyPropertyChanged, ISource<Bridge<IExpression>>, ICloneable<FieldSelector>
+    public class FieldSelector : NotifyPropertyChanged, ICloneable<FieldSelector>
     {
         public FieldSelector() { }
 
@@ -15,8 +13,8 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
             Expressions = expressions;
         }
 
-        private Bridge<IExpression> _source;
-        public Bridge<IExpression> Source
+        private IExpression _source;
+        public IExpression Source
         {
             get => _source;
             set

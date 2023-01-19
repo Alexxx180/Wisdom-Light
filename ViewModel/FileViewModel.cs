@@ -5,25 +5,20 @@ using WisdomLight.ViewModel.Files.Fields;
 using WisdomLight.ViewModel.Data.Collections;
 using WisdomLight.ViewModel.Data.Files.Fields;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools;
-using WisdomLight.ViewModel.Data.Files.Fields.Tools.Editors;
-using WisdomLight.Model;
 using WisdomLight.ViewModel.Data;
 using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 using System.Windows.Input;
 using System.Text.Json.Serialization;
-using WisdomLight.ViewModel.Data.Files.Processors;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Json;
 
 namespace WisdomLight.ViewModel
 {
-    public class FileViewModel : NameLabel
+    public class FileViewModel : NameLabel, IDefender
     {
         [JsonInclude]
         public FileFiller Serializer { get; private set; }
 
-        #region Documents
-        private DefendingEditor<DocumentLinker, DocumentLinker> _documents;
-        public DefendingEditor<DocumentLinker, DocumentLinker> Documents
+        private EditableCollection<DocumentLinker> _documents;
+        public EditableCollection<DocumentLinker> Documents
         {
             get => _documents;
             set
@@ -32,11 +27,9 @@ namespace WisdomLight.ViewModel
                 OnPropertyChanged();
             }
         }
-        #endregion
 
-        #region Information Members
-        private DefendingEditor<Bridge<IExpression>, FieldSelector> _information;
-        public DefendingEditor<Bridge<IExpression>, FieldSelector> Information
+        private EditableCollection<FieldSelector> _information;
+        public EditableCollection<FieldSelector> Information
         {
             get => _information;
             set
@@ -45,7 +38,6 @@ namespace WisdomLight.ViewModel
                 OnPropertyChanged();
             }
         }
-        #endregion
 
         private bool _isDefended;
         public bool IsDefended
@@ -92,13 +84,12 @@ namespace WisdomLight.ViewModel
             CloseCommand = close;
             IsDefended = isDefended;
 
-            ObservableCollection<DocumentLinker> paths = new ObservableCollection<DocumentLinker>();
-            ObservableCollection<DocumentLinker> pathEditing = new ObservableCollection<DocumentLinker>();
+            ObservableCollection<DocumentLinker> documents = new ObservableCollection<DocumentLinker>();
 
-            Documents = new DefendingEditor<DocumentLinker, DocumentLinker>(
-                paths, new EditableCollection<DocumentLinker>(
-                    pathEditing,
-                    new List<DocumentLinker>(),
+            Documents = new EditableCollection<DocumentLinker>(
+                documents,
+                new List<DocumentLinker>(),
+                new EditCommands(
                     new RelayCommand(
                         argument =>
                         {
@@ -107,34 +98,20 @@ namespace WisdomLight.ViewModel
                                 Name = "",
                                 Type = ""
                             };
-                            
-                            paths.Add(linker);
-                            pathEditing.Add(linker);
+                            documents.Add(linker);
                         }
                     ),
-                    new RelayCommand(
-                        argument =>
-                        {
-                            int count = Documents.Editing.SelectedItems.Count;
-                            while (count > 0)
-                            {
-                                _ = paths.Remove(Documents.Editing.SelectedItems[0]);
-                                _ = pathEditing.Remove(Documents.Editing.SelectedItems[0]);
-                                count--;
-                            }
-                        }
-                    )
+                    new RelayCommand(argument => Documents.RemoveSelected())
                 )
             );
 
 
-            ObservableCollection<Bridge<IExpression>> fields = new ObservableCollection<Bridge<IExpression>>();
             ObservableCollection<FieldSelector> fieldsEditing = new ObservableCollection<FieldSelector>();
 
-            Information = new DefendingEditor<Bridge<IExpression>, FieldSelector>(
-                fields, new EditableCollection<FieldSelector>(
-                    fieldsEditing,
-                    new List<FieldSelector>(),
+            Information = new EditableCollection<FieldSelector>(
+                fieldsEditing,
+                new List<FieldSelector>(),
+                new EditCommands(
                     new RelayCommand(
                         argument =>
                         {
@@ -147,23 +124,11 @@ namespace WisdomLight.ViewModel
                                     new DateExpression() { Type = "Дата" }
                                 }
                             );
-                            field.Source = new Bridge<IExpression>(current);
-                            fields.Add(field.Source);
+                            field.Source = current;
                             fieldsEditing.Add(field);
                         }
                     ),
-                    new RelayCommand(
-                        argument =>
-                        {
-                            int count = Information.Editing.SelectedItems.Count;
-                            while (count > 0)
-                            {
-                                _ = fields.Remove(Information.Editing.SelectedItems[0].Source);
-                                _ = fieldsEditing.Remove(Information.Editing.SelectedItems[0]);
-                                count--;
-                            }
-                        }
-                    )
+                    new RelayCommand(argument => Information.RemoveSelected())
                 )
             );
         }
@@ -173,12 +138,5 @@ namespace WisdomLight.ViewModel
         public ICommand SaveCommand { get; }
         public ICommand SaveAsCommand { get; }
         public ICommand CloseCommand { get; }
-
-        //    if (Keyboard.FocusedElement is TextBox textBox)
-        //    {
-        //        TraversalRequest tRequest = new
-        //            TraversalRequest(FocusNavigationDirection.Next);
-        //        _ = textBox.MoveFocus(tRequest);
-        //    }
     }
 }

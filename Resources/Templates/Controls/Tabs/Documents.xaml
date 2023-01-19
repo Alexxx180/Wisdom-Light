@@ -10,13 +10,13 @@
                 <StaticResource ResourceKey="DocumentPathText"/>
             </ListBox.ItemTemplate>
             <ListBox.ItemsSource>
-                <Binding Path="Data"/>
+                <Binding Path="Fields"/>
             </ListBox.ItemsSource>
         </ListBox>
     </ControlTemplate>
 
     <ControlTemplate x:Key="DocumentsTabEditing">
-        <ListBox DataContext="{Binding Editing}">
+        <ListBox>
             <selection:MultiSelection.SyncSelectedItems>
                 <Binding Path="SelectedItems"/>
             </selection:MultiSelection.SyncSelectedItems>

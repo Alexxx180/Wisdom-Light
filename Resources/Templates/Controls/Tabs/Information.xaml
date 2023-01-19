@@ -1,24 +1,39 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:selection="clr-namespace:WisdomLight.View.Binds.Attach.Selection">
+                    xmlns:selection="clr-namespace:WisdomLight.View.Binds.Attach.Selection"
+                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields">
     <ControlTemplate x:Key="InformationTabFilling">
+        <ControlTemplate.Resources>
+            <DataTemplate DataType="{x:Type fields:NumberExpression}">
+                <ContentControl Template="{StaticResource NumberField}"/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type fields:TextExpression}">
+                <ContentControl Template="{StaticResource TextField}"/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type fields:DateExpression}">
+                <ContentControl Template="{StaticResource DateField}"/>
+            </DataTemplate>
+        </ControlTemplate.Resources>
+
         <ListBox>
             <ListBox.HorizontalContentAlignment>
                 Stretch
             </ListBox.HorizontalContentAlignment>
             <ListBox.ItemTemplate>
                 <ItemContainerTemplate>
-                    <ContentPresenter Content="{Binding Item}" />
+                    <ContentPresenter Content="{Binding Source}" />
                 </ItemContainerTemplate>
             </ListBox.ItemTemplate>
             <ListBox.ItemsSource>
-                <Binding Path="Data"/>
+                <Binding Path="Fields"/>
             </ListBox.ItemsSource>
         </ListBox>
     </ControlTemplate>
 
     <ControlTemplate x:Key="InformationTabEditing">
-        <ListBox DataContext="{Binding Editing}">
+        <ListBox>
             <selection:MultiSelection.SyncSelectedItems>
                 <Binding Path="SelectedItems"/>
             </selection:MultiSelection.SyncSelectedItems>

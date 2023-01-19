@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using WisdomLight.ViewModel.Data.Files.Fields.Tools;
 
 namespace WisdomLight.ViewModel.Data.Collections
 {
@@ -9,12 +10,10 @@ namespace WisdomLight.ViewModel.Data.Collections
         public EditableCollection() { }
 
         public EditableCollection(ObservableCollection<T> fields,
-            List<T> selectedItems,
-            ICommand add, ICommand drop)
+            List<T> selectedItems, EditCommands tools)
         {
             Fields = fields;
-            AddCommand = add;
-            DropCommand = drop;
+            Tools = tools;
             SelectedItems = selectedItems;
         }
 
@@ -40,9 +39,14 @@ namespace WisdomLight.ViewModel.Data.Collections
             }
         }
 
-        public void Remove(T field)
+        public void RemoveSelected()
         {
-            _ = Fields.Remove(field);
+            int count = SelectedItems.Count;
+            while (count > 0)
+            {
+                _ = Fields.Remove(SelectedItems[0]);
+                count--;
+            }
         }
 
         public void Add(T field)
@@ -50,7 +54,6 @@ namespace WisdomLight.ViewModel.Data.Collections
             Fields.Add(field);
         }
 
-        public ICommand AddCommand { get; }
-        public ICommand DropCommand { get; }
+        public EditCommands Tools { get; }
     }
 }
