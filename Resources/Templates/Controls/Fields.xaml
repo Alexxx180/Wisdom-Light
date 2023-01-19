@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:WisdomLight.View.Controls"
-                    xmlns:viewmodel="clr-namespace:WisdomLight.ViewModel">
+                    xmlns:viewmodel="clr-namespace:WisdomLight.ViewModel"
+                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields">
     <ItemContainerTemplate x:Key="FileSelection">
         <!--CommandParameter="{Binding Full File Path + File Name with Extension}"-->
         <controls:CommandControl CommandParameter="{Binding}" Height="30">
@@ -27,24 +28,48 @@
     </ItemContainerTemplate>
 
     <ItemContainerTemplate x:Key="FieldTypeSelector">
+        <!--<ItemContainerTemplate.Resources>
+            <DataTemplate DataType="{x:Type fields:NumberExpression}">
+                <TextBlock Text="{Binding Type}"/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type fields:TextExpression}">
+                <TextBlock Text="{Binding Type}"/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type fields:DateExpression}">
+                <TextBlock Text="{Binding Type}"/>
+            </DataTemplate>
+        </ItemContainerTemplate.Resources>-->
+        
         <Grid Margin="25, 0" Style="{StaticResource Light}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Style="{StaticResource Box}" Text="{Binding Path=Source.Name}"/>
+            <TextBox Style="{StaticResource Box}" Text="{Binding Path=Current.Name}"/>
 
-            <ComboBox Grid.Column="1">
-                <ComboBox.ItemTemplate>
-                    <StaticResource ResourceKey="TypeSelector"/>
-                </ComboBox.ItemTemplate>
-                <ComboBox.SelectedItem>
-                    <Binding Path="Source"/>
-                </ComboBox.SelectedItem>
+            <ComboBox Grid.Column="1" DisplayMemberPath="Type">
+                <!--IsSynchronizedWithCurrentItem="True"-->
                 <ComboBox.ItemsSource>
                     <Binding Path="Expressions"/>
                 </ComboBox.ItemsSource>
+                <!--<ComboBox.SelectedIndex>
+                    <Binding Path="Selected" Mode="TwoWay">
+                        <Binding.UpdateSourceTrigger>
+                            PropertyChanged
+                        </Binding.UpdateSourceTrigger>
+                    </Binding>
+                </ComboBox.SelectedIndex>-->
+                <ComboBox.SelectedItem>
+                    <Binding Path="Current"/>
+                    <!--<Binding Path="Current" Mode="TwoWay">
+                        <Binding.UpdateSourceTrigger>
+                            PropertyChanged
+                        </Binding.UpdateSourceTrigger>
+                    </Binding>-->
+                </ComboBox.SelectedItem>
             </ComboBox>
         </Grid>
     </ItemContainerTemplate>

@@ -54,6 +54,6 @@ namespace WisdomLight.ViewModel.Data.Collections
             Fields.Add(field);
         }
 
-        public EditCommands Tools { get; }
+        public EditCommands Tools { get; protected internal set; }
     }
 }

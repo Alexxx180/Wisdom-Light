@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using WisdomLight.Model;
 using WisdomLight.ViewModel.Files.Fields;
 
@@ -6,20 +7,36 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
 {
     public class FieldSelector : NotifyPropertyChanged, ICloneable<FieldSelector>
     {
+        private int _selected;
+        public int Selected
+        {
+            get => _selected;
+            set
+            {
+                _selected = value;
+                OnPropertyChanged();
+                //Source = Expressions[Selected];
+                //OnPropertyChanged(nameof(Source));
+            }
+        }
+
+        public ObservableCollection<IExpression> Expressions { get; set; }
+
         public FieldSelector() { }
 
-        public FieldSelector(List<IExpression> expressions)
+        public FieldSelector(ObservableCollection<IExpression> expressions)
         {
             Expressions = expressions;
         }
 
-        private IExpression _source;
-        public IExpression Source
+        //public IExpression Source { get; private set; }
+        private IExpression _current;
+        public IExpression Current
         {
-            get => _source;
+            get => _current;
             set
             {
-                _source = value;
+                _current = value;
                 OnPropertyChanged();
             }
         }
@@ -27,12 +44,10 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
         public FieldSelector Clone()
         {
             return new FieldSelector
-                (new List<IExpression>(Expressions))
+                (new ObservableCollection<IExpression>(Expressions))
             {
-                Source = Source.Clone()
+                Current = Current.Clone()
             };
         }
-
-        public List<IExpression> Expressions { get; set; }
     }
 }

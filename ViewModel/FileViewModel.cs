@@ -50,6 +50,17 @@ namespace WisdomLight.ViewModel
             }
         }
 
+        private bool _isRelative;
+        public bool IsRelative
+        {
+            get => _isRelative;
+            set
+            {
+                _isRelative = value;
+                OnPropertyChanged();
+            }
+        }
+
         #region Auto Save Logic
         private bool _isChanged;
         public bool IsChanged
@@ -70,19 +81,32 @@ namespace WisdomLight.ViewModel
         }
         #endregion
 
+        public void SetSerializer(FileFiller serializer)
+        {
+            Serializer = serializer;
+        }
+
+        public void SetCommands(
+            ICommand next, ICommand open,
+            ICommand save, ICommand saveas, ICommand close)
+        {
+            NewCommand = next;
+            OpenCommand = open;
+            SaveCommand = save;
+            SaveAsCommand = saveas;
+            CloseCommand = close;
+        }
+
+        public string CurrentLocation { get; protected internal set; }
+
         public FileViewModel() { }
 
         public FileViewModel(FileFiller serializer,
-            ICommand next, ICommand open,
-            ICommand saveas, ICommand close,
-            bool isDefended)
+            bool isDefended, bool isRelative)
         {
-            Serializer = serializer;
-            NewCommand = next;
-            OpenCommand = open;
-            SaveAsCommand = saveas;
-            CloseCommand = close;
+            SetSerializer(serializer);
             IsDefended = isDefended;
+            IsRelative = isRelative;
 
             ObservableCollection<DocumentLinker> documents = new ObservableCollection<DocumentLinker>();
 
@@ -117,14 +141,16 @@ namespace WisdomLight.ViewModel
                         {
                             TextExpression current = new TextExpression() { Type = "Текст" };
                             FieldSelector field = new FieldSelector(
-                                new List<IExpression>
+                                new ObservableCollection<IExpression>
                                 {
                                     current,
                                     new NumberExpression() { Type = "Число" },
                                     new DateExpression() { Type = "Дата" }
                                 }
-                            );
-                            field.Source = current;
+                            )
+                            {
+                                Current = current
+                            };
                             fieldsEditing.Add(field);
                         }
                     ),
@@ -133,10 +159,10 @@ namespace WisdomLight.ViewModel
             );
         }
 
-        public ICommand NewCommand { get; }
-        public ICommand OpenCommand { get; }
-        public ICommand SaveCommand { get; }
-        public ICommand SaveAsCommand { get; }
-        public ICommand CloseCommand { get; }
+        public ICommand NewCommand { get; protected internal set; }
+        public ICommand OpenCommand { get; protected internal set; }
+        public ICommand SaveCommand { get; protected internal set; }
+        public ICommand SaveAsCommand { get; protected internal set; }
+        public ICommand CloseCommand { get; protected internal set; }
     }
 }

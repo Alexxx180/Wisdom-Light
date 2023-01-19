@@ -1,11 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using System.Windows.Input;
-using WisdomLight.Model;
-using WisdomLight.ViewModel.Commands;
-using WisdomLight.ViewModel.Data.Files;
-using WisdomLight.ViewModel.Data.Files.Processors;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization;
 using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 
 namespace WisdomLight.ViewModel
@@ -36,55 +31,18 @@ namespace WisdomLight.ViewModel
             IsDefaultPath = isDefaultPath;
         }
 
-        #region Templates Logic
-        public void ReloadTemplates()
+        public string SelectedLocation { get; set; }
+
+        private string _userLocation;
+        public string UserLocation
         {
-            Templates.Clear();
-            //LoadTemplates();
-
-            //Templates = new ObservableCollection<FileElement>();
-
-            //LoadTemplates();
+            get => _userLocation;
+            set
+            {
+                _userLocation = value;
+                OnPropertyChanged();
+            }
         }
-
-        //private void LoadTemplates()
-        //{
-        //    Log.Information("Loading templates from runtime folder");
-
-        //    string[] files = LoadTemplateNames();
-        //    for (byte i = 0; i < files.Length; i++)
-        //    {
-        //        string file = files[i];
-        //        if (!file.IsJson())
-        //        {
-        //            continue;
-        //        }
-
-        //        _ = Files.Add(file);
-        //        Templates.Add(file);
-        //    }
-        //}
-
-        //internal void AddTemplate(string fullName, string fileName)
-        //{
-        //    if (Files.Contains(fullName))
-        //        return;
-
-        //    _ = Files.Add(fullName);
-        //    Templates.Add(fileName.ToRuntime());
-        //}
-
-        //internal void DropTemplate(string name)
-        //{
-        //    if (Files.Contains(name))
-        //    {
-        //        _ = Files.Remove(name);
-        //        TruncateFile(name);
-        //    }
-
-        //    _ = Templates.Remove(name);
-        //}
-        #endregion
 
         #region MainPart Members
         private ObservableCollection<string> _templates;
@@ -116,6 +74,8 @@ namespace WisdomLight.ViewModel
             set
             {
                 _isDefaultPath = value;
+                SelectedLocation = value ?
+                    App.DefaultLocation : UserLocation;
                 OnPropertyChanged();
             }
         }
@@ -126,62 +86,10 @@ namespace WisdomLight.ViewModel
 
         public ICommand NewCommand { get; }
         public ICommand OpenCommand { get; }
+
+        public ICommand ImportCommand { get; }
+        public ICommand SearchCommand { get; }
+
         public ICommand CloseCommand { get; }
-        
-
-        //#region TemplateDeterming Logic
-        //private FillTemplatesWindow TemplateProgram()
-        //{
-        //    return new FillTemplatesWindow(MainForm, FileName);
-        //    //if (!File.Exists(FullName))
-        //    //{
-        //    //    return new FillTemplatesWindow(MainForm, FileName);
-        //    //}
-
-        //    Document program = LoadFromTemplate();
-
-        //    if (program is null)
-        //    {
-        //        return new FillTemplatesWindow(MainForm, FileName);
-        //    }
-        //    else
-        //    {
-        //        return new FillTemplatesWindow(MainForm, program, FileName);
-        //    }
-        //}
-
-        //private void CreateFromTemplate
-        //    (object sender, RoutedEventArgs e)
-        //{
-        //    FillTemplatesWindow Program = TemplateProgram();
-        //    Program.Show();
-        //}
-        //#endregion
-
-        //private void DropTemplate(object sender, RoutedEventArgs e)
-        //{
-        //    MainForm.DropTemplate(this);
-        //}
-
-        //private string _fileName;
-        //public override string FullName
-        //{
-        //    get => _fileName;
-        //    set
-        //    {
-        //        _fileName = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //public FileElementAdditor()
-        //{
-        //    InitializeComponent();
-        //}
-
-        //private void AddTemplate(object sender, RoutedEventArgs e)
-        //{
-        //    MainForm.AddTemplate($"{FullName}.json", FullName);
-        //}
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Windows;
+
 using System.Collections.ObjectModel;
 using WisdomLight.ViewModel;
 using WisdomLight.ViewModel.Commands;
 using WisdomLight.Model;
 using WisdomLight.ViewModel.Data.Files;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
+using Result = System.Windows.Forms.DialogResult;
 
 namespace WisdomLight
 {
@@ -33,14 +34,17 @@ namespace WisdomLight
 
         private void NewCommand(object argument)
         {
-            new FillTemplatesWindow(ViewModel.Serializer, ViewModel.IsDefended).Show();
+            new FillTemplatesWindow(ViewModel.SelectedLocation, ViewModel.Serializer, ViewModel.IsDefended).Show();
         }
 
         private void OpenCommand(object argument)
         {
             KeyConfirmer dialog = DialogManager.Open(ViewModel.Serializer.Current);
+            if (dialog.Status.Result != Result.OK)
+                return;
+            string path = dialog.Status.Path;
             ViewModel.Serializer.Change(dialog.Key);
-            new FillTemplatesWindow(ViewModel.Serializer.Load(dialog.Status.Path)).Show();
+            new FillTemplatesWindow(path, ViewModel.Serializer, ViewModel.Serializer.Load(path)).Show();
         }
         #endregion
 

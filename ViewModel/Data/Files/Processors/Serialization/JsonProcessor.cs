@@ -1,10 +1,8 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
-//using System.Text.Json;
 using WisdomLight.ViewModel.Customing;
 using WisdomLight.Model.Exceptions.IO;
 using WisdomLight.Model.Exceptions.Json;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Json;
 using WisdomLight.ViewModel.Data.Files.Fields;
 using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Handling;
 using System.Collections.Generic;
@@ -14,6 +12,7 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
 {
     internal class JsonProcessor : FileProcessor
     {
+        private const string Extension = ".json";
         private static readonly JsonSerializer _serializer;
         
         static JsonProcessor()
@@ -31,15 +30,11 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
                     }
                 }
             };
-            //_options = new JsonSerializerOptions
-            //{
-            //    Converters =
-            //    {
-            //        new JsonExpressionsConverter<TextExpression>(),
-            //        new JsonExpressionsConverter<NumberExpression>(),
-            //        new JsonExpressionsConverter<DateExpression>()
-            //    }
-            //};
+        }
+
+        public override string FixExtension(string path)
+        {
+            return Path.GetExtension(path).ToLower() == Extension ? path : path.ToFile(Extension);
         }
 
         /// <summary>
@@ -51,7 +46,7 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
         /// <exception cref="MoveException">Renaming failure</exception>
         internal static new void Rename(string path, string original, string next)
         {
-            FileProcessor.Rename(path, original.ToFile(".json"), next.ToFile(".json"));
+            FileProcessor.Rename(path, original.ToFile(Extension), next.ToFile(Extension));
         }
 
         /// <summary>
@@ -66,18 +61,9 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
 
             try
             {
-                byte[] fileBytes = File.ReadAllBytes(path);
-                //Utf8JsonReader utf8Reader = new Utf8JsonReader(fileBytes);
-                //ref utf8Reader
-                //new JsonTextReader(new Te)
                 using (StreamReader file = File.OpenText(path))
                 {
-                    
-
-                    deserilizeable = (T)_serializer.Deserialize(new JsonTextReader(file)
-                    {
-                        
-                    }, typeof(T));
+                    deserilizeable = (T)_serializer.Deserialize(new JsonTextReader(file), typeof(T));
                 }
             }
             catch (JsonException exception)
@@ -104,8 +90,6 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
             {
                 _serializer.Serialize(file, serilizeable);
             }
-            //byte[] jsonBytesUtf8 = JsonSerializer.SerializeToUtf8Bytes(serilizeable);
-            //Save(path, jsonBytesUtf8);
         }
     }
 }

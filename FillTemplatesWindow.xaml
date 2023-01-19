@@ -55,6 +55,7 @@
                         <MenuItem Header="Текст" IsCheckable="True"/>
                         <MenuItem Header="Таблицы" IsCheckable="True"/>
                     </MenuItem>
+                    <MenuItem Header="Относительные пути" IsCheckable="True" IsEnabled="{Binding IsDefended}" IsChecked="{Binding IsRelative}" />
                     <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding IsDefended}" />
                 </MenuItem>
                 <MenuItem Header="Справка">

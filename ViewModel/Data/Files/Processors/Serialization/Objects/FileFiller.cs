@@ -26,6 +26,12 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects
             Current = selection;
         }
 
+        internal void FixedSave(string path, FileViewModel program)
+        {
+            path = Processor.FixExtension(path);
+            Processor.Write(path, program);
+        }
+
         internal void Save(string path, FileViewModel program)
         {
             Processor.Write(path, program);

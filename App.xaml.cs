@@ -13,11 +13,11 @@ namespace WisdomLight
     public partial class App : Application
     {
         internal static readonly FileProcessor[] Processors;
-        public static string Runtime => Environment.CurrentDirectory + @"\Resources\Runtime\";
+        public static string DefaultLocation => Environment.CurrentDirectory + @"\Resources\Runtime\";
 
         static App()
         {
-            Log.Debug($"Runtime directory: {Runtime}");
+            Log.Debug($"Runtime directory: {DefaultLocation}");
             Processors = new FileProcessor[]
             {
                 new JsonProcessor()

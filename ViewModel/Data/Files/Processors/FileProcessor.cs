@@ -70,6 +70,12 @@ namespace WisdomLight.ViewModel.Data.Files.Processors
         }
 
         /// <summary>
+        /// Fix file extension if broken extension provided
+        /// </summary>
+        /// <param name="path">Full file path</param>
+        public abstract string FixExtension(string path);
+
+        /// <summary>
         /// Deserialize object from file
         /// </summary>
         /// <param name="path">Original full file path</param>

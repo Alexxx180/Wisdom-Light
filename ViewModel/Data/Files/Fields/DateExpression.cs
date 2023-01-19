@@ -27,5 +27,31 @@ namespace WisdomLight.ViewModel.Data.Files.Fields
                 Type = Type
             };
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            if (obj is not IExpression textObj)
+                return false;
+            else
+                return Equals(textObj);
+        }
+
+        public bool Equals(IExpression other)
+        {
+            if (other == null)
+                return false;
+
+            return Name == other.Name &&
+                Value == other.Value &&
+                Type == other.Type;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
