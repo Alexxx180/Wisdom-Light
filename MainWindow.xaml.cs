@@ -6,6 +6,7 @@ using WisdomLight.ViewModel.Commands;
 using WisdomLight.Model;
 using WisdomLight.ViewModel.Data.Files;
 using Result = System.Windows.Forms.DialogResult;
+using WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler;
 
 namespace WisdomLight
 {
@@ -34,7 +35,11 @@ namespace WisdomLight
 
         private void NewCommand(object argument)
         {
-            new FillTemplatesWindow(ViewModel.SelectedLocation, ViewModel.Serializer, ViewModel.IsDefended).Show();
+            FillTemplatesWindow window = new FillTemplatesWindow
+            {
+                ViewModel = Filler.Reset().NewFile().Open().Save().SaveAs().Close().Build()
+            };
+            window.Show();
         }
 
         private void OpenCommand(object argument)
@@ -59,9 +64,11 @@ namespace WisdomLight
                 new RelayCommand(argument => Close()),
                 true, true
             );
+            Filler = new FillerBuilder();
             InitializeComponent();
         }
 
+        public IFillerBuilder Filler { get; }
         public MainViewModel ViewModel { get; }
     }
 }

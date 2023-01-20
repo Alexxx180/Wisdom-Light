@@ -2,6 +2,10 @@
 {
     public interface IFillerBuilder
     {
+        public IFillerBuilder Defended();
+
+        public IFillerBuilder Relative();
+
         public IFillerBuilder NewFile();
 
         public IFillerBuilder Open();

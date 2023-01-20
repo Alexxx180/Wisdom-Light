@@ -32,7 +32,11 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler.Collecti
 
         public IEditableBuilder<T> Reset()
         {
-            throw new NotImplementedException();
+            _addCommand = null;
+            _dropCommand = null;
+            _selectedItems = null;
+            _fields = null;
+            return this;
         }
 
         public IEditableBuilder<T> Add()

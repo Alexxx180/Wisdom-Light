@@ -9,10 +9,11 @@ using WisdomLight.ViewModel.Data;
 using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 using System.Windows.Input;
 using System.Text.Json.Serialization;
+using System;
 
 namespace WisdomLight.ViewModel
 {
-    public class FileViewModel : NameLabel, IDefender
+    public class FileViewModel : NameLabel, ICloseable, IDefender
     {
         [JsonInclude]
         public FileFiller Serializer { get; private set; }
@@ -101,68 +102,71 @@ namespace WisdomLight.ViewModel
 
         public FileViewModel() { }
 
-        public FileViewModel(FileFiller serializer,
-            bool isDefended, bool isRelative)
-        {
-            SetSerializer(serializer);
-            IsDefended = isDefended;
-            IsRelative = isRelative;
+        //public FileViewModel(FileFiller serializer,
+        //    bool isDefended, bool isRelative)
+        //{
+        //    SetSerializer(serializer);
+        //    IsDefended = isDefended;
+        //    IsRelative = isRelative;
 
-            ObservableCollection<DocumentLinker> documents = new ObservableCollection<DocumentLinker>();
+        //    ObservableCollection<DocumentLinker> documents = new ObservableCollection<DocumentLinker>();
 
-            Documents = new EditableCollection<DocumentLinker>(
-                documents,
-                new List<DocumentLinker>(),
-                new EditCommands(
-                    new RelayCommand(
-                        argument =>
-                        {
-                            DocumentLinker linker = new DocumentLinker
-                            {
-                                Name = "",
-                                Type = ""
-                            };
-                            documents.Add(linker);
-                        }
-                    ),
-                    new RelayCommand(argument => Documents.RemoveSelected())
-                )
-            );
+        //    Documents = new EditableCollection<DocumentLinker>(
+        //        documents,
+        //        new List<DocumentLinker>(),
+        //        new EditCommands(
+        //            new RelayCommand(
+        //                argument =>
+        //                {
+        //                    DocumentLinker linker = new DocumentLinker
+        //                    {
+        //                        Name = "",
+        //                        Type = ""
+        //                    };
+        //                    documents.Add(linker);
+        //                }
+        //            ),
+        //            new RelayCommand(argument => Documents.RemoveSelected())
+        //        )
+        //    );
 
 
-            ObservableCollection<FieldSelector> fieldsEditing = new ObservableCollection<FieldSelector>();
+        //    ObservableCollection<FieldSelector> fieldsEditing = new ObservableCollection<FieldSelector>();
 
-            Information = new EditableCollection<FieldSelector>(
-                fieldsEditing,
-                new List<FieldSelector>(),
-                new EditCommands(
-                    new RelayCommand(
-                        argument =>
-                        {
-                            TextExpression current = new TextExpression() { Type = "Текст" };
-                            FieldSelector field = new FieldSelector(
-                                new ObservableCollection<IExpression>
-                                {
-                                    current,
-                                    new NumberExpression() { Type = "Число" },
-                                    new DateExpression() { Type = "Дата" }
-                                }
-                            )
-                            {
-                                Current = current
-                            };
-                            fieldsEditing.Add(field);
-                        }
-                    ),
-                    new RelayCommand(argument => Information.RemoveSelected())
-                )
-            );
-        }
+        //    Information = new EditableCollection<FieldSelector>(
+        //        fieldsEditing,
+        //        new List<FieldSelector>(),
+        //        new EditCommands(
+        //            new RelayCommand(
+        //                argument =>
+        //                {
+        //                    TextExpression current = new TextExpression() { Type = "Текст" };
+        //                    FieldSelector field = new FieldSelector(
+        //                        new ObservableCollection<IExpression>
+        //                        {
+        //                            current,
+        //                            new NumberExpression() { Type = "Число" },
+        //                            new DateExpression() { Type = "Дата" }
+        //                        }
+        //                    )
+        //                    {
+        //                        Current = current
+        //                    };
+        //                    fieldsEditing.Add(field);
+        //                }
+        //            ),
+        //            new RelayCommand(argument => Information.RemoveSelected())
+        //        )
+        //    );
+        //}
 
         public ICommand NewCommand { get; protected internal set; }
         public ICommand OpenCommand { get; protected internal set; }
         public ICommand SaveCommand { get; protected internal set; }
         public ICommand SaveAsCommand { get; protected internal set; }
         public ICommand CloseCommand { get; protected internal set; }
+
+        public Action Close { get; set; }
+        public bool CanClose => true;
     }
 }
