@@ -3,17 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:converters="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Visible"
-        xmlns:fields="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields"
-        xmlns:model="clr-namespace:WisdomLight.Model"
-        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=mscorlib"
         xmlns:attach="clr-namespace:WisdomLight.View.Binds.Attach"
-        mc:Ignorable="d"
         attach:WindowCloser.EnableWindowClosing="True"
+        mc:Ignorable="d"
         x:Name="FileWindow"
         Icon="/Resources/Images/Icons/Wisdom3.ico"
-        Title="{Binding ElementName=FileWindow, Path=ViewModel.Name, StringFormat={}Редактирование: {0}}"
+        Title="{Binding ElementName=FileWindow, Path=ViewModel.Data.Name, StringFormat={}Редактирование: {0}}"
         Width="640" Height="480"
         MinWidth="320" MinHeight="200">
     <Grid>
@@ -29,26 +25,26 @@
         <DockPanel>
             <Menu Style="{StaticResource LightBox}">
                 <MenuItem Header="Файл">
-                    <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding IsDefended}" />
+                    <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding Data.IsDefended}" />
                     <MenuItem Header="Открыть..." Command="{Binding OpenCommand}" />
                     <Separator/>
                     <MenuItem Header="Сохранить" />
-                    <MenuItem Header="Сохранить как" Command="{Binding SaveAsCommand}" IsEnabled="{Binding IsDefended}" />
+                    <MenuItem Header="Сохранить как" Command="{Binding SaveAsCommand}" IsEnabled="{Binding Data.IsDefended}" />
                     <MenuItem Header="Экспорт" />
                     <Separator/>
                     <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
                 </MenuItem>
                 <MenuItem Header="Настройки">
-                    <MenuItem Header="Обрабатывать" IsEnabled="{Binding IsDefended}">
+                    <MenuItem Header="Обрабатывать" IsEnabled="{Binding Data.IsDefended}">
                         <MenuItem Header="Текст" IsCheckable="True"/>
                         <MenuItem Header="Таблицы" IsCheckable="True"/>
                     </MenuItem>
-                    <MenuItem Header="Относительные пути" IsCheckable="True" IsEnabled="{Binding IsDefended}" IsChecked="{Binding IsRelative}" />
-                    <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding IsDefended}" />
+                    <MenuItem Header="Относительные пути" IsCheckable="True" IsEnabled="{Binding Data.IsDefended}" IsChecked="{Binding Data.IsRelative}" />
+                    <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding Data.IsDefended}" />
                 </MenuItem>
                 <MenuItem Header="Справка">
                     <MenuItem Header="Начало работы"/>
-                    <MenuItem Header="Оператору" IsEnabled="{Binding IsDefended}"/>
+                    <MenuItem Header="Оператору" IsEnabled="{Binding Data.IsDefended}"/>
                     <MenuItem Header="Пользователю"/>
                     <Separator/>
                     <MenuItem Header="О Программе"/>
@@ -58,7 +54,7 @@
             <Border DockPanel.Dock="Right" Style="{StaticResource DarkBox}">
                 <TextBox Style="{StaticResource NamingLight}">
                     <TextBox.Text>
-                        <Binding Path="Name"/>
+                        <Binding Path="Data.Name"/>
                     </TextBox.Text>
                 </TextBox>
             </Border>
@@ -68,7 +64,7 @@
         <Grid Grid.Row="1" Margin="15" Style="{StaticResource DarkBox}">
             <ContentControl Grid.Row="1" Grid.Column="1">
                 <ContentControl.Visibility>
-                    <Binding Path="IsDefended">
+                    <Binding Path="Data.IsDefended">
                         <Binding.Converter>
                             <converters:InverseVisibilityConverter/>
                         </Binding.Converter>
@@ -82,7 +78,7 @@
             
             <ContentControl Grid.Row="1" Grid.Column="1">
                 <ContentControl.Visibility>
-                    <Binding Path="IsDefended">
+                    <Binding Path="Data.IsDefended">
                         <Binding.Converter>
                             <converters:BooleanVisibilityConverter/>
                         </Binding.Converter>

@@ -23,7 +23,7 @@
     <ControlTemplate x:Key="EditorTools">
         <ToolBarTray Orientation="Vertical">
             <ToolBar Width="30">
-                <ContentControl Template="{StaticResource EditButtons}"/>
+                <ContentControl DataContext="" Template="{StaticResource EditButtons}"/>
                 <Separator/>
                 <ContentControl Template="{StaticResource FileButtons}"/>
             </ToolBar>
@@ -33,27 +33,39 @@
     <ControlTemplate x:Key="Editor">
         <TabControl>
             <TabItem Header="Информация">
-                <Grid DataContext="{Binding Information}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <ContentControl Template="{StaticResource EditorTools}"/>
-                    <ContentControl Grid.Column="1" Template="{StaticResource InformationTabEditing}"/>
-                </Grid>
+                <DockPanel LastChildFill="True">
+                    <ToolBarTray Orientation="Vertical">
+                        <ToolBar Width="30">
+                            <ContentControl DataContext="{Binding Path=Data.Information}" Template="{StaticResource EditButtons}"/>
+                            <Separator/>
+                            <ContentControl Template="{StaticResource FileButtons}"/>
+                        </ToolBar>
+                    </ToolBarTray>
+                    <!--<ContentControl Width="30" Template="{StaticResource EditorTools}"/>-->
+                    <ContentControl Template="{StaticResource InformationTabEditing}">
+                        <ContentControl.DataContext>
+                            <Binding Path="Data.Information"/>
+                        </ContentControl.DataContext>
+                    </ContentControl>
+                </DockPanel>
             </TabItem>
 
             <TabItem Header="Документы">
-                <Grid DataContext="{Binding Documents}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <ContentControl Template="{StaticResource EditorTools}"/>
-                    <ContentControl Grid.Column="1" Template="{StaticResource DocumentsTabEditing}"/>
-                </Grid>
+                <DockPanel LastChildFill="True">
+                    <ToolBarTray Orientation="Vertical">
+                        <ToolBar Width="30">
+                            <ContentControl DataContext="{Binding Path=Data.Information}" Template="{StaticResource EditButtons}"/>
+                            <Separator/>
+                            <ContentControl Template="{StaticResource FileButtons}"/>
+                        </ToolBar>
+                    </ToolBarTray>
+                    <!--<ContentControl Width="30" Template="{StaticResource EditorTools}"/>-->
+                    <ContentControl Template="{StaticResource DocumentsTabEditing}">
+                        <ContentControl.DataContext>
+                            <Binding Path="Data.Documents"/>
+                        </ContentControl.DataContext>
+                    </ContentControl>
+                </DockPanel>
             </TabItem>
         </TabControl>
     </ControlTemplate>

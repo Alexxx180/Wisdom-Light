@@ -2,9 +2,7 @@
 {
     public interface IFillerBuilder
     {
-        public IFillerBuilder Defended();
-
-        public IFillerBuilder Relative();
+        public IFillerBuilder Template();
 
         public IFillerBuilder NewFile();
 
@@ -15,6 +13,8 @@
         public IFillerBuilder SaveAs();
 
         public IFillerBuilder Close();
+
+        public IFillerBuilder CanClose();
 
         public IFillerBuilder Reset();
 

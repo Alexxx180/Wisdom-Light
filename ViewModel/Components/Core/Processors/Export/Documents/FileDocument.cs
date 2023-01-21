@@ -46,7 +46,7 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Export.Documents
             byte[] byteArray = File.ReadAllBytes(templatePath);
             using (MemoryStream stream = new MemoryStream())
             {
-                stream.Write(byteArray, 0, byteArray.Length.ToInt());
+                stream.Write(byteArray, 0, byteArray.Length);
                 using (WordprocessingDocument template = WordprocessingDocument.Open(stream, true))
                 {
                     string docText = null;

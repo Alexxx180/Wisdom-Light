@@ -23,28 +23,25 @@
     <ControlTemplate x:Key="Filler">
         <TabControl>
             <TabItem Header="Информация">
-                <Grid DataContext="{Binding Information}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <ContentControl Template="{StaticResource FillerTools}"/>
-                    <ContentControl Grid.Column="2" Template="{StaticResource InformationTabFilling}"/>
-                </Grid>
-
+                <DockPanel LastChildFill="True">
+                    <ContentControl DockPanel.Dock="Left" Template="{StaticResource FillerTools}"/>
+                    <ContentControl Template="{StaticResource InformationTabFilling}">
+                        <ContentControl.DataContext>
+                            <Binding Path="Data.Information"/>
+                        </ContentControl.DataContext>
+                    </ContentControl>
+                </DockPanel>
             </TabItem>
 
             <TabItem Header="Документы">
-                <Grid DataContext="{Binding Documents}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <ContentControl Template="{StaticResource FillerTools}"/>
-                    <ContentControl Grid.Column="2" Template="{StaticResource DocumentsTabFilling}"/>
-                </Grid>
+                <DockPanel LastChildFill="True">
+                    <ContentControl DockPanel.Dock="Left" Template="{StaticResource FillerTools}"/>
+                    <ContentControl Template="{StaticResource DocumentsTabFilling}">
+                        <ContentControl.DataContext>
+                            <Binding Path="Data.Documents"/>
+                        </ContentControl.DataContext>
+                    </ContentControl>
+                </DockPanel>
             </TabItem>
         </TabControl>
     </ControlTemplate>
