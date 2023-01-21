@@ -1,16 +1,14 @@
-﻿using System.Windows.Forms;
-
-namespace WisdomLight.Model
+﻿namespace WisdomLight.Model
 {
     public struct Confirmer
     {
-        public Confirmer(string path, DialogResult result)
+        public Confirmer(string path, bool result)
         {
             Path = path;
             Result = result;
         }
 
-        public string Path { get; }
-        public DialogResult Result { get; }
+        public string Path { get; set; }
+        public bool Result { get; set; }
     }
 }

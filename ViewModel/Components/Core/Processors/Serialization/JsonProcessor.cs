@@ -12,7 +12,7 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
 {
     internal class JsonProcessor : FileProcessor
     {
-        private const string Extension = ".json";
+        private const string Extension = "json";
         private static readonly JsonSerializer _serializer;
         
         static JsonProcessor()
@@ -34,7 +34,7 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
 
         public override string FixExtension(string path)
         {
-            return Path.GetExtension(path).ToLower() == Extension ? path : path.ToFile(Extension);
+            return Path.GetExtension(path).ToLower() == $".{Extension}" ? path : path.ToFile(Extension);
         }
 
         /// <summary>

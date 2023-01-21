@@ -1,24 +1,25 @@
 ﻿using System.Windows.Forms;
-using static System.Environment;
 using WisdomLight.Model;
-using WisdomLight.ViewModel.Customing;
-using static WisdomLight.ViewModel.Customing.Decorators;
 
 namespace WisdomLight.ViewModel.Data.Files.Dialogs
 {
     public class SaveDialog : FileDialog
     {
+        public KeyConfirmer Result { get; private protected set; }
+
         public override void ShowDialog()
         {
-            SaveFileDialog dialog = new SaveFileDialog
+            using SaveFileDialog dialog = new SaveFileDialog
             {
                 Title = Title,
+                FileName = FileName,
                 Filter = Filter,
                 FilterIndex = FilterIndex,
-                InitialDirectory = GetFolderPath(SpecialFolder.DesktopDirectory).Close()
+                InitialDirectory = InitialDirectory
             };
-            DialogResult status = dialog.ShowDialog();
+            bool status = dialog.ShowDialog() == DialogResult.OK;
             byte selected = (byte)(dialog.FilterIndex - 1);
+
             Result = new KeyConfirmer(selected, dialog.FileName, status);
         }
     }

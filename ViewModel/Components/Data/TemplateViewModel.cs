@@ -54,5 +54,6 @@ namespace WisdomLight.ViewModel.Components
         }
 
         public string Location { get; protected internal set; }
+        public string FileName { get; protected internal set; }
     }
 }

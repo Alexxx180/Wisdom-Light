@@ -1,11 +1,10 @@
-﻿using WisdomLight.Model;
+﻿using WisdomLight.Model.Results.Confirming;
 
 namespace WisdomLight.ViewModel.Data.Files.Dialogs
 {
     public abstract class FileDialog : Dialog
     {
-        public KeyConfirmer Result { get; private protected set; }
-
+        public string FileName { get; set; }
         public string Filter { get; set; }
         public byte FilterIndex { get; set; }
     }

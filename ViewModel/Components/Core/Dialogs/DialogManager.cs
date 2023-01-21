@@ -7,6 +7,7 @@ using WisdomLight.Model.Exceptions;
 using static WisdomLight.ViewModel.Customing.Decorators;
 using WisdomLight.ViewModel.Data.Files.Dialogs.Folder;
 using WisdomLight.ViewModel.Data.Files.Dialogs;
+using WisdomLight.Model.Results.Confirming;
 
 namespace WisdomLight.ViewModel.Data.Files
 {
@@ -19,11 +20,13 @@ namespace WisdomLight.ViewModel.Data.Files
             return MessageBox.Show(message, nameof(Error), MessageBoxButton.OK, Error);
         }
 
-        public static KeyConfirmer Save(byte filterIndex = 1)
+        public static KeyConfirmer Save(string defaultPath, string name, byte filterIndex = 1)
         {
             SaveDialog dialog = new SaveDialog
             {
                 Title = "Сохранить как...",
+                FileName = name,
+                InitialDirectory = defaultPath,
                 Filter = Filter("Шаблон данных JSON", "*.json"),
                 FilterIndex = filterIndex
             };
@@ -31,11 +34,12 @@ namespace WisdomLight.ViewModel.Data.Files
             return dialog.Result;
         }
 
-        public static KeyConfirmer Open(byte filterIndex = 1)
+        public static ReConfirmer Open(string defaultPath, byte filterIndex = 1)
         {
             OpenDialog dialog = new OpenDialog
             {
                 Title = "Выберите шаблон данных",
+                InitialDirectory = defaultPath,
                 Filter = Filter("Шаблон данных JSON", "*.json"),
                 FilterIndex = filterIndex
             };

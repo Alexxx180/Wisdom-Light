@@ -1,8 +1,5 @@
 ﻿using System.Windows.Forms;
-using static System.Environment;
 using WisdomLight.Model;
-using WisdomLight.ViewModel.Customing;
-using static WisdomLight.ViewModel.Customing.Decorators;
 
 namespace WisdomLight.ViewModel.Data.Files.Dialogs.Folder
 {
@@ -16,10 +13,10 @@ namespace WisdomLight.ViewModel.Data.Files.Dialogs.Folder
             {
                 Description = Title,
                 UseDescriptionForTitle = true,
-                SelectedPath = GetFolderPath(SpecialFolder.DesktopDirectory).Close(),
+                SelectedPath = InitialDirectory,
                 ShowNewFolderButton = true
             };
-            DialogResult status = dialog.ShowDialog();
+            bool status = dialog.ShowDialog() == DialogResult.OK;
             Result = new Confirmer(dialog.SelectedPath, status);
         }
     }

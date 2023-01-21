@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Windows.Input;
-using WisdomLight.Model;
+using WisdomLight.Model.Results.Confirming;
 using WisdomLight.ViewModel.Commands;
 using WisdomLight.ViewModel.Components.Building.Main.Preferences;
 using WisdomLight.ViewModel.Components.Data;
 using WisdomLight.ViewModel.Data.Files;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 
 namespace WisdomLight.ViewModel.Components.Building.Main
 {
@@ -94,9 +92,13 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _newCommand = new RelayCommand(
                 argument =>
                 {
+                    FileViewModel viewModel = _filler.Reset().Template().NewFile().Open().Save().SaveAs().CanClose().Close().Build();
+
+                    viewModel.Data.Location = _viewModel.Preferences.SelectedLocation;
+
                     new FillTemplatesWindow
                     {
-                        ViewModel = _filler.Reset().Template().NewFile().Open().Save().SaveAs().CanClose().Close().Build()
+                        ViewModel = viewModel
                     }
                     .Show();
                 }
@@ -109,14 +111,17 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _openCommand = new RelayCommand(
                 argument =>
                 {
-                    KeyConfirmer dialog = DialogManager.Open(_viewModel.Preferences.Serializer.Current);
-                    if (dialog.Status.Result != DialogResult.OK)
+                    ReConfirmer dialog = DialogManager.Open(_viewModel.Preferences.SelectedLocation, _viewModel.Preferences.Serializer.Current);
+                    if (!dialog.Result)
                         return;
-                    string path = dialog.Status.Path;
+
                     _viewModel.Preferences.Serializer.Current = dialog.Key;
 
                     FileViewModel viewModel = _filler.Reset().NewFile().Open().Save().SaveAs().CanClose().Close().Build();
-                    viewModel.Data = _viewModel.Preferences.Serializer.Load(path);
+                    
+                    viewModel.Data = _viewModel.Preferences.Serializer.Load(dialog.FullPath);
+                    viewModel.Data.Location = dialog.Path;
+                    viewModel.Data.FileName = dialog.Name;
 
                     new FillTemplatesWindow { ViewModel = viewModel }.Show();
                 }

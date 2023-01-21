@@ -28,7 +28,7 @@
                     <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding Data.IsDefended}" />
                     <MenuItem Header="Открыть..." Command="{Binding OpenCommand}" />
                     <Separator/>
-                    <MenuItem Header="Сохранить" />
+                    <MenuItem Header="Сохранить" Command="{Binding SaveCommand}"/>
                     <MenuItem Header="Сохранить как" Command="{Binding SaveAsCommand}" IsEnabled="{Binding Data.IsDefended}" />
                     <MenuItem Header="Экспорт" />
                     <Separator/>

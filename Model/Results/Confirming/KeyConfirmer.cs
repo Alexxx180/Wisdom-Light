@@ -1,17 +1,16 @@
-﻿using System.Windows.Forms;
-
-namespace WisdomLight.Model
+﻿namespace WisdomLight.Model
 {
     public struct KeyConfirmer
     {
-        public KeyConfirmer(byte key,
-            string path, DialogResult result)
+        public KeyConfirmer(byte key, string path, bool result)
         {
             Key = key;
-            Status = new Confirmer(path, result);
+            Path = path;
+            Result = result;
         }
 
         public byte Key { get; set; }
-        public Confirmer Status { get; set; }
+        public bool Result { get; set; }
+        public string Path { get; set; }
     }
 }

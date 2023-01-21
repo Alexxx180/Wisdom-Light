@@ -1,6 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System.IO;
 using System.Windows.Input;
 using WisdomLight.Model;
+using WisdomLight.Model.Results.Confirming;
 using WisdomLight.ViewModel.Commands;
 using WisdomLight.ViewModel.Components;
 using WisdomLight.ViewModel.Components.Building.Templates;
@@ -68,7 +69,11 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
             _newCommand = new RelayCommand(
                 argument =>
                 {
+                    string location = _viewModel.Data.Location;
+
                     _viewModel = Reset().Template().NewFile().Open().Save().SaveAs().CanClose().Close().Build();
+                    _viewModel.Data.Location = location;
+
                     new FillTemplatesWindow { ViewModel = _viewModel }.Show();
                 }
             );
@@ -81,14 +86,17 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
                 argument =>
                 {
                     FileFiller serializer = _viewModel.Data.Serializer;
-                    KeyConfirmer dialog = DialogManager.Open(serializer.Current);
-                    if (dialog.Status.Result != DialogResult.OK)
+                    ReConfirmer dialog = DialogManager.Open(_viewModel.Data.Location, serializer.Current);
+                    if (!dialog.Result)
                         return;
-                    string path = dialog.Status.Path;
+
                     serializer.Current = dialog.Key;
                     
                     FileViewModel viewModel = Reset().NewFile().Open().Save().SaveAs().CanClose().Close().Build();
-                    viewModel.Data = serializer.Load(path);
+
+                    viewModel.Data = serializer.Load(dialog.FullPath);
+                    viewModel.Data.Location = dialog.Path;
+                    viewModel.Data.FileName = dialog.Name;
 
                     new FillTemplatesWindow { ViewModel = viewModel }.Show();
                 }
@@ -101,25 +109,19 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
             _saveCommand = new RelayCommand(
                 argument =>
                 {
-                    string path = $"{_viewModel.Data.Location}\\{_viewModel.Data.Name}";
-                    _viewModel.Data.Serializer.FixedSave(path, _viewModel.Data);
-                }
+                    TemplateViewModel template = _viewModel.Data;
+                    string name = string.IsNullOrEmpty(template.FileName) ? template.Name : template.FileName;
+                    string path = $"{template.Location}\\{name}";
+                    template.Serializer.FixedSave(path, template);
+                },
+                can => !string.IsNullOrEmpty(_viewModel.Data.Name)
             );
             return this;
         }
 
         public IFillerBuilder SaveAs()
         {
-            _saveAsCommand = new RelayCommand(
-                argument =>
-                {
-                    KeyConfirmer dialog = DialogManager.Save(_viewModel.Data.Serializer.Current);
-                    if (dialog.Status.Result != DialogResult.OK)
-                        return;
-                    _viewModel.Data.Serializer.Current = dialog.Key;
-                    _viewModel.Data.Serializer.Save(dialog.Status.Path, _viewModel.Data);
-                }
-            );
+            _saveAsCommand = new RelayCommand(argument => CallSaveDialog());
             return this;
         }
 
@@ -133,6 +135,18 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
         {
             _canClose = true;
             return this;
+        }
+
+        private void CallSaveDialog()
+        {
+            KeyConfirmer dialog = DialogManager.Save(_viewModel.Data.Location, _viewModel.Data.Name, _viewModel.Data.Serializer.Current);
+            if (!dialog.Result)
+                return;
+
+            _viewModel.Data.Serializer.Current = dialog.Key;
+            _viewModel.Data.Serializer.Save(dialog.Path, _viewModel.Data);
+            _viewModel.Data.Location = Path.GetDirectoryName(dialog.Path);
+            _viewModel.Data.FileName = Path.GetFileName(dialog.Path);
         }
     }
 }
