@@ -4,6 +4,7 @@ using WisdomLight.Model;
 using WisdomLight.ViewModel.Commands;
 using WisdomLight.ViewModel.Components;
 using WisdomLight.ViewModel.Components.Building.Templates;
+using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
 
 namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
 {
@@ -79,14 +80,15 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
             _openCommand = new RelayCommand(
                 argument =>
                 {
-                    KeyConfirmer dialog = DialogManager.Open(_viewModel.Data.Serializer.Current);
+                    FileFiller serializer = _viewModel.Data.Serializer;
+                    KeyConfirmer dialog = DialogManager.Open(serializer.Current);
                     if (dialog.Status.Result != DialogResult.OK)
                         return;
                     string path = dialog.Status.Path;
-                    _viewModel.Data.Serializer.Current = dialog.Key;
+                    serializer.Current = dialog.Key;
                     
                     FileViewModel viewModel = Reset().NewFile().Open().Save().SaveAs().CanClose().Close().Build();
-                    viewModel.Data = _viewModel.Data.Serializer.Load(path);
+                    viewModel.Data = serializer.Load(path);
 
                     new FillTemplatesWindow { ViewModel = viewModel }.Show();
                 }

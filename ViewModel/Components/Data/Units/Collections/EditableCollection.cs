@@ -1,21 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using WisdomLight.ViewModel.Data.Files.Fields.Tools;
+using WisdomLight.Model;
 
 namespace WisdomLight.ViewModel.Data.Collections
 {
-    public class EditableCollection<T> : NotifyPropertyChanged
+    public class EditableCollection<T> : NotifyPropertyChanged where T : ICloneable<T>
     {
         public EditableCollection() { }
-
-        public EditableCollection(ObservableCollection<T> fields,
-            List<T> selectedItems, EditCommands tools)
-        {
-            Fields = fields;
-            Tools = tools;
-            SelectedItems = selectedItems;
-        }
 
         private ObservableCollection<T> _fields;
         public ObservableCollection<T> Fields
@@ -51,9 +43,10 @@ namespace WisdomLight.ViewModel.Data.Collections
 
         public void Add(T field)
         {
-            Fields.Add(field);
+            Fields.Add(field.Clone());
         }
 
-        public EditCommands Tools { get; protected internal set; }
+        public ICommand AddCommand { get; protected internal set; }
+        public ICommand DropCommand { get; protected internal set; }
     }
 }

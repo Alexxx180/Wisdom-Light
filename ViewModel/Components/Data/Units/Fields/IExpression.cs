@@ -1,8 +1,5 @@
-﻿
-using System;
+﻿using System;
 using WisdomLight.Model;
-using WisdomLight.ViewModel.Data.Files.Fields;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Json;
 
 namespace WisdomLight.ViewModel.Files.Fields
 {

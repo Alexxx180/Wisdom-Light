@@ -19,6 +19,7 @@ namespace WisdomLight.ViewModel.Data.Files.Fields
         {
             return new TextExpression
             {
+                Name = Name,
                 Value = Value,
                 Type = Type
             };

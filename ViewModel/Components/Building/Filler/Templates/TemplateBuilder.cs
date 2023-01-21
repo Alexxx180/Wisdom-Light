@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using WisdomLight.ViewModel.Data;
 using WisdomLight.ViewModel.Data.Files.Fields;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools;
@@ -28,18 +29,21 @@ namespace WisdomLight.ViewModel.Components.Building.Templates
                 .Additor(InformationAdditor());
         }
 
-        private static FieldSelector InformationAdditor()
+        private FieldSelector InformationAdditor()
         {
             TextExpression current = new TextExpression() { Type = "Текст" };
-            return new FieldSelector
-            {
-                Expressions = new ObservableCollection<IExpression>
+            return new FieldSelector(
+                new List<IExpression>
                 {
                     current,
                     new NumberExpression() { Type = "Число" },
                     new DateExpression() { Type = "Дата" }
-                },
-                Current = current
+                }
+                //Selected = 0
+            //Current = current
+            )
+            {
+                Selected = 0
             };
         }
 

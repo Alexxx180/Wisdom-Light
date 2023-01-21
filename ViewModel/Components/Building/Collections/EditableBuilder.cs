@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WisdomLight.Model;
@@ -25,7 +24,8 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler.Collecti
             {
                 Fields = _fields,
                 SelectedItems = _selectedItems,
-                Tools = new EditCommands(_addCommand, _dropCommand)
+                AddCommand = _addCommand,
+                DropCommand = _dropCommand
             };
             return _editables;
         }
@@ -41,7 +41,7 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler.Collecti
 
         public IEditableBuilder<T> Add()
         {
-            _addCommand = new RelayCommand(argument => _editables.Add(_additor.Clone()));
+            _addCommand = new RelayCommand(argument => _editables.Add(_additor));
             return this;
         }
 

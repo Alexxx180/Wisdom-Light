@@ -23,6 +23,7 @@ namespace WisdomLight.ViewModel.Data.Files.Fields
         {
             return new DateExpression
             {
+                Name = Name,
                 Date = Date,
                 Type = Type
             };

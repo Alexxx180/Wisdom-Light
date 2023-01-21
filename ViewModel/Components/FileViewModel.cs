@@ -22,11 +22,11 @@ namespace WisdomLight.ViewModel
             }
         }
 
-        public ICommand NewCommand { get; set; }
-        public ICommand OpenCommand { get; set; }
-        public ICommand SaveCommand { get; set; }
-        public ICommand SaveAsCommand { get; set; }
-        public ICommand CloseCommand { get; set; }
+        public ICommand NewCommand { get; protected internal set; }
+        public ICommand OpenCommand { get; protected internal set; }
+        public ICommand SaveCommand { get; protected internal set; }
+        public ICommand SaveAsCommand { get; protected internal set; }
+        public ICommand CloseCommand { get; protected internal set; }
 
         public TemplateViewModel Data { get; set; }
     }

@@ -28,20 +28,6 @@
     </ItemContainerTemplate>
 
     <ItemContainerTemplate x:Key="FieldTypeSelector">
-        <!--<ItemContainerTemplate.Resources>
-            <DataTemplate DataType="{x:Type fields:NumberExpression}">
-                <TextBlock Text="{Binding Type}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type fields:TextExpression}">
-                <TextBlock Text="{Binding Type}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type fields:DateExpression}">
-                <TextBlock Text="{Binding Type}"/>
-            </DataTemplate>
-        </ItemContainerTemplate.Resources>-->
-        
         <Grid Margin="25, 0" Style="{StaticResource Light}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -51,25 +37,15 @@
             <TextBox Style="{StaticResource Box}" Text="{Binding Path=Current.Name}"/>
 
             <ComboBox Grid.Column="1" DisplayMemberPath="Type">
-                <!--IsSynchronizedWithCurrentItem="True"-->
                 <ComboBox.ItemsSource>
                     <Binding Path="Expressions"/>
                 </ComboBox.ItemsSource>
-                <!--<ComboBox.SelectedIndex>
-                    <Binding Path="Selected" Mode="TwoWay">
-                        <Binding.UpdateSourceTrigger>
-                            PropertyChanged
-                        </Binding.UpdateSourceTrigger>
-                    </Binding>
-                </ComboBox.SelectedIndex>-->
                 <ComboBox.SelectedItem>
-                    <Binding Path="Current"/>
-                    <!--<Binding Path="Current" Mode="TwoWay">
-                        <Binding.UpdateSourceTrigger>
-                            PropertyChanged
-                        </Binding.UpdateSourceTrigger>
-                    </Binding>-->
+                    <Binding Path="Current" />
                 </ComboBox.SelectedItem>
+                <ComboBox.SelectedIndex>
+                    <Binding Path="Selected"/>
+                </ComboBox.SelectedIndex>
             </ComboBox>
         </Grid>
     </ItemContainerTemplate>

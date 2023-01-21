@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using WisdomLight.Model;
 using WisdomLight.ViewModel.Files.Fields;
+using WisdomLight.ViewModel.Components.Building;
 
 namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
 {
@@ -15,21 +15,18 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
             {
                 _selected = value;
                 OnPropertyChanged();
-                //Source = Expressions[Selected];
-                //OnPropertyChanged(nameof(Source));
             }
         }
 
-        public ObservableCollection<IExpression> Expressions { get; set; }
+        public List<IExpression> Expressions { get; set; }
 
         public FieldSelector() { }
 
-        public FieldSelector(ObservableCollection<IExpression> expressions)
+        public FieldSelector(List<IExpression> expressions)
         {
             Expressions = expressions;
         }
 
-        //public IExpression Source { get; private set; }
         private IExpression _current;
         public IExpression Current
         {
@@ -43,10 +40,12 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
 
         public FieldSelector Clone()
         {
+            List<IExpression> expressions = Expressions.Clone();
             return new FieldSelector
-                (new ObservableCollection<IExpression>(Expressions))
             {
-                Current = Current.Clone()
+                Expressions = expressions,
+                Selected = Selected,
+                Current = expressions[Selected]
             };
         }
     }

@@ -22,13 +22,13 @@ namespace WisdomLight.ViewModel
             }
         }
 
-        public ICommand AddCommand { get; set; }
-        public ICommand DropCommand { get; set; }
-        public ICommand NewCommand { get; set; }
-        public ICommand OpenCommand { get; set; }
-        public ICommand ImportCommand { get; set; }
-        public ICommand SearchCommand { get; set; }
-        public ICommand CloseCommand { get; set; }
+        public ICommand AddCommand { get; protected internal set; }
+        public ICommand DropCommand { get; protected internal set; }
+        public ICommand NewCommand { get; protected internal set; }
+        public ICommand OpenCommand { get; protected internal set; }
+        public ICommand ImportCommand { get; protected internal set; }
+        public ICommand SearchCommand { get; protected internal set; }
+        public ICommand CloseCommand { get; protected internal set; }
 
         public PreferencesViewModel Preferences { get; set; }
     }

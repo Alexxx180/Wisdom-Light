@@ -22,6 +22,7 @@ namespace WisdomLight.ViewModel.Data.Files.Fields
         {
             return new NumberExpression
             {
+                Name = Name,
                 No = No,
                 Type = Type
             };
