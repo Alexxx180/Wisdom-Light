@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using WisdomLight.ViewModel.Data;
-using WisdomLight.ViewModel.Data.Files.Fields;
+﻿using WisdomLight.ViewModel.Data;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools;
 using WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler.Collections;
 using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
-using WisdomLight.ViewModel.Files.Fields;
 
 namespace WisdomLight.ViewModel.Components.Building.Templates
 {
@@ -23,28 +19,8 @@ namespace WisdomLight.ViewModel.Components.Building.Templates
 
         public TemplateBuilder()
         {
-            _documents = new EditableBuilder<DocumentLinker>()
-                .Additor(new DocumentLinker { Name = "", Type = "" });
-            _information = new EditableBuilder<FieldSelector>()
-                .Additor(InformationAdditor());
-        }
-
-        private FieldSelector InformationAdditor()
-        {
-            TextExpression current = new TextExpression() { Type = "Текст" };
-            return new FieldSelector(
-                new List<IExpression>
-                {
-                    current,
-                    new NumberExpression() { Type = "Число" },
-                    new DateExpression() { Type = "Дата" }
-                }
-                //Selected = 0
-            //Current = current
-            )
-            {
-                Selected = 0
-            };
+            _documents = new EditableBuilder<DocumentLinker>();
+            _information = new EditableBuilder<FieldSelector>();
         }
 
         public TemplateViewModel Build()
@@ -84,13 +60,13 @@ namespace WisdomLight.ViewModel.Components.Building.Templates
 
         public ITemplateBuilder Documents()
         {
-            _documents.Fields().SelectedItems().Add().Drop();
+            _documents.Fields().SelectedItems();
             return this;
         }
 
         public ITemplateBuilder Information()
         {
-            _information.Fields().SelectedItems().Add().Drop();
+            _information.Fields().SelectedItems();
             return this;
         }
 

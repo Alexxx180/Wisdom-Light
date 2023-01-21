@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using WisdomLight.Model;
 
 namespace WisdomLight.ViewModel.Data.Collections
@@ -45,8 +44,5 @@ namespace WisdomLight.ViewModel.Data.Collections
         {
             Fields.Add(field.Clone());
         }
-
-        public ICommand AddCommand { get; protected internal set; }
-        public ICommand DropCommand { get; protected internal set; }
     }
 }

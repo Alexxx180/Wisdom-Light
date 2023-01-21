@@ -16,6 +16,10 @@
 
         public IFillerBuilder CanClose();
 
+        public IFillerBuilder Add();
+
+        public IFillerBuilder Drop();
+
         public IFillerBuilder Reset();
 
         public FileViewModel Build();

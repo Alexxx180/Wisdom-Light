@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows.Input;
 using WisdomLight.Model;
 using WisdomLight.Model.Results.Confirming;
@@ -6,6 +7,7 @@ using WisdomLight.ViewModel.Commands;
 using WisdomLight.ViewModel.Components;
 using WisdomLight.ViewModel.Components.Building.Templates;
 using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
+using WisdomLight.ViewModel.Files.Fields;
 
 namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
 {
@@ -19,6 +21,12 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
         private ICommand _saveCommand;
         private ICommand _saveAsCommand;
         private ICommand _closeCommand;
+
+        public ICommand _addInformation;
+        public ICommand _dropInformation;
+
+        public ICommand _addDocument;
+        public ICommand _dropDocument;
 
         private bool _canClose;
 
@@ -39,7 +47,11 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
                 SaveCommand = _saveCommand,
                 SaveAsCommand = _saveAsCommand,
                 CloseCommand = _closeCommand,
-                CanClose = _canClose
+                CanClose = _canClose,
+                AddInformation = _addInformation,
+                DropInformation = _dropInformation,
+                AddDocument = _addDocument,
+                DropDocument = _dropDocument
             };
             return _viewModel;
         }
@@ -54,7 +66,25 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
             _saveCommand = null;
             _saveAsCommand = null;
             _closeCommand = null;
+            _addInformation = null;
+            _dropInformation = null;
+            _addDocument = null;
+            _dropDocument = null;
             _template.Reset();
+            return this;
+        }
+
+        public IFillerBuilder Add()
+        {
+            _addInformation = new RelayCommand(argument => _viewModel.Data.Information.Add(InformationAdditor()));
+            _addDocument = new RelayCommand(argument => _viewModel.Data.Documents.Add(new DocumentLinker { Name = "", Type = "" }));
+            return this;
+        }
+
+        public IFillerBuilder Drop()
+        {
+            _dropInformation = new RelayCommand(argument => _viewModel.Data.Information.RemoveSelected());
+            _dropDocument = new RelayCommand(argument => _viewModel.Data.Documents.RemoveSelected());
             return this;
         }
 
@@ -71,7 +101,7 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
                 {
                     string location = _viewModel.Data.Location;
 
-                    _viewModel = Reset().Template().NewFile().Open().Save().SaveAs().CanClose().Close().Build();
+                    _viewModel = Reset().Template().NewFile().Open().Save().SaveAs().CanClose().Close().Add().Drop().Build();
                     _viewModel.Data.Location = location;
 
                     new FillTemplatesWindow { ViewModel = _viewModel }.Show();
@@ -92,7 +122,7 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
 
                     serializer.Current = dialog.Key;
                     
-                    FileViewModel viewModel = Reset().NewFile().Open().Save().SaveAs().CanClose().Close().Build();
+                    FileViewModel viewModel = Reset().NewFile().Open().Save().SaveAs().CanClose().Close().Add().Drop().Build();
 
                     viewModel.Data = serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;
@@ -147,6 +177,22 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
             _viewModel.Data.Serializer.Save(dialog.Path, _viewModel.Data);
             _viewModel.Data.Location = Path.GetDirectoryName(dialog.Path);
             _viewModel.Data.FileName = Path.GetFileName(dialog.Path);
+        }
+
+        private FieldSelector InformationAdditor()
+        {
+            TextExpression current = new TextExpression() { Type = "Текст" };
+            return new FieldSelector(
+                new List<IExpression>
+                {
+                    current,
+                    new NumberExpression() { Type = "Число" },
+                    new DateExpression() { Type = "Дата" }
+                }
+            )
+            {
+                Selected = 0
+            };
         }
     }
 }

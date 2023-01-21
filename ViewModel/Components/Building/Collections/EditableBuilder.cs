@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using WisdomLight.Model;
-using WisdomLight.ViewModel.Commands;
 using WisdomLight.ViewModel.Data.Collections;
 
 namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler.Collections
@@ -15,39 +13,20 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler.Collecti
 
         public T _additor;
 
-        private ICommand _addCommand;
-        private ICommand _dropCommand;
-
         public EditableCollection<T> Build()
         {
             _editables = new EditableCollection<T>
             {
                 Fields = _fields,
-                SelectedItems = _selectedItems,
-                AddCommand = _addCommand,
-                DropCommand = _dropCommand
+                SelectedItems = _selectedItems
             };
             return _editables;
         }
 
         public IEditableBuilder<T> Reset()
         {
-            _addCommand = null;
-            _dropCommand = null;
             _selectedItems = null;
             _fields = null;
-            return this;
-        }
-
-        public IEditableBuilder<T> Add()
-        {
-            _addCommand = new RelayCommand(argument => _editables.Add(_additor));
-            return this;
-        }
-
-        public IEditableBuilder<T> Drop()
-        {
-            _dropCommand = new RelayCommand(argument => _editables.RemoveSelected());
             return this;
         }
 
