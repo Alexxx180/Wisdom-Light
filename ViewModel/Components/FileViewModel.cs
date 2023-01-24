@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
-using WisdomLight.ViewModel.Commands;
-using WisdomLight.ViewModel.Components;
+using WisdomLight.ViewModel.Components.Core.Commands;
+using WisdomLight.ViewModel.Components.Data;
 
-namespace WisdomLight.ViewModel
+namespace WisdomLight.ViewModel.Components
 {
     public class FileViewModel : NotifyPropertyChanged, ICloseable
     {

@@ -1,6 +1,6 @@
 ﻿using WisdomLight.Model;
 
-namespace WisdomLight.ViewModel.Data
+namespace WisdomLight.ViewModel.Components.Data.Units
 {
     public class DocumentLinker : TypeLabel, ICloneable<DocumentLinker>
     {

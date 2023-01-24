@@ -3,13 +3,16 @@ using System.IO;
 using System.Windows.Input;
 using WisdomLight.Model;
 using WisdomLight.Model.Results.Confirming;
-using WisdomLight.ViewModel.Commands;
-using WisdomLight.ViewModel.Components;
-using WisdomLight.ViewModel.Components.Building.Templates;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
-using WisdomLight.ViewModel.Files.Fields;
+using WisdomLight.ViewModel.Components.Building.Filler.Templates;
+using WisdomLight.ViewModel.Components.Core.Commands;
+using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
+using WisdomLight.ViewModel.Components.Data;
+using WisdomLight.ViewModel.Components.Data.Units;
+using WisdomLight.ViewModel.Components.Data.Units.Fields;
+using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
 
-namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
+namespace WisdomLight.ViewModel.Components.Building.Filler
 {
     public class FillerBuilder : IFillerBuilder
     {
@@ -121,7 +124,7 @@ namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
                         return;
 
                     serializer.Current = dialog.Key;
-                    
+
                     FileViewModel viewModel = Reset().NewFile().Open().Save().SaveAs().CanClose().Close().Add().Drop().Build();
 
                     viewModel.Data = serializer.Load(dialog.FullPath);

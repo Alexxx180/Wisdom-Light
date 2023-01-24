@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using WisdomLight.Model.Exceptions.IO;
 
-namespace WisdomLight.ViewModel.Data.Files
+namespace WisdomLight.ViewModel.Components.Core.Processors
 {
     internal class Saver
     {

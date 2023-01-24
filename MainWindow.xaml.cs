@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using WisdomLight.ViewModel;
+using WisdomLight.ViewModel.Components;
 
 namespace WisdomLight
 {

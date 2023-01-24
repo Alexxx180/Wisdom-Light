@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using WisdomLight.Model;
 
-namespace WisdomLight.ViewModel.Data.Files.Dialogs.Folder
+namespace WisdomLight.ViewModel.Components.Core.Dialogs.Folder
 {
     public class FolderDialog : Dialog
     {

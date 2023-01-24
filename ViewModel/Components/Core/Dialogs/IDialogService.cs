@@ -1,4 +1,4 @@
-﻿namespace WisdomLight.ViewModel.Data.Files.Dialogs
+﻿namespace WisdomLight.ViewModel.Components.Core.Dialogs
 {
     public interface IDialogService
     {

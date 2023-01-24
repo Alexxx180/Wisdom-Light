@@ -1,6 +1,4 @@
-﻿using WisdomLight.ViewModel.Files.Fields;
-
-namespace WisdomLight.ViewModel.Data.Files.Fields
+﻿namespace WisdomLight.ViewModel.Components.Data.Units.Fields
 {
     public class NumberExpression : TypeLabel, IExpression
     {

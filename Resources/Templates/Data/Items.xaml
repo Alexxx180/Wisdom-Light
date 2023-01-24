@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields"
-                    xmlns:tools="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields.Tools">
+                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Components.Data.Units.Fields"
+                    xmlns:tools="clr-namespace:WisdomLight.ViewModel.Components.Data.Units.Fields.Tools">
     <ControlTemplate x:Key="NumberField">
         <Grid Height="25" Style="{StaticResource Light}">
             <Grid.ColumnDefinitions>

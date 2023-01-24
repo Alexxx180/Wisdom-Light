@@ -1,4 +1,4 @@
-﻿namespace WisdomLight.ViewModel.Data
+﻿namespace WisdomLight.ViewModel.Components.Data.Units
 {
     public class TypeLabel : NameLabel
     {

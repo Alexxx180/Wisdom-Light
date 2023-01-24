@@ -1,9 +1,10 @@
-﻿using WisdomLight.ViewModel.Data;
-using WisdomLight.ViewModel.Data.Files.Fields.Tools;
-using WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler.Collections;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
+﻿using WisdomLight.ViewModel.Components.Building.Collections;
+using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
+using WisdomLight.ViewModel.Components.Data;
+using WisdomLight.ViewModel.Components.Data.Units;
+using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
 
-namespace WisdomLight.ViewModel.Components.Building.Templates
+namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
 {
     public class TemplateBuilder : ITemplateBuilder
     {

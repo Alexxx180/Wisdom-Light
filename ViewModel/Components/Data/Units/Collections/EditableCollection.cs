@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using WisdomLight.Model;
 
-namespace WisdomLight.ViewModel.Data.Collections
+namespace WisdomLight.ViewModel.Components.Data.Units.Collections
 {
     public class EditableCollection<T> : NotifyPropertyChanged where T : ICloneable<T>
     {

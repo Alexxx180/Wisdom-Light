@@ -1,14 +1,22 @@
 ﻿namespace WisdomLight.Model
 {
-    internal class Match
+    /// <summary>
+    /// Match expression container:
+    /// Generally used to store last XML
+    /// Text element and character indexes
+    /// </summary>
+    public class Match
     {
         /// <summary>
-        /// Last matching element index containing part of the search text
+        /// Last matching element index
+        /// containing part of the search text
         /// </summary>
-        public int EndElementIndex { get; set; }
+        public int Element { get; set; }
+
         /// <summary>
-        /// Last matching char index of the search text in last matching element
+        /// Last matching char index of the
+        /// search text in last matching element
         /// </summary>
-        public int EndCharIndex { get; set; }
+        public int Character { get; set; }
     }
 }

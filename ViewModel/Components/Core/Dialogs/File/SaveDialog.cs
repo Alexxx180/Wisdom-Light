@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using WisdomLight.Model;
 
-namespace WisdomLight.ViewModel.Data.Files.Dialogs
+namespace WisdomLight.ViewModel.Components.Core.Dialogs.File
 {
     public class SaveDialog : FileDialog
     {

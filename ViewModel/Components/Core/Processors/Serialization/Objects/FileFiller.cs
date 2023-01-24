@@ -1,6 +1,6 @@
-﻿using WisdomLight.ViewModel.Components;
+﻿using WisdomLight.ViewModel.Components.Data;
 
-namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects
+namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects
 {
     public class FileFiller
     {

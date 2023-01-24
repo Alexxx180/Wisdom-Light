@@ -1,6 +1,4 @@
-﻿using WisdomLight.Model.Results.Confirming;
-
-namespace WisdomLight.ViewModel.Data.Files.Dialogs
+﻿namespace WisdomLight.ViewModel.Components.Core.Dialogs.File
 {
     public abstract class FileDialog : Dialog
     {

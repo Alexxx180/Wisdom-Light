@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using WisdomLight.Model;
-using WisdomLight.ViewModel.Files.Fields;
 using WisdomLight.ViewModel.Components.Building;
 
-namespace WisdomLight.ViewModel.Data.Files.Fields.Tools
+namespace WisdomLight.ViewModel.Components.Data.Units.Fields.Tools
 {
     public class FieldSelector : NotifyPropertyChanged, ICloneable<FieldSelector>
     {

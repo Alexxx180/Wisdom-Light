@@ -1,17 +1,15 @@
 ﻿using System.IO;
 using System.Collections.Generic;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
-using WisdomLight.ViewModel.Customing;
-using WisdomLight.ViewModel.Files.Fields;
 using WisdomLight.Model.Exceptions.IO;
+using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Data.Units;
+using WisdomLight.ViewModel.Components.Data.Units.Fields;
 
-namespace WisdomLight.ViewModel.Data.Files.Processors.Export.Documents
+namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
 {
-    internal class FileDocument : Saver
+    internal abstract class FileDocument : Saver, IDocument
     {
-        internal void WriteDocuments(IList<DocumentLinker> paths,
-            List<IExpression> expressions, string saveTo)
+        public void Export(IList<DocumentLinker> paths, List<IExpression> expressions, string folder)
         {
             for (byte i = 0; i < paths.Count; i++)
             {
@@ -20,11 +18,11 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Export.Documents
                 if (!File.Exists(template))
                     continue;
 
-                string fullName = saveTo + Path.GetFileName(template);
+                TemplateFrom(template).GenerateTo(folder + Path.GetFileName(template));
 
                 try
                 {
-                    FullProcessing(template, fullName, expressions);
+                    Process(expressions);
                 }
                 catch (SaveException exception)
                 {
@@ -34,59 +32,22 @@ namespace WisdomLight.ViewModel.Data.Files.Processors.Export.Documents
         }
 
         /// <summary>
-        /// Process and aave the file with the new name
+        /// Set full template path to process
         /// </summary>
-        /// <param name="templatePath">Path to original template</param>
-        /// <param name="generatePath">Save result to</param>
-        /// <param name="expressions"></param>
+        /// <param name="template">Path to original template</param>
+        internal abstract FileDocument TemplateFrom(string template);
+
+        /// <summary>
+        /// Set new document path to generate to
+        /// </summary>
+        /// <param name="document">Saved document full path</param>
+        internal abstract FileDocument GenerateTo(string document);
+
+        /// <summary>
+        /// Process and save the file with the new name
+        /// </summary>
+        /// <param name="expressions">Expressions to search and replace</param>
         /// <exception cref="SaveException">Saving failure</exception>
-        private static void FullProcessing(string templatePath,
-            string generatePath, List<IExpression> expressions)
-        {
-            byte[] byteArray = File.ReadAllBytes(templatePath);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                stream.Write(byteArray, 0, byteArray.Length);
-                using (WordprocessingDocument template = WordprocessingDocument.Open(stream, true))
-                {
-                    string docText = null;
-                    using (StreamReader sr = new StreamReader(template.MainDocumentPart.GetStream()))
-                    {
-                        docText = sr.ReadToEnd();
-                    }
-
-                    Body body = template.MainDocumentPart.Document.Body;
-                    IEnumerable<Paragraph> paragraphs = body.Elements<Paragraph>();
-                    IEnumerable<TableCell> cells = body.Descendants<TableCell>();
-
-                    Process(paragraphs, cells, expressions);
-
-                    using (StreamWriter sw = new StreamWriter(template.MainDocumentPart.GetStream(FileMode.Create)))
-                    {
-                        sw.Write(docText);
-                    }
-                }
-
-                // Save the file with the new name
-                Save(generatePath, stream.ToArray());
-            }
-        }
-
-        private static void Process(
-            IEnumerable<Paragraph> paragraphs,
-            IEnumerable<TableCell> cells,
-            List<IExpression> expressions)
-        {
-            for (byte i = 0; i < expressions.Count; i++)
-            {
-                IExpression expression = expressions[i];
-
-                string search = expression.Name;
-                string replaceWith = expression.Value;
-
-                AutoFiller.ReplaceInParagraphs(paragraphs, search, replaceWith);
-                AutoFiller.ReplaceInCells(cells, search, replaceWith);
-            }
-        }
+        private protected abstract void Process(List<IExpression> expressions);
     }
 }

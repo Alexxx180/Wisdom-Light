@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using WisdomLight.Model;
-using WisdomLight.ViewModel.Data.Collections;
+using WisdomLight.ViewModel.Components.Data.Units.Collections;
 
-namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler.Collections
+namespace WisdomLight.ViewModel.Components.Building.Collections
 {
     public class EditableBuilder<T> : IEditableBuilder<T> where T : ICloneable<T>
     {

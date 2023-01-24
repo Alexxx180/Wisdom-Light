@@ -3,18 +3,18 @@ using Newtonsoft.Json;
 using WisdomLight.ViewModel.Customing;
 using WisdomLight.Model.Exceptions.IO;
 using WisdomLight.Model.Exceptions.Json;
-using WisdomLight.ViewModel.Data.Files.Fields;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Handling;
 using System.Collections.Generic;
 using System;
+using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Handling;
+using WisdomLight.ViewModel.Components.Data.Units.Fields;
 
-namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization
+namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
 {
     internal class JsonProcessor : FileProcessor
     {
         private const string Extension = "json";
         private static readonly JsonSerializer _serializer;
-        
+
         static JsonProcessor()
         {
             _serializer = new JsonSerializer()

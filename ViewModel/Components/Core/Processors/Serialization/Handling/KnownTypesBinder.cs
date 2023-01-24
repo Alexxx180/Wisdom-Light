@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace WisdomLight.ViewModel.Data.Files.Processors.Serialization.Handling
+namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization.Handling
 {
     public class KnownTypesBinder : ISerializationBinder
     {

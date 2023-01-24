@@ -1,4 +1,6 @@
-﻿namespace WisdomLight.ViewModel.Components.Building.Templates
+﻿using WisdomLight.ViewModel.Components.Data;
+
+namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
 {
     public interface ITemplateBuilder
     {

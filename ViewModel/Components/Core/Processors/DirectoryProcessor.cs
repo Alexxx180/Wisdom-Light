@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using WisdomLight.Model.Exceptions.IO;
 
-namespace WisdomLight.ViewModel.Data.Files.Processors
+namespace WisdomLight.ViewModel.Components.Core.Processors
 {
     public class DirectoryProcessor
     {

@@ -1,4 +1,4 @@
-﻿namespace WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler
+﻿namespace WisdomLight.ViewModel.Components.Building.Filler
 {
     public interface IFillerBuilder
     {

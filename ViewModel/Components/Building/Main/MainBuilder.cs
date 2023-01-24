@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
 using WisdomLight.Model.Results.Confirming;
-using WisdomLight.ViewModel.Commands;
+using WisdomLight.ViewModel.Components.Building.Filler;
 using WisdomLight.ViewModel.Components.Building.Main.Preferences;
+using WisdomLight.ViewModel.Components.Core.Commands;
+using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Data;
-using WisdomLight.ViewModel.Data.Files;
-using WisdomLight.ViewModel.Data.Files.Fields.Tools.Building.Filler;
 
 namespace WisdomLight.ViewModel.Components.Building.Main
 {

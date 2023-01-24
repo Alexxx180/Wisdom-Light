@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WisdomLight.ViewModel.Commands
+namespace WisdomLight.ViewModel.Components.Core.Commands
 {
     public interface ICloseable
     {

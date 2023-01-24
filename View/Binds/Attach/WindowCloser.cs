@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using WisdomLight.ViewModel.Commands;
+using WisdomLight.ViewModel.Components.Core.Commands;
 
 namespace WisdomLight.View.Binds.Attach
 {

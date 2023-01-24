@@ -2,7 +2,7 @@
 using WisdomLight.ViewModel.Customing;
 using WisdomLight.Model.Exceptions.IO;
 
-namespace WisdomLight.ViewModel.Data.Files.Processors
+namespace WisdomLight.ViewModel.Components.Core.Processors
 {
     internal abstract class FileProcessor : Saver
     {

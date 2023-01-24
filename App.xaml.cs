@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using Serilog;
 using WisdomLight.ViewModel.Components.Building.Main;
-using WisdomLight.ViewModel.Data.Files.Processors;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization;
+using WisdomLight.ViewModel.Components.Core.Processors;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Documents;
+using WisdomLight.ViewModel.Components.Core.Processors.Serialization;
+using WisdomLight.ViewModel.Components.Data.Units;
 
 namespace WisdomLight
 {
@@ -12,9 +15,9 @@ namespace WisdomLight
     /// </summary>
     public partial class App : Application
     {
-        internal static readonly FileProcessor[] Processors;
         public static string DefaultLocation => Environment.CurrentDirectory + @"\Resources\Runtime\";
-        
+        internal static readonly FileProcessor[] Processors;
+
         static App()
         {
             Log.Debug($"Runtime directory: {DefaultLocation}");
@@ -26,7 +29,7 @@ namespace WisdomLight
 
         public App()
         {
-            _mainBuilder = new MainBuilder();
+            _wordDocument = new WordDocument();
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
@@ -38,13 +41,21 @@ namespace WisdomLight
             Log.Information("Application started");
             Log.Debug("Collecting configuration info...");
 
-            new MainWindow
+            //new MainWindow
+            //{
+            //    ViewModel = new MainBuilder().Preferences().NewFile().Open().CanClose().Close().Build()
+            //}
+            //.Show();
+
+            _wordDocument.Export(new List<DocumentLinker>
             {
-                ViewModel = _mainBuilder.Preferences().NewFile().Open().CanClose().Close().Build()
-            }
-            .Show();
+                new DocumentLinker
+                {
+                    Name = "Lol", Type = @"D:\Aleksandr\misc\Development\Sandbox\Selderey.docx"
+                }
+            }, null, @"D:\Aleksandr\misc\Development\Sandbox\a");
         }
 
-        private IMainBuilder _mainBuilder;
+        private WordDocument _wordDocument;
     }
 }

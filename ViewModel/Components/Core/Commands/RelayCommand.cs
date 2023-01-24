@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace WisdomLight.ViewModel.Commands
+namespace WisdomLight.ViewModel.Components.Core.Commands
 {
     public class RelayCommand : ICommand
     {

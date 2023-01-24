@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using WisdomLight.ViewModel.Data.Files.Processors.Serialization.Objects;
+using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 
 namespace WisdomLight.ViewModel.Components.Data
 {

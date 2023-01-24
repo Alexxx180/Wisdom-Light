@@ -2,7 +2,7 @@
 using System.IO;
 using WisdomLight.Model.Results.Confirming;
 
-namespace WisdomLight.ViewModel.Data.Files.Dialogs
+namespace WisdomLight.ViewModel.Components.Core.Dialogs.File
 {
     public class OpenDialog : FileDialog
     {
@@ -24,7 +24,7 @@ namespace WisdomLight.ViewModel.Data.Files.Dialogs
             byte selected = (byte)(dialog.FilterIndex - 1);
 
             string path = Path.GetDirectoryName(dialog.FileName);
-            
+
             Result = new ReConfirmer(selected, dialog.SafeFileName, path, status);
         }
     }

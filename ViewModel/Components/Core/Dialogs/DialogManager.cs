@@ -5,11 +5,11 @@ using MessageBox = System.Windows.MessageBox;
 using WisdomLight.Model;
 using WisdomLight.Model.Exceptions;
 using static WisdomLight.ViewModel.Customing.Decorators;
-using WisdomLight.ViewModel.Data.Files.Dialogs.Folder;
-using WisdomLight.ViewModel.Data.Files.Dialogs;
 using WisdomLight.Model.Results.Confirming;
+using WisdomLight.ViewModel.Components.Core.Dialogs.Folder;
+using WisdomLight.ViewModel.Components.Core.Dialogs.File;
 
-namespace WisdomLight.ViewModel.Data.Files
+namespace WisdomLight.ViewModel.Components.Core.Dialogs
 {
     public static class DialogManager
     {

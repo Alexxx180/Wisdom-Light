@@ -1,7 +1,7 @@
 ﻿using System;
 using WisdomLight.Model;
 
-namespace WisdomLight.ViewModel.Files.Fields
+namespace WisdomLight.ViewModel.Components.Data.Units.Fields
 {
     public interface IExpression : IEquatable<IExpression>, ICloneable<IExpression>
     {
