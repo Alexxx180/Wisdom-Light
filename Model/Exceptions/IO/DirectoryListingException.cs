@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using WisdomLight.ViewModel.Customing;
+using WisdomLight.ViewModel.Components.Building.Extensions.Decorators;
 
 namespace WisdomLight.Model.Exceptions.IO
 {
@@ -14,8 +14,8 @@ namespace WisdomLight.Model.Exceptions.IO
         public override string Details()
         {
             return "!Directory Search Error!"
-                .Form("In", OriginalPath)
-                .Form("Description", Message);
+                .Lists("In", OriginalPath)
+                .Lists("Description", Message);
         }
     }
 }

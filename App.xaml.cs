@@ -41,19 +41,19 @@ namespace WisdomLight
             Log.Information("Application started");
             Log.Debug("Collecting configuration info...");
 
-            //new MainWindow
-            //{
-            //    ViewModel = new MainBuilder().Preferences().NewFile().Open().CanClose().Close().Build()
-            //}
-            //.Show();
-
-            _wordDocument.Export(new List<DocumentLinker>
+            new MainWindow
             {
-                new DocumentLinker
-                {
-                    Name = "Lol", Type = @"D:\Aleksandr\misc\Development\Sandbox\Selderey.docx"
-                }
-            }, null, @"D:\Aleksandr\misc\Development\Sandbox\a");
+                ViewModel = new MainBuilder().Preferences().NewFile().Open().CanClose().Close().Build()
+            }
+            .Show();
+
+            //_wordDocument.Export(new List<DocumentLinker>
+            //{
+            //    new DocumentLinker
+            //    {
+            //        Name = "Lol", Type = @"D:\Aleksandr\misc\Development\Sandbox\Selderey.docx"
+            //    }
+            //}, null, @"D:\Aleksandr\misc\Development\Sandbox\a");
         }
 
         private WordDocument _wordDocument;

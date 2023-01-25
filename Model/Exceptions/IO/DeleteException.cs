@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using WisdomLight.ViewModel.Customing;
+using WisdomLight.ViewModel.Components.Building.Extensions.Decorators;
 
 namespace WisdomLight.Model.Exceptions.IO
 {
@@ -11,8 +11,8 @@ namespace WisdomLight.Model.Exceptions.IO
         public override string Details()
         {
             return "!Delete Error!"
-                .Form("From", OriginalPath)
-                .Form("Description", Message);
+                .Lists("From", OriginalPath)
+                .Lists("Description", Message);
         }
     }
 }

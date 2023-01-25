@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using WisdomLight.ViewModel.Customing;
+using WisdomLight.ViewModel.Components.Building.Extensions.Decorators;
 
 namespace WisdomLight.Model.Exceptions.IO
 {
@@ -16,9 +16,9 @@ namespace WisdomLight.Model.Exceptions.IO
         public override string Details()
         {
             return $"!Move Error!"
-                .Form("From", OriginalPath)
-                .Form("To", NewPath)
-                .Form("Description", Message);
+                .Lists("From", OriginalPath)
+                .Lists("To", NewPath)
+                .Lists("Description", Message);
         }
     }
 }

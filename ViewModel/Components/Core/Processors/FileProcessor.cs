@@ -1,6 +1,7 @@
 ﻿using System.IO;
-using WisdomLight.ViewModel.Customing;
 using WisdomLight.Model.Exceptions.IO;
+using WisdomLight.ViewModel.Components.Building.Extensions.Paths;
+using WisdomLight.ViewModel.Components.Building.Extensions.Paths.Files;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors
 {

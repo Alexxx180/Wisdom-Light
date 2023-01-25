@@ -4,10 +4,10 @@ using static System.Windows.MessageBoxImage;
 using MessageBox = System.Windows.MessageBox;
 using WisdomLight.Model;
 using WisdomLight.Model.Exceptions;
-using static WisdomLight.ViewModel.Customing.Decorators;
 using WisdomLight.Model.Results.Confirming;
 using WisdomLight.ViewModel.Components.Core.Dialogs.Folder;
 using WisdomLight.ViewModel.Components.Core.Dialogs.File;
+using static WisdomLight.ViewModel.Components.Building.Extensions.Decorators.Filters;
 
 namespace WisdomLight.ViewModel.Components.Core.Dialogs
 {
@@ -27,7 +27,7 @@ namespace WisdomLight.ViewModel.Components.Core.Dialogs
                 Title = "Сохранить как...",
                 FileName = name,
                 InitialDirectory = defaultPath,
-                Filter = Filter("Шаблон данных JSON", "*.json"),
+                Filter = Option("Шаблон данных JSON", "*.json"),
                 FilterIndex = filterIndex
             };
             dialog.ShowDialog();
@@ -40,7 +40,7 @@ namespace WisdomLight.ViewModel.Components.Core.Dialogs
             {
                 Title = "Выберите шаблон данных",
                 InitialDirectory = defaultPath,
-                Filter = Filter("Шаблон данных JSON", "*.json"),
+                Filter = Option("Шаблон данных JSON", "*.json"),
                 FilterIndex = filterIndex
             };
             dialog.ShowDialog();

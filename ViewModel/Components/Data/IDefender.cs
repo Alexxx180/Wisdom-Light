@@ -1,4 +1,4 @@
-﻿namespace WisdomLight.ViewModel.Components.Data.Units.Fields.Tools
+﻿namespace WisdomLight.ViewModel.Components.Data
 {
     public interface IDefender
     {

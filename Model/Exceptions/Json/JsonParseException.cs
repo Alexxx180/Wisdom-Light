@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using WisdomLight.ViewModel.Customing;
+using WisdomLight.ViewModel.Components.Building.Extensions.Decorators;
 
 namespace WisdomLight.Model.Exceptions.Json
 {
@@ -16,8 +16,8 @@ namespace WisdomLight.Model.Exceptions.Json
         public virtual string Details()
         {
             return $"!JSON Parse Error!"
-                .Form("From", OriginalPath)
-                .Form("Description", Message);
+                .Lists("From", OriginalPath)
+                .Lists("Description", Message);
         }
     }
 }

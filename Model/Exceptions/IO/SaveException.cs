@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using WisdomLight.ViewModel.Customing;
+using WisdomLight.ViewModel.Components.Building.Extensions.Decorators;
 
 namespace WisdomLight.Model.Exceptions.IO
 {
@@ -16,8 +16,8 @@ namespace WisdomLight.Model.Exceptions.IO
         public virtual string Details()
         {
             return "!Save Error!"
-                .Form("To", OriginalPath)
-                .Form("Description", Message);
+                .Lists("To", OriginalPath)
+                .Lists("Description", Message);
         }
     }
 }
