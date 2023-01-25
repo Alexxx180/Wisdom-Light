@@ -12,6 +12,8 @@
 
         public IFillerBuilder SaveAs();
 
+        public IFillerBuilder Export();
+
         public IFillerBuilder Close();
 
         public IFillerBuilder CanClose();
@@ -19,6 +21,8 @@
         public IFillerBuilder Add();
 
         public IFillerBuilder Drop();
+
+        public IFillerBuilder Choose();
 
         public IFillerBuilder Reset();
 

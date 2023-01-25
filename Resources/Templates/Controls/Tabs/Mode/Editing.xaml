@@ -17,7 +17,16 @@
             <TextBlock Text="X" />
         </Button>
     </ControlTemplate>
-    
+
+    <ControlTemplate x:Key="OpenItem">
+        <Button Command="{Binding}" Height="30" FontSize="16" MinWidth="25">
+            <Button.Style>
+                <StaticResource ResourceKey="Steps"/>
+            </Button.Style>
+            <TextBlock Text="O" />
+        </Button>
+    </ControlTemplate>
+
     <ControlTemplate x:Key="Editor">
         <TabControl>
             <TabItem Header="Информация">
@@ -44,6 +53,7 @@
                         <ToolBar Width="30">
                             <ContentControl DataContext="{Binding Path=AddDocument}" Template="{StaticResource AddItem}"/>
                             <ContentControl DataContext="{Binding Path=DropDocument}" Template="{StaticResource DropItem}"/>
+                            <!--<ContentControl DataContext="{Binding Path=OpenDocument}" Template="{StaticResource OpenItem}"/>-->
                             <Separator/>
                             <ContentControl Template="{StaticResource FileButtons}"/>
                         </ToolBar>

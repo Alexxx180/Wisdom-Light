@@ -30,19 +30,19 @@
                     <Separator/>
                     <MenuItem Header="Сохранить" Command="{Binding SaveCommand}"/>
                     <MenuItem Header="Сохранить как" Command="{Binding SaveAsCommand}" IsEnabled="{Binding Data.IsDefended}" />
-                    <MenuItem Header="Экспорт" />
+                    <MenuItem Header="Экспорт" Command="{Binding ExportCommand}" />
                     <Separator/>
                     <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
                 </MenuItem>
                 <MenuItem Header="Настройки">
-                    <MenuItem Header="Обрабатывать" IsEnabled="{Binding Data.IsDefended}">
+                    <MenuItem Header="Обрабатывать" Visibility="Collapsed" IsEnabled="{Binding Data.IsDefended}">
                         <MenuItem Header="Текст" IsCheckable="True"/>
                         <MenuItem Header="Таблицы" IsCheckable="True"/>
                     </MenuItem>
-                    <MenuItem Header="Относительные пути" IsCheckable="True" IsEnabled="{Binding Data.IsDefended}" IsChecked="{Binding Data.IsRelative}" />
+                    <MenuItem Header="Относительные пути" Visibility="Collapsed" IsCheckable="True" IsEnabled="{Binding Data.IsDefended}" IsChecked="{Binding Data.IsRelative}" />
                     <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding Data.IsDefended}" />
                 </MenuItem>
-                <MenuItem Header="Справка">
+                <MenuItem Header="Справка" Visibility="Collapsed">
                     <MenuItem Header="Начало работы"/>
                     <MenuItem Header="Оператору" IsEnabled="{Binding Data.IsDefended}"/>
                     <MenuItem Header="Пользователю"/>

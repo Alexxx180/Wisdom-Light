@@ -1,4 +1,7 @@
-﻿using WisdomLight.ViewModel.Components.Building.Collections;
+﻿using System.Collections.Generic;
+using WisdomLight.ViewModel.Components.Building.Collections;
+using WisdomLight.ViewModel.Components.Building.Bank;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Documents;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
 using WisdomLight.ViewModel.Components.Data.Units;
@@ -10,6 +13,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
     {
         private TemplateViewModel _viewModel;
 
+        private List<FileDocument> _exporters;
         private FileFiller _serializer;
 
         private IEditableBuilder<DocumentLinker> _documents;
@@ -30,6 +34,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
             {
                 Documents = _documents.Build(),
                 Information = _information.Build(),
+                Exporters = _exporters,
                 IsDefended = _isDefended,
                 IsRelative = _isRelative,
                 Serializer = _serializer
@@ -68,6 +73,12 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
         public ITemplateBuilder Information()
         {
             _information.Fields().SelectedItems();
+            return this;
+        }
+
+        public ITemplateBuilder Exporters()
+        {
+            _exporters = Export.Exporters();
             return this;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using WisdomLight.ViewModel.Components.Building.Bank;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 
 namespace WisdomLight.ViewModel.Components.Data
@@ -50,7 +51,7 @@ namespace WisdomLight.ViewModel.Components.Data
             {
                 _isDefaultPath = value;
                 SelectedLocation = value ?
-                    App.DefaultLocation : UserLocation;
+                    Defaults.Runtime : UserLocation;
                 OnPropertyChanged();
             }
         }

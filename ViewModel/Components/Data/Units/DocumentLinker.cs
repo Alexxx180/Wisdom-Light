@@ -1,4 +1,5 @@
 ﻿using WisdomLight.Model;
+using WisdomLight.Model.Results.Confirming;
 
 namespace WisdomLight.ViewModel.Components.Data.Units
 {
@@ -13,6 +14,12 @@ namespace WisdomLight.ViewModel.Components.Data.Units
                 _type = value;
                 OnPropertyChanged();
             }
+        }
+
+        public void Set(ReConfirmer confirmer)
+        {
+            Name = confirmer.Name;
+            Type = confirmer.Path;
         }
 
         public DocumentLinker Clone()

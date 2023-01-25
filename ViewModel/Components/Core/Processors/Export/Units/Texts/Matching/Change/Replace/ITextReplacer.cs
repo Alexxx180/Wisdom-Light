@@ -1,6 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching.Replace
+namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching.Change.Replace
 {
     public interface ITextReplacer
     {

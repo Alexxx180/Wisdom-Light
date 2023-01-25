@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:WisdomLight.View.Controls"
                     xmlns:viewmodel="clr-namespace:WisdomLight.ViewModel"
-                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Data.Files.Fields">
+                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Components.Data.Units.Fields">
     <ItemContainerTemplate x:Key="FileSelection">
         <!--CommandParameter="{Binding Full File Path + File Name with Extension}"-->
         <controls:CommandControl CommandParameter="{Binding}" Height="30">
@@ -54,17 +54,17 @@
         <UniformGrid Margin="25, 0" Rows="2" Height="50">
             <TextBox Style="{StaticResource Box}">
                 <TextBox.Text>
-                    <Binding Path="Name" Mode="TwoWay">
+                    <Binding Path="Name" >
                         <Binding.UpdateSourceTrigger>
                             LostFocus
                         </Binding.UpdateSourceTrigger>
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            
+            <!--Mode="TwoWay"-->
             <TextBox Style="{StaticResource Box}">
                 <TextBox.Text>
-                    <Binding Path="Type" Mode="TwoWay">
+                    <Binding Path="Type">
                         <Binding.UpdateSourceTrigger>
                             LostFocus
                         </Binding.UpdateSourceTrigger>

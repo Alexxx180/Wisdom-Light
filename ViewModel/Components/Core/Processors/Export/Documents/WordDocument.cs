@@ -4,21 +4,22 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using WisdomLight.Model.Exceptions.IO;
 using WisdomLight.ViewModel.Components.Data.Units.Fields;
-using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching.Replace;
-using WisdomLight.ViewModel.Components.Core.Processors.Export.Units;
-using WisdomLight.ViewModel.Components.Core.Processors.Export.Texts.Matching.Replace;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching.Change;
+using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
 {
     internal class WordDocument : FileDocument
     {
+        private TextChanger _changer;
         private string _template;
         private string _renderTo;
 
         public WordDocument()
         {
             _changer = new TextChanger();
-            _extractors = new List<IParagraphsExtractor>
+            Extractors = new List<IParagraphsExtractor>
             {
                 new ParagraphsExtractor()
             };
@@ -39,9 +40,9 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
         /// <summary>
         /// Process and save the WORD (.docx) file with the new name
         /// </summary>
-        /// <param name="expressions">Expressions to search and replace</param>
+        /// <param name="fields">Fields to search and expressions to replace</param>
         /// <exception cref="SaveException">Saving failure</exception>
-        private protected override void Process(List<IExpression> expressions)
+        private protected override void Process(IList<FieldSelector> fields)
         {
             byte[] byteArray = File.ReadAllBytes(_template);
 
@@ -57,17 +58,19 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
                     }
 
                     Body body = template.MainDocumentPart.Document.Body;
-                    IEnumerable<Paragraph> paragraphs = body.Elements<Paragraph>();
-                    IEnumerable<TableCell> cells = body.Descendants<TableCell>();
 
-                    for (byte i = 0; i < _extractors.Count; i++)
+                    for (byte i = 0; i < Extractors.Count; i++)
                     {
-                        foreach (Paragraph paragraph in _extractors[i].Extract(body))
-                            _changer.Change(paragraph, "#Selderey#", "That's actually works");
+                        foreach (Paragraph paragraph in Extractors[i].Extract(body))
+                        {
+                            for (int ii = 0; ii < Extractors.Count; ii++)
+                            {
+                                IExpression current = fields[ii].Current;
+                                _changer.Change(paragraph, current.Name, current.Value);
+                            }
+                        }
                     }
                     
-                    //ProcessAll(paragraphs, cells, expressions);
-
                     using (StreamWriter sw = new StreamWriter(template.MainDocumentPart.GetStream(FileMode.Create)))
                     {
                         sw.Write(docText);
@@ -78,25 +81,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
                 Save(_renderTo, stream.ToArray());
             }
         }
-
-        //private static void ProcessAll(
-        //    IEnumerable<Paragraph> paragraphs,
-        //    IEnumerable<TableCell> cells,
-        //    List<IExpression> expressions)
-        //{
-        //    for (byte i = 0; i < expressions.Count; i++)
-        //    {
-        //        IExpression expression = expressions[i];
-
-        //        string search = expression.Name;
-        //        string replaceWith = expression.Value;
-
-        //        AutoFiller.ReplaceInParagraphs(paragraphs, search, replaceWith);
-        //        AutoFiller.ReplaceInCells(cells, search, replaceWith);
-        //    }
-        //}
-
-        private List<IParagraphsExtractor> _extractors;
-        private TextChanger _changer;
+        
+        public List<IParagraphsExtractor> Extractors { get; set; }
     }
 }

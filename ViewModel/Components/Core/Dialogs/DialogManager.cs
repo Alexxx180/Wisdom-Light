@@ -36,11 +36,21 @@ namespace WisdomLight.ViewModel.Components.Core.Dialogs
 
         public static ReConfirmer Open(string defaultPath, byte filterIndex = 1)
         {
+            return Choose(defaultPath, Option("Шаблон данных JSON", "*.json"), filterIndex);
+        }
+
+        public static ReConfirmer Template(string defaultPath, byte filterIndex = 1)
+        {
+            return Choose(defaultPath, Option("Документ Microsoft Word", "*.docx"), filterIndex);
+        }
+
+        private static ReConfirmer Choose(string defaultPath, string filter, byte filterIndex)
+        {
             OpenDialog dialog = new OpenDialog
             {
                 Title = "Выберите шаблон данных",
                 InitialDirectory = defaultPath,
-                Filter = Option("Шаблон данных JSON", "*.json"),
+                Filter = filter,
                 FilterIndex = filterIndex
             };
             dialog.ShowDialog();

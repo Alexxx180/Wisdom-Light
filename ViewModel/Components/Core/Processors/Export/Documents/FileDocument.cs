@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using WisdomLight.Model.Exceptions.IO;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Data.Units;
-using WisdomLight.ViewModel.Components.Data.Units.Fields;
+using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
 {
-    internal abstract class FileDocument : Saver, IDocument
+    public abstract class FileDocument : Saver, IDocument
     {
-        public void Export(IList<DocumentLinker> paths, List<IExpression> expressions, string folder)
+        public void Export(IList<DocumentLinker> paths, IList<FieldSelector> expressions, string folder)
         {
             for (byte i = 0; i < paths.Count; i++)
             {
@@ -48,6 +48,6 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
         /// </summary>
         /// <param name="expressions">Expressions to search and replace</param>
         /// <exception cref="SaveException">Saving failure</exception>
-        private protected abstract void Process(List<IExpression> expressions);
+        private protected abstract void Process(IList<FieldSelector> expressions);
     }
 }

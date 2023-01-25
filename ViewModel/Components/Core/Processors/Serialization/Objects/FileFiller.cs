@@ -1,4 +1,5 @@
 ﻿using WisdomLight.ViewModel.Components.Data;
+using static WisdomLight.ViewModel.Components.Building.Bank.Serialization;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects
 {
@@ -6,7 +7,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects
     {
         public FileFiller()
         {
-            _processors = App.Processors;
+            _processors = Serializers();
         }
 
         internal void FixedSave(string path, TemplateViewModel program)

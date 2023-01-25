@@ -35,8 +35,8 @@
                     <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding Preferences.IsDefended}"/>
                     <MenuItem Header="Открыть..." Command="{Binding OpenCommand}"/>
                     <Separator/>
-                    <MenuItem Header="Импорт"/>
-                    <MenuItem Header="Поиск...">
+                    <MenuItem Header="Импорт" Visibility="Collapsed"/>
+                    <MenuItem Header="Поиск..." Visibility="Collapsed">
                         <MenuItem.IsEnabled>
                             <Binding Path="Preferences.IsDefaultPath">
                                 <Binding.Converter>
@@ -49,7 +49,7 @@
                     <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
                 </MenuItem>
                 <MenuItem Header="Настройки">
-                    <MenuItem Header="Путь по умолчанию" IsCheckable="True" IsChecked="{Binding Preferences.IsDefaultPath}">
+                    <MenuItem Header="Путь по умолчанию" Visibility="Collapsed" IsCheckable="True" IsChecked="{Binding Preferences.IsDefaultPath}">
                         <MenuItem.ToolTip>
                             <TextBlock Text="Всегда использовать относительный путь папки приложения."/>
                         </MenuItem.ToolTip>
@@ -60,7 +60,7 @@
                         </MenuItem.ToolTip>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Справка">
+                <MenuItem Header="Справка" Visibility="Collapsed">
                     <MenuItem Header="Окна">
                         <MenuItem Header="Загрузчик"/>
                         <MenuItem Header="Редактор"/>
@@ -83,7 +83,7 @@
             </TextBlock>
         </Grid>
 
-        <DockPanel Margin="15" Grid.Row="1" HorizontalAlignment="Stretch" LastChildFill="True">
+        <DockPanel Margin="15" Grid.Row="1" HorizontalAlignment="Stretch" LastChildFill="True" Visibility="Collapsed">
             <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical">
                 <ToolBarTray.Visibility>
                     <Binding Path="Preferences.IsDefended">

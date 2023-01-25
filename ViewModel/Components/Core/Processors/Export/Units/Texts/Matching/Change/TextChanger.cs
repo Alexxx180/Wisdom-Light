@@ -3,11 +3,11 @@ using System.Linq;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
 using WisdomLight.Model;
-using WisdomLight.ViewModel.Components.Core.Processors.Export.Replace.Texts.Matching;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Texts;
-using WisdomLight.ViewModel.Components.Core.Processors.Export.Texts.Matching.Replace;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching.Change.Replace;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching.Replace;
 
-namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching.Replace
+namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching.Change
 {
     public class TextChanger : TextPreparer
     {

@@ -14,6 +14,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
 
         public ITemplateBuilder Serializer();
 
+        public ITemplateBuilder Exporters();
+
         public ITemplateBuilder Reset();
 
         public TemplateViewModel Build();

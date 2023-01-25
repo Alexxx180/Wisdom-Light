@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DocumentFormat.OpenXml.Wordprocessing;
 using WisdomLight.Model;
 
-namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Replace.Texts.Matching
+namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching
 {
     public class TextMatcher : IMatcher
     {

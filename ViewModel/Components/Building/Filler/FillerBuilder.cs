@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Input;
 using WisdomLight.Model;
 using WisdomLight.Model.Results.Confirming;
+using WisdomLight.ViewModel.Components.Building.Bank;
 using WisdomLight.ViewModel.Components.Building.Filler.Templates;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
@@ -23,6 +24,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
         private ICommand _openCommand;
         private ICommand _saveCommand;
         private ICommand _saveAsCommand;
+        private ICommand _exportCommand;
         private ICommand _closeCommand;
 
         public ICommand _addInformation;
@@ -30,6 +32,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
         public ICommand _addDocument;
         public ICommand _dropDocument;
+        public ICommand _openDocument;
 
         private bool _canClose;
 
@@ -49,12 +52,14 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                 OpenCommand = _openCommand,
                 SaveCommand = _saveCommand,
                 SaveAsCommand = _saveAsCommand,
+                ExportCommand = _exportCommand,
                 CloseCommand = _closeCommand,
                 CanClose = _canClose,
                 AddInformation = _addInformation,
                 DropInformation = _dropInformation,
                 AddDocument = _addDocument,
-                DropDocument = _dropDocument
+                DropDocument = _dropDocument,
+                OpenDocument = _openDocument
             };
             return _viewModel;
         }
@@ -68,11 +73,13 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _openCommand = null;
             _saveCommand = null;
             _saveAsCommand = null;
+            _exportCommand = null;
             _closeCommand = null;
             _addInformation = null;
             _dropInformation = null;
             _addDocument = null;
             _dropDocument = null;
+            _openDocument = null;
             _template.Reset();
             return this;
         }
@@ -91,9 +98,29 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             return this;
         }
 
+        public IFillerBuilder Choose()
+        {
+            _openDocument = new RelayCommand(
+                argument =>
+                {
+                    ReConfirmer confirmer = DialogManager.Template(Defaults.Runtime);
+                    if (!confirmer.Result)
+                        return;
+
+                    //System.Diagnostics.Trace.WriteLine("WTF?!");
+
+                    for (int i = 0; i < _viewModel.Data.Documents.SelectedItems.Count; i++)
+                    {
+                        _viewModel.Data.Documents.SelectedItems[i].Set(confirmer);
+                    }
+                }
+            );
+            return this;
+        }
+
         public IFillerBuilder Template()
         {
-            _data = _template.Documents().Information().Serializer().Relate().Defend().Build();
+            _data = _template.Documents().Information().Serializer().Relate().Defend().Exporters().Build();
             return this;
         }
 
@@ -104,7 +131,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                 {
                     string location = _viewModel.Data.Location;
 
-                    _viewModel = Reset().Template().NewFile().Open().Save().SaveAs().CanClose().Close().Add().Drop().Build();
+                    _viewModel = Reset().Template().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose().Build();
                     _viewModel.Data.Location = location;
 
                     new FillTemplatesWindow { ViewModel = _viewModel }.Show();
@@ -125,7 +152,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
                     serializer.Current = dialog.Key;
 
-                    FileViewModel viewModel = Reset().NewFile().Open().Save().SaveAs().CanClose().Close().Add().Drop().Build();
+                    FileViewModel viewModel = Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose().Build();
 
                     viewModel.Data = serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;
@@ -155,6 +182,25 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
         public IFillerBuilder SaveAs()
         {
             _saveAsCommand = new RelayCommand(argument => CallSaveDialog());
+            return this;
+        }
+
+        public IFillerBuilder Export()
+        {
+            _exportCommand = new RelayCommand(
+                argument =>
+                {
+                    Confirmer export = DialogManager.Export();
+                    if (!export.Result)
+                        return;
+
+                    for (byte i = 0; i < _viewModel.Data.Exporters.Count; i++)
+                    {
+                        _viewModel.Data.Exporters[i].Export(_viewModel.Data.Documents.Fields,
+                            _viewModel.Data.Information.Fields, export.Path);
+                    }
+                }
+            );
             return this;
         }
 

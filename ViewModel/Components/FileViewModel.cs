@@ -26,12 +26,14 @@ namespace WisdomLight.ViewModel.Components
         public ICommand OpenCommand { get; protected internal set; }
         public ICommand SaveCommand { get; protected internal set; }
         public ICommand SaveAsCommand { get; protected internal set; }
+        public ICommand ExportCommand { get; protected internal set; }
         public ICommand CloseCommand { get; protected internal set; }
 
         public ICommand AddInformation { get; protected internal set; }
         public ICommand DropInformation { get; protected internal set; }
         public ICommand AddDocument { get; protected internal set; }
         public ICommand DropDocument { get; protected internal set; }
+        public ICommand OpenDocument { get; protected internal set; }
 
         public TemplateViewModel Data { get; set; }
     }

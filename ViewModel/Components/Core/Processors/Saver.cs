@@ -3,7 +3,7 @@ using WisdomLight.Model.Exceptions.IO;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors
 {
-    internal class Saver
+    public class Saver
     {
         /// <summary>
         /// Save raw file bytes

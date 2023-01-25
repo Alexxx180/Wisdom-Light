@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using DocumentFormat.OpenXml.Wordprocessing;
-using WisdomLight.ViewModel.Components.Core.Processors.Export.Texts.Matching.Replace;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching.Change.Replace;
 
-namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Matching.Replace
+namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting
 {
     public class CellsExtractor : WrapReplacer, IParagraphsExtractor
     {

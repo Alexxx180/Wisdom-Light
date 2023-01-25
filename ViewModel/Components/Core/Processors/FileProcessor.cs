@@ -5,7 +5,7 @@ using WisdomLight.ViewModel.Components.Building.Extensions.Paths.Files;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors
 {
-    internal abstract class FileProcessor : Saver
+    public abstract class FileProcessor : Saver
     {
         /// <summary>
         /// Delete file
