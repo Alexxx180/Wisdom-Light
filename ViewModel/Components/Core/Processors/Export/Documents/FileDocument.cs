@@ -18,7 +18,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
                 if (!File.Exists(template))
                     continue;
 
-                TemplateFrom(template).GenerateTo(folder + Path.GetFileName(template));
+                TemplateFrom(template).GenerateTo($"{folder}\\{Path.GetFileName(template)}");
 
                 try
                 {

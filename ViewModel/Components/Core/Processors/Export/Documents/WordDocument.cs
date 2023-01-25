@@ -19,10 +19,6 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
         public WordDocument()
         {
             _changer = new TextChanger();
-            Extractors = new List<IParagraphsExtractor>
-            {
-                new ParagraphsExtractor()
-            };
         }
 
         internal override FileDocument TemplateFrom(string template)
@@ -82,6 +78,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
             }
         }
         
-        public List<IParagraphsExtractor> Extractors { get; set; }
+        public List<IParagraphsExtractor> Extractors { get;
+            set; }
     }
 }

@@ -7,6 +7,7 @@ using WisdomLight.Model.Exceptions.Json;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Handling;
 using WisdomLight.ViewModel.Components.Data.Units.Fields;
 using WisdomLight.ViewModel.Components.Building.Extensions.Paths.Files;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
 {
@@ -26,7 +27,10 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
                     {
                         typeof(TextExpression),
                         typeof(NumberExpression),
-                        typeof(DateExpression)
+                        typeof(DateExpression),
+
+                        typeof(CellsExtractor),
+                        typeof(ParagraphsExtractor)
                     }
                 }
             };
