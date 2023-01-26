@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using WisdomLight.ViewModel.Components.Core.Commands;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Documents;
 using WisdomLight.ViewModel.Components.Data;
 
 namespace WisdomLight.ViewModel.Components
@@ -36,5 +38,6 @@ namespace WisdomLight.ViewModel.Components
         public ICommand OpenDocument { get; protected internal set; }
 
         public TemplateViewModel Data { get; set; }
+        public List<FileDocument> Exporters { get; set; }
     }
 }

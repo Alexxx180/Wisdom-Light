@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WisdomLight.ViewModel.Components.Core.Processors.Export.Documents;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data.Units;
 using WisdomLight.ViewModel.Components.Data.Units.Collections;
@@ -9,7 +9,7 @@ namespace WisdomLight.ViewModel.Components.Data
 {
     public class TemplateViewModel : NameLabel, IDefender
     {
-        public List<FileDocument> Exporters { get; set; }
+        public List<ParagraphExtracting> Extracting { get; set; }
         public FileFiller Serializer { get; set; }
 
         private EditableCollection<DocumentLinker> _documents;

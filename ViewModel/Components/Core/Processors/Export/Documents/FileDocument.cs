@@ -4,6 +4,7 @@ using WisdomLight.Model.Exceptions.IO;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Data.Units;
 using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
 {
@@ -42,6 +43,12 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
         /// </summary>
         /// <param name="document">Saved document full path</param>
         internal abstract FileDocument GenerateTo(string document);
+
+        /// <summary>
+        /// Add text searching options
+        /// </summary>
+        /// <param name="options">Paragraph extracting options</param>
+        public abstract FileDocument Extract(List<ParagraphExtracting> options);
 
         /// <summary>
         /// Process and save the file with the new name

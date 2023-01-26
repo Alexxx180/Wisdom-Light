@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using WisdomLight.ViewModel.Components.Building.Collections;
-using WisdomLight.ViewModel.Components.Building.Bank;
-using WisdomLight.ViewModel.Components.Core.Processors.Export.Documents;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
 using WisdomLight.ViewModel.Components.Data.Units;
 using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 
 namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
 {
@@ -13,7 +12,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
     {
         private TemplateViewModel _viewModel;
 
-        private List<FileDocument> _exporters;
+        private List<ParagraphExtracting> _extracting;
+        
         private FileFiller _serializer;
 
         private IEditableBuilder<DocumentLinker> _documents;
@@ -34,7 +34,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
             {
                 Documents = _documents.Build(),
                 Information = _information.Build(),
-                Exporters = _exporters,
+                Extracting = _extracting,
                 IsDefended = _isDefended,
                 IsRelative = _isRelative,
                 Serializer = _serializer
@@ -45,6 +45,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
         public ITemplateBuilder Reset()
         {
             _viewModel = null;
+            _extracting = null;
             _isDefended = false;
             _isRelative = false;
             _documents.Reset();
@@ -76,11 +77,17 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
             return this;
         }
 
-        public ITemplateBuilder Exporters()
+        public ITemplateBuilder Extracting()
         {
-            _exporters = Export.Exporters();
+            _extracting = new List<ParagraphExtracting>
+            {
+                ParagraphExtracting.PLAIN,
+                ParagraphExtracting.CELLS
+            };
             return this;
         }
+
+        
 
         public ITemplateBuilder Serializer()
         {

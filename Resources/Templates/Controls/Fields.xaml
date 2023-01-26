@@ -54,17 +54,16 @@
         <UniformGrid Margin="25, 0" Rows="2" Height="50">
             <TextBox Style="{StaticResource Box}">
                 <TextBox.Text>
-                    <Binding Path="Name" >
+                    <Binding Path="Name" Mode="TwoWay">
                         <Binding.UpdateSourceTrigger>
                             LostFocus
                         </Binding.UpdateSourceTrigger>
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <!--Mode="TwoWay"-->
             <TextBox Style="{StaticResource Box}">
                 <TextBox.Text>
-                    <Binding Path="Type">
+                    <Binding Path="Type" Mode="TwoWay">
                         <Binding.UpdateSourceTrigger>
                             LostFocus
                         </Binding.UpdateSourceTrigger>

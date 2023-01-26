@@ -12,6 +12,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
 {
     internal class WordDocument : FileDocument
     {
+        private List<ParagraphExtracting> _extracting;
         private TextChanger _changer;
         private string _template;
         private string _renderTo;
@@ -30,6 +31,12 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
         internal override FileDocument GenerateTo(string template)
         {
             _renderTo = template;
+            return this;
+        }
+
+        public override FileDocument Extract(List<ParagraphExtracting> options)
+        {
+            _extracting = options;
             return this;
         }
 
@@ -55,9 +62,9 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
 
                     Body body = template.MainDocumentPart.Document.Body;
 
-                    for (byte i = 0; i < Extractors.Count; i++)
+                    for (byte i = 0; i < _extracting.Count; i++)
                     {
-                        foreach (Paragraph paragraph in Extractors[i].Extract(body))
+                        foreach (Paragraph paragraph in Extractors[_extracting[i]].Extract(body))
                         {
                             for (int ii = 0; ii < Extractors.Count; ii++)
                             {
@@ -77,8 +84,8 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
                 Save(_renderTo, stream.ToArray());
             }
         }
-        
-        public List<IParagraphsExtractor> Extractors { get;
+
+        public Dictionary<ParagraphExtracting, IParagraphsExtractor> Extractors { get;
             set; }
     }
 }

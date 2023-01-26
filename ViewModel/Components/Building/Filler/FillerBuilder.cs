@@ -7,11 +7,13 @@ using WisdomLight.ViewModel.Components.Building.Bank;
 using WisdomLight.ViewModel.Components.Building.Filler.Templates;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Documents;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
 using WisdomLight.ViewModel.Components.Data.Units;
 using WisdomLight.ViewModel.Components.Data.Units.Fields;
 using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
+using ExportOptions = WisdomLight.ViewModel.Components.Building.Bank.Export;
 
 namespace WisdomLight.ViewModel.Components.Building.Filler
 {
@@ -19,6 +21,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
     {
         private FileViewModel _viewModel;
         private TemplateViewModel _data;
+        private List<FileDocument> _exporters;
 
         private ICommand _newCommand;
         private ICommand _openCommand;
@@ -48,6 +51,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _viewModel = new FileViewModel
             {
                 Data = _data,
+                Exporters = _exporters,
                 NewCommand = _newCommand,
                 OpenCommand = _openCommand,
                 SaveCommand = _saveCommand,
@@ -107,8 +111,6 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                     if (!confirmer.Result)
                         return;
 
-                    //System.Diagnostics.Trace.WriteLine("WTF?!");
-
                     for (int i = 0; i < _viewModel.Data.Documents.SelectedItems.Count; i++)
                     {
                         _viewModel.Data.Documents.SelectedItems[i].Set(confirmer);
@@ -120,7 +122,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
         public IFillerBuilder Template()
         {
-            _data = _template.Documents().Information().Serializer().Relate().Defend().Exporters().Build();
+            _data = _template.Documents().Information().Serializer().Relate().Defend().Extracting().Build();
             return this;
         }
 
@@ -131,7 +133,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                 {
                     string location = _viewModel.Data.Location;
 
-                    _viewModel = Reset().Template().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose().Build();
+                    _viewModel = Reset().Template().NewFile().Open().Save().SaveAs().Exporters().Export().CanClose().Close().Add().Drop().Build();
                     _viewModel.Data.Location = location;
 
                     new FillTemplatesWindow { ViewModel = _viewModel }.Show();
@@ -152,7 +154,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
                     serializer.Current = dialog.Key;
 
-                    FileViewModel viewModel = Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose().Build();
+                    FileViewModel viewModel = Reset().NewFile().Open().Save().SaveAs().Exporters().Export().CanClose().Close().Add().Drop().Choose().Build();
 
                     viewModel.Data = serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;
@@ -185,6 +187,12 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             return this;
         }
 
+        public IFillerBuilder Exporters()
+        {
+            _exporters = ExportOptions.Exporters();
+            return this;
+        }
+
         public IFillerBuilder Export()
         {
             _exportCommand = new RelayCommand(
@@ -194,9 +202,10 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                     if (!export.Result)
                         return;
 
-                    for (byte i = 0; i < _viewModel.Data.Exporters.Count; i++)
+                    for (byte i = 0; i < _viewModel.Exporters.Count; i++)
                     {
-                        _viewModel.Data.Exporters[i].Export(_viewModel.Data.Documents.Fields,
+                        _viewModel.Exporters[i].Extract(_viewModel.Data.Extracting);
+                        _viewModel.Exporters[i].Export(_viewModel.Data.Documents.Fields,
                             _viewModel.Data.Information.Fields, export.Path);
                     }
                 }

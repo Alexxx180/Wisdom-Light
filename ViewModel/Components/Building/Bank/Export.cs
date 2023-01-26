@@ -12,10 +12,10 @@ namespace WisdomLight.ViewModel.Components.Building.Bank
             {
                 new WordDocument()
                 {
-                    Extractors = new List<IParagraphsExtractor>
+                    Extractors = new Dictionary<ParagraphExtracting, IParagraphsExtractor>
                     {
-                        new ParagraphsExtractor(),
-                        new CellsExtractor()
+                        { ParagraphExtracting.PLAIN, new ParagraphsExtractor() },
+                        { ParagraphExtracting.CELLS, new CellsExtractor() }
                     }
                 }
             };
