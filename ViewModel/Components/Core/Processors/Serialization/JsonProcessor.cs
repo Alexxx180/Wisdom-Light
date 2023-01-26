@@ -57,7 +57,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
         /// Deserialize object from JSON file
         /// </summary>
         /// <param name="path">Full path to file</param>
-        /// <exception cref="JsonParseException">JSON Parsing failure</exception>
+        /// <exception cref="ParseException">JSON Parsing failure</exception>
         /// <exception cref="ReadException">Reading failure</exception>
         protected internal override T Read<T>(string path)
         {
@@ -72,7 +72,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
             }
             catch (JsonException exception)
             {
-                throw new JsonParseException(exception, path);
+                throw new ParseException(exception, path);
             }
             catch (IOException exception)
             {
@@ -90,9 +90,16 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
         /// <exception cref="SaveException">Saving failure</exception>
         protected internal override void Write<T>(string path, T serilizeable)
         {
-            using (StreamWriter file = File.CreateText(path))
+            try
             {
-                _serializer.Serialize(file, serilizeable);
+                using (StreamWriter file = File.CreateText(path))
+                {
+                    _serializer.Serialize(file, serilizeable);
+                }
+            }
+            catch (ArgumentException exception)
+            {
+                throw new SaveException(exception, path);
             }
         }
     }

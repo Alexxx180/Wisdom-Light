@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using WisdomLight.ViewModel.Components.Building.Extensions.Decorators;
 
 namespace WisdomLight.Model.Exceptions.IO
@@ -8,6 +9,12 @@ namespace WisdomLight.Model.Exceptions.IO
         public string OriginalPath { get; set; }
 
         public SaveException(IOException exception, string original)
+            : base(exception.Message, exception.HResult)
+        {
+            OriginalPath = original;
+        }
+
+        public SaveException(Exception exception, string original)
             : base(exception.Message, exception.HResult)
         {
             OriginalPath = original;

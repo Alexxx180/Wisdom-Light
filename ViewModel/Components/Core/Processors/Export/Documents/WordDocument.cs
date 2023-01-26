@@ -49,43 +49,49 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
         {
             byte[] byteArray = File.ReadAllBytes(_template);
 
-            using (MemoryStream stream = new MemoryStream())
+            try
             {
-                stream.Write(byteArray, 0, byteArray.Length);
-                using (WordprocessingDocument template = WordprocessingDocument.Open(stream, true))
+                using (MemoryStream stream = new MemoryStream())
                 {
-                    string docText = null;
-                    using (StreamReader sr = new StreamReader(template.MainDocumentPart.GetStream()))
+                    stream.Write(byteArray, 0, byteArray.Length);
+                    using (WordprocessingDocument template = WordprocessingDocument.Open(stream, true))
                     {
-                        docText = sr.ReadToEnd();
-                    }
-
-                    Body body = template.MainDocumentPart.Document.Body;
-
-                    for (byte i = 0; i < _extracting.Count; i++)
-                    {
-                        foreach (Paragraph paragraph in Extractors[_extracting[i]].Extract(body))
+                        string docText = null;
+                        using (StreamReader sr = new StreamReader(template.MainDocumentPart.GetStream()))
                         {
-                            for (int ii = 0; ii < Extractors.Count; ii++)
+                            docText = sr.ReadToEnd();
+                        }
+
+                        Body body = template.MainDocumentPart.Document.Body;
+
+                        for (byte i = 0; i < _extracting.Count; i++)
+                        {
+                            foreach (Paragraph paragraph in Extractors[_extracting[i]].Extract(body))
                             {
-                                IExpression current = fields[ii].Current;
-                                _changer.Change(paragraph, current.Name, current.Value);
+                                for (int ii = 0; ii < Extractors.Count; ii++)
+                                {
+                                    IExpression current = fields[ii].Current;
+                                    _changer.Change(paragraph, current.Name, current.Value);
+                                }
                             }
                         }
-                    }
-                    
-                    using (StreamWriter sw = new StreamWriter(template.MainDocumentPart.GetStream(FileMode.Create)))
-                    {
-                        sw.Write(docText);
-                    }
-                }
 
-                // Save the file with the new name
-                Save(_renderTo, stream.ToArray());
+                        using (StreamWriter sw = new StreamWriter(template.MainDocumentPart.GetStream(FileMode.Create)))
+                        {
+                            sw.Write(docText);
+                        }
+                    }
+
+                    // Save the file with the new name
+                    Save(_renderTo, stream.ToArray());
+                }
+            }
+            catch (IOException exception)
+            {
+                throw new SaveException(exception, _renderTo);
             }
         }
 
-        public Dictionary<ParagraphExtracting, IParagraphsExtractor> Extractors { get;
-            set; }
+        public Dictionary<ParagraphExtracting, IParagraphsExtractor> Extractors { get; set; }
     }
 }

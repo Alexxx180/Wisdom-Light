@@ -11,7 +11,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors
         /// Delete file
         /// </summary>
         /// <param name="path">Original full file path</param>
-        /// <exception cref="MoveException">Renaming failure</exception>
+        /// <exception cref="DeleteException">Deleting failure</exception>
         internal static void Delete(string path)
         {
             try
@@ -20,7 +20,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors
             }
             catch (IOException exception)
             {
-                throw new SaveException(exception, path);
+                throw new DeleteException(exception, path);
             }
         }
 

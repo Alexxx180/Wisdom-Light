@@ -5,6 +5,7 @@ using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Data.Units;
 using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
+using Serilog;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
 {
