@@ -3,102 +3,93 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:converters="clr-namespace:WisdomLight.Binds.Converters"
-        xmlns:dpforms="clr-namespace:WisdomLight.Controls.Forms.DocumentForm"
+        xmlns:converters="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Visible"
+        xmlns:attach="clr-namespace:WisdomLight.View.Binds.Attach"
+        attach:WindowCloser.EnableWindowClosing="True"
         mc:Ignorable="d"
-        x:Name="DisciplineProgramWindow"
+        x:Name="FileWindow"
         Icon="/Resources/Images/Icons/Wisdom3.ico"
-        Title="Редактирование" 
-        WindowState="Maximized" Width="1920" Height="1080" 
-        Closing="OnClosing">
-    <Window.DataContext>
-        <Binding RelativeSource="{RelativeSource Self}"/>
-    </Window.DataContext>
-
+        Title="{Binding ElementName=FileWindow, Path=ViewModel.Data.Name, StringFormat={}Редактирование: {0}}"
+        Width="640" Height="480"
+        MinWidth="320" MinHeight="200">
     <Grid>
         <Grid.DataContext>
-            <Binding Path="ViewModel"/>
+            <Binding ElementName="FileWindow" Path="ViewModel"/>
         </Grid.DataContext>
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.15*"/>
-            <RowDefinition Height="0.85*"/>
+            <RowDefinition Height="27"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <DockPanel>
+            <Menu Style="{StaticResource LightBox}">
+                <MenuItem Header="Файл">
+                    <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding Data.IsDefended}" />
+                    <MenuItem Header="Открыть..." Command="{Binding OpenCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Сохранить" Command="{Binding SaveCommand}"/>
+                    <MenuItem Header="Сохранить как" Command="{Binding SaveAsCommand}" IsEnabled="{Binding Data.IsDefended}" />
+                    <MenuItem Header="Экспорт" Command="{Binding ExportCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
+                </MenuItem>
+                <MenuItem Header="Настройки">
+                    <MenuItem Header="Обрабатывать" Visibility="Collapsed" IsEnabled="{Binding Data.IsDefended}">
+                        <MenuItem Header="Текст" IsCheckable="True"/>
+                        <MenuItem Header="Таблицы" IsCheckable="True"/>
+                    </MenuItem>
+                    <MenuItem Header="Относительные пути" Visibility="Collapsed" IsCheckable="True" IsEnabled="{Binding Data.IsDefended}" IsChecked="{Binding Data.IsRelative}" />
+                    <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding Data.IsDefended}" />
+                </MenuItem>
+                <MenuItem Header="Справка" Visibility="Collapsed">
+                    <MenuItem Header="Начало работы"/>
+                    <MenuItem Header="Оператору" IsEnabled="{Binding Data.IsDefended}"/>
+                    <MenuItem Header="Пользователю"/>
+                    <Separator/>
+                    <MenuItem Header="О Программе"/>
+                </MenuItem>
+            </Menu>
 
-        <Grid Background="#FF002FA7">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.05*"/>
-                <ColumnDefinition Width="0.9*"/>
-                <ColumnDefinition Width="0.05*"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Row="1" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.825*"/>
-                    <ColumnDefinition Width="0.025*"/>
-                    <ColumnDefinition Width="0.15*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBox>
-                    <TextBox.Style>
-                        <StaticResource ResourceKey="NameBoxDark"/>
-                    </TextBox.Style>
+            <Border DockPanel.Dock="Right" Style="{StaticResource DarkBox}">
+                <TextBox Style="{StaticResource NamingLight}">
                     <TextBox.Text>
-                        <Binding ElementName="DisciplineProgramWindow" Path="FileName"/>
+                        <Binding Path="Data.Name"/>
                     </TextBox.Text>
-                    <TextBox.FontSize>
-                        <Binding RelativeSource="{RelativeSource Self}">
-                            <Binding.Path>
-                                ActualHeight
-                            </Binding.Path>
-                            <Binding.Converter>
-                                <converters:ProcentualHeightConverter/>
-                            </Binding.Converter>
-                            <Binding.ConverterParameter>
-                                1,675
-                            </Binding.ConverterParameter>
-                        </Binding>
-                    </TextBox.FontSize>
                 </TextBox>
+            </Border>
+        </DockPanel>
 
-                <Button Click="Create_Click" x:Name="Create">
-                    <Grid.Column>
-                        2
-                    </Grid.Column>
 
-                    <Button.IsDefault>
-                        True
-                    </Button.IsDefault>
-
-                    <Button.Style>
-                        <StaticResource ResourceKey="Steps"/>
-                    </Button.Style>
-
-                    <Viewbox>
-                        <TextBlock Text="Подтвердить" Padding="2" />
-                    </Viewbox>
-                </Button>
-            </Grid>
+        <Grid Grid.Row="1" Margin="15" Style="{StaticResource DarkBox}">
+            <ContentControl Grid.Row="1" Grid.Column="1">
+                <ContentControl.Visibility>
+                    <Binding Path="Data.IsDefended">
+                        <Binding.Converter>
+                            <converters:InverseVisibilityConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </ContentControl.Visibility>
+                
+                <ContentControl.Template>
+                    <StaticResource ResourceKey="Filler"/>
+                </ContentControl.Template>
+            </ContentControl>
+            
+            <ContentControl Grid.Row="1" Grid.Column="1">
+                <ContentControl.Visibility>
+                    <Binding Path="Data.IsDefended">
+                        <Binding.Converter>
+                            <converters:BooleanVisibilityConverter/>
+                        </Binding.Converter>
+                    </Binding>
+                </ContentControl.Visibility>
+                
+                <ContentControl.Template>
+                    <StaticResource ResourceKey="Editor"/>
+                </ContentControl.Template>
+            </ContentControl>
         </Grid>
-
-        <dpforms:MetaDataPart x:Name="Page4" Grid.Row="1">
-            <dpforms:MetaDataPart.ViewModel>
-                <Binding>
-                    <Binding.ElementName>
-                        DisciplineProgramWindow
-                    </Binding.ElementName>
-                    <Binding.Path>
-                        ViewModel
-                    </Binding.Path>
-                </Binding>
-            </dpforms:MetaDataPart.ViewModel>
-        </dpforms:MetaDataPart>
+        
     </Grid>
 </Window>

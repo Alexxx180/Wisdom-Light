@@ -1,0 +1,83 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:WisdomLight.View.Controls"
+                    xmlns:viewmodel="clr-namespace:WisdomLight.ViewModel"
+                    xmlns:fields="clr-namespace:WisdomLight.ViewModel.Components.Data.Units.Fields">
+    <ItemContainerTemplate x:Key="FileSelection">
+        <!--CommandParameter="{Binding Full File Path + File Name with Extension}"-->
+        <controls:CommandControl CommandParameter="{Binding}" Height="30">
+            <controls:CommandControl.Command>
+                <Binding Path="DataContext.OpenCommand" Mode="OneWay">
+                    <Binding.RelativeSource>
+                        <RelativeSource AncestorType="{x:Type Grid}">
+                            <RelativeSource.Mode>
+                                FindAncestor
+                            </RelativeSource.Mode>
+                        </RelativeSource>
+                    </Binding.RelativeSource>
+                </Binding>
+            </controls:CommandControl.Command>
+            <controls:CommandControl.Content>
+                <TextBlock Text="{Binding}" Style="{StaticResource GlobalFont}" Margin="5,3"/>
+            </controls:CommandControl.Content>
+        </controls:CommandControl>
+    </ItemContainerTemplate>
+    
+    <ItemContainerTemplate x:Key="TypeSelector">
+        <TextBlock Text="{Binding Type}" />
+    </ItemContainerTemplate>
+
+    <ItemContainerTemplate x:Key="FieldTypeSelector">
+        <Grid Margin="25, 0" Style="{StaticResource Light}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="80" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Style="{StaticResource Box}" Text="{Binding Path=Current.Name}"/>
+
+            <ComboBox Grid.Column="1" DisplayMemberPath="Type">
+                <ComboBox.ItemsSource>
+                    <Binding Path="Expressions"/>
+                </ComboBox.ItemsSource>
+                <ComboBox.SelectedItem>
+                    <Binding Path="Current" />
+                </ComboBox.SelectedItem>
+                <ComboBox.SelectedIndex>
+                    <Binding Path="Selected"/>
+                </ComboBox.SelectedIndex>
+            </ComboBox>
+        </Grid>
+    </ItemContainerTemplate>
+
+    <ItemContainerTemplate x:Key="DocumentPathField">
+        <UniformGrid Margin="25, 0" Rows="2" Height="50">
+            <TextBox Style="{StaticResource Box}">
+                <TextBox.Text>
+                    <Binding Path="Name" Mode="TwoWay">
+                        <Binding.UpdateSourceTrigger>
+                            LostFocus
+                        </Binding.UpdateSourceTrigger>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Style="{StaticResource Box}">
+                <TextBox.Text>
+                    <Binding Path="Type" Mode="TwoWay">
+                        <Binding.UpdateSourceTrigger>
+                            LostFocus
+                        </Binding.UpdateSourceTrigger>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </UniformGrid>
+    </ItemContainerTemplate>
+
+    <ItemContainerTemplate x:Key="DocumentPathText">
+        <UniformGrid Margin="25, 0" Rows="2" Height="50"
+                     Style="{StaticResource Light}">
+            <TextBlock Text="{Binding Path=Name}" />
+            <TextBlock Text="{Binding Path=Type}"/>
+        </UniformGrid>
+    </ItemContainerTemplate>
+</ResourceDictionary>
