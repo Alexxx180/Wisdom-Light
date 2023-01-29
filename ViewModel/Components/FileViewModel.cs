@@ -23,7 +23,7 @@ namespace WisdomLight.ViewModel.Components
                 OnPropertyChanged();
             }
         }
-
+        
         public ICommand NewCommand { get; protected internal set; }
         public ICommand OpenCommand { get; protected internal set; }
         public ICommand SaveCommand { get; protected internal set; }
@@ -36,6 +36,8 @@ namespace WisdomLight.ViewModel.Components
         public ICommand AddDocument { get; protected internal set; }
         public ICommand DropDocument { get; protected internal set; }
         public ICommand OpenDocument { get; protected internal set; }
+
+        public ICommand RelativePathCommand { get; protected internal set; }
 
         public TemplateViewModel Data { get; set; }
         public List<FileDocument> Exporters { get; set; }

@@ -5,6 +5,10 @@ using WisdomLight.ViewModel.Components.Building.Extensions.Paths.Files;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors
 {
+    /// <summary>
+    /// Determines how to handle 
+    /// files in operating system
+    /// </summary>
     public abstract class FileProcessor : Saver
     {
         /// <summary>

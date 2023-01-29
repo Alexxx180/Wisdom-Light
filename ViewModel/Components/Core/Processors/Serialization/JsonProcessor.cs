@@ -13,7 +13,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
 {
     internal class JsonProcessor : FileProcessor
     {
-        private const string Extension = "json";
+        public const string Extension = "json";
         private static readonly JsonSerializer _serializer;
 
         static JsonProcessor()

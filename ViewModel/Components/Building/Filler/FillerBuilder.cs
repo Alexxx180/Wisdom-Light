@@ -46,46 +46,9 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _template = new TemplateBuilder();
         }
 
-        public FileViewModel Build()
+        private FileViewModel ViewModel()
         {
-            _viewModel = new FileViewModel
-            {
-                Data = _data,
-                Exporters = _exporters,
-                NewCommand = _newCommand,
-                OpenCommand = _openCommand,
-                SaveCommand = _saveCommand,
-                SaveAsCommand = _saveAsCommand,
-                ExportCommand = _exportCommand,
-                CloseCommand = _closeCommand,
-                CanClose = _canClose,
-                AddInformation = _addInformation,
-                DropInformation = _dropInformation,
-                AddDocument = _addDocument,
-                DropDocument = _dropDocument,
-                OpenDocument = _openDocument
-            };
-            return _viewModel;
-        }
-
-        public IFillerBuilder Reset()
-        {
-            _canClose = false;
-            _data = null;
-            _viewModel = null;
-            _newCommand = null;
-            _openCommand = null;
-            _saveCommand = null;
-            _saveAsCommand = null;
-            _exportCommand = null;
-            _closeCommand = null;
-            _addInformation = null;
-            _dropInformation = null;
-            _addDocument = null;
-            _dropDocument = null;
-            _openDocument = null;
-            _template.Reset();
-            return this;
+            return Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose().Build();
         }
 
         public IFillerBuilder Add()
@@ -133,7 +96,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                 {
                     string location = _viewModel.Data.Location;
 
-                    _viewModel = Reset().Template().NewFile().Open().Save().SaveAs().Exporters().Export().CanClose().Close().Add().Drop().Build();
+                    _viewModel = ViewModel();
                     _viewModel.Data.Location = location;
 
                     new FillTemplatesWindow { ViewModel = _viewModel }.Show();
@@ -154,7 +117,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
                     serializer.Current = dialog.Key;
 
-                    FileViewModel viewModel = Reset().NewFile().Open().Save().SaveAs().Exporters().Export().CanClose().Close().Add().Drop().Choose().Build();
+                    FileViewModel viewModel = ViewModel();
 
                     viewModel.Data = serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;
@@ -187,14 +150,9 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             return this;
         }
 
-        public IFillerBuilder Exporters()
-        {
-            _exporters = ExportOptions.Exporters();
-            return this;
-        }
-
         public IFillerBuilder Export()
         {
+            _exporters = ExportOptions.Exporters();
             _exportCommand = new RelayCommand(
                 argument =>
                 {
@@ -251,6 +209,48 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             {
                 Selected = 0
             };
+        }
+
+        public IFillerBuilder Reset()
+        {
+            _canClose = false;
+            _data = null;
+            _viewModel = null;
+            _newCommand = null;
+            _openCommand = null;
+            _saveCommand = null;
+            _saveAsCommand = null;
+            _exportCommand = null;
+            _closeCommand = null;
+            _addInformation = null;
+            _dropInformation = null;
+            _addDocument = null;
+            _dropDocument = null;
+            _openDocument = null;
+            _template.Reset();
+            return this;
+        }
+
+        public FileViewModel Build()
+        {
+            _viewModel = new FileViewModel
+            {
+                Data = _data,
+                Exporters = _exporters,
+                NewCommand = _newCommand,
+                OpenCommand = _openCommand,
+                SaveCommand = _saveCommand,
+                SaveAsCommand = _saveAsCommand,
+                ExportCommand = _exportCommand,
+                CloseCommand = _closeCommand,
+                CanClose = _canClose,
+                AddInformation = _addInformation,
+                DropInformation = _dropInformation,
+                AddDocument = _addDocument,
+                DropDocument = _dropDocument,
+                OpenDocument = _openDocument
+            };
+            return _viewModel;
         }
     }
 }

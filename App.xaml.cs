@@ -13,24 +13,16 @@ namespace WisdomLight
         {
             Logger();
 
-            new MainWindow
-            {
-                ViewModel = new MainBuilder().Preferences().NewFile().Open().CanClose().Close().Build()
-            }
-            .Show();
+            //new MainWindow
+            //{
+            //    ViewModel = new MainBuilder().Preferences().NewFile().Open().CanClose().Close().Build()
+            //}
+            //.Show();
         }
 
-        private void ExportProof()
+        private void Proof()
         {
-            //_wordDocument.Export(new List<DocumentLinker>
-            //{
-            //    new DocumentLinker
-            //    {
-            //        Name = "Lol", Type = @"D:\Aleksandr\misc\Development\Sandbox\Selderey.docx"
-            //    }
-            //}, null, @"D:\Aleksandr\misc\Development\Sandbox\a");
-
-            //private WordDocument _wordDocument = new WordDocument();
+            
         }
     }
 }

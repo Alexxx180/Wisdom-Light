@@ -12,8 +12,6 @@
 
         public IFillerBuilder SaveAs();
 
-        public IFillerBuilder Exporters();
-
         public IFillerBuilder Export();
 
         public IFillerBuilder Close();

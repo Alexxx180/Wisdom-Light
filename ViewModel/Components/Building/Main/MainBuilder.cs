@@ -33,37 +33,9 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _preferencesBuilder = new PreferencesBuilder();
         }
 
-        public MainViewModel Build()
+        private FileViewModel FileFiller()
         {
-            _viewModel = new MainViewModel
-            {
-                Preferences = _preferences,
-                AddCommand = _addCommand,
-                DropCommand = _dropCommand,
-                NewCommand = _newCommand,
-                OpenCommand = _openCommand,
-                ImportCommand = _importCommand,
-                SearchCommand = _searchCommand,
-                CloseCommand = _closeCommand,
-                CanClose = _canClose
-            };
-            return _viewModel;
-        }
-
-        public IMainBuilder Reset()
-        {
-            _canClose = false;
-            _viewModel = null;
-            _addCommand = null;
-            _dropCommand = null;
-            _newCommand = null;
-            _openCommand = null;
-            _importCommand = null;
-            _searchCommand = null;
-            _closeCommand = null;
-            _preferencesBuilder.Reset();
-            _filler.Reset();
-            return this;
+            return _filler.Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose().Build();
         }
 
         public IMainBuilder Preferences()
@@ -92,7 +64,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _newCommand = new RelayCommand(
                 argument =>
                 {
-                    FileViewModel viewModel = _filler.Reset().Template().NewFile().Open().Save().SaveAs().Exporters().Export().CanClose().Close().Add().Drop().Choose().Build();
+                    FileViewModel viewModel = FileFiller();
 
                     viewModel.Data.Location = _viewModel.Preferences.SelectedLocation;
 
@@ -117,7 +89,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
                     _viewModel.Preferences.Serializer.Current = dialog.Key;
 
-                    FileViewModel viewModel = _filler.Reset().NewFile().Open().Save().SaveAs().Exporters().Export().CanClose().Close().Add().Drop().Choose().Build();
+                    FileViewModel viewModel = FileFiller();
                     
                     viewModel.Data = _viewModel.Preferences.Serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;
@@ -147,5 +119,38 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         //            TraversalRequest(FocusNavigationDirection.Next);
         //        _ = textBox.MoveFocus(tRequest);
         //    }
+
+        public IMainBuilder Reset()
+        {
+            _canClose = false;
+            _viewModel = null;
+            _addCommand = null;
+            _dropCommand = null;
+            _newCommand = null;
+            _openCommand = null;
+            _importCommand = null;
+            _searchCommand = null;
+            _closeCommand = null;
+            _preferencesBuilder.Reset();
+            _filler.Reset();
+            return this;
+        }
+
+        public MainViewModel Build()
+        {
+            _viewModel = new MainViewModel
+            {
+                Preferences = _preferences,
+                AddCommand = _addCommand,
+                DropCommand = _dropCommand,
+                NewCommand = _newCommand,
+                OpenCommand = _openCommand,
+                ImportCommand = _importCommand,
+                SearchCommand = _searchCommand,
+                CloseCommand = _closeCommand,
+                CanClose = _canClose
+            };
+            return _viewModel;
+        }
     }
 }

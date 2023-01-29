@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WisdomLight.ViewModel.Components.Core.Processors.Export.Paths;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data.Units;
@@ -52,9 +53,13 @@ namespace WisdomLight.ViewModel.Components.Data
             set
             {
                 _isRelative = value;
+                Path = Paths[value ? 1 : 0];
                 OnPropertyChanged();
             }
         }
+
+        public IPathDirector Path { get; private set; }
+        public IPathDirector[] Paths { get; protected internal set; }
 
         public string Location { get; protected internal set; }
         public string FileName { get; protected internal set; }
