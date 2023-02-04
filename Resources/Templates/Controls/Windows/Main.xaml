@@ -18,13 +18,13 @@
 
                 <Menu Style="{StaticResource Light}">
                     <MenuItem Header="Файл">
-                        <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding Preferences.IsDefended}"/>
+                        <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding Data.IsDefended}"/>
                         <MenuItem Header="Открыть..." Command="{Binding OpenCommand}"/>
                         <Separator/>
                         <MenuItem Header="Импорт" Visibility="Collapsed"/>
                         <MenuItem Header="Поиск..." Visibility="Collapsed">
                             <MenuItem.IsEnabled>
-                                <Binding Path="Preferences.IsDefaultPath">
+                                <Binding Path="Data.IsDefaultPath">
                                     <Binding.Converter>
                                         <bool:InverseConverter/>
                                     </Binding.Converter>
@@ -35,12 +35,12 @@
                         <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
                     </MenuItem>
                     <MenuItem Header="Настройки">
-                        <MenuItem Header="Путь по умолчанию" Visibility="Collapsed" IsCheckable="True" IsChecked="{Binding Preferences.IsDefaultPath}">
+                        <MenuItem Header="Путь по умолчанию" Visibility="Collapsed" IsCheckable="True" IsChecked="{Binding Data.IsDefaultPath}">
                             <MenuItem.ToolTip>
                                 <TextBlock Text="Всегда использовать относительный путь папки приложения."/>
                             </MenuItem.ToolTip>
                         </MenuItem>
-                        <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding Preferences.IsDefended}">
+                        <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding Data.IsDefended}">
                             <MenuItem.ToolTip>
                                 <TextBlock Text="Разрешить работать с файлами."/>
                             </MenuItem.ToolTip>
@@ -72,7 +72,7 @@
             <DockPanel Margin="15" Grid.Row="1" HorizontalAlignment="Stretch" LastChildFill="True" Visibility="Collapsed">
                 <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical">
                     <ToolBarTray.Visibility>
-                        <Binding Path="Preferences.IsDefended">
+                        <Binding Path="Data.IsDefended">
                             <Binding.Converter>
                                 <visible:BooleanVisibilityConverter/>
                             </Binding.Converter>
@@ -97,7 +97,7 @@
                         <StaticResource ResourceKey="FileSelection"/>
                     </ListBox.ItemTemplate>
                     <ListBox.ItemsSource>
-                        <Binding Path="Preferences.Templates"/>
+                        <Binding Path="Data.Templates"/>
                     </ListBox.ItemsSource>
                 </ListBox>
             </DockPanel>

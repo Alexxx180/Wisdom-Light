@@ -3,10 +3,6 @@
                     xmlns:visible="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Visible">
     <ControlTemplate x:Key="EditorView">
         <Grid>
-            <Grid.DataContext>
-                <Binding ElementName="FileWindow" Path="ViewModel"/>
-            </Grid.DataContext>
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="27"/>
                 <RowDefinition/>

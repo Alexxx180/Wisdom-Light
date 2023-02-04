@@ -1,12 +1,18 @@
 ﻿using System.Collections.ObjectModel;
 using WisdomLight.ViewModel.Components.Building.Bank;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
+using WisdomLight.ViewModel.Components.Data.Units;
 
 namespace WisdomLight.ViewModel.Components.Data
 {
-    public class PreferencesViewModel : NotifyPropertyChanged
+    public class PreferencesViewModel : NameLabel
     {
         public FileFiller Serializer { get; set; }
+
+        public PreferencesViewModel()
+        {
+            Name = "Облегченная Мудрость";
+        }
 
         private ObservableCollection<string> _templates;
         public ObservableCollection<string> Templates

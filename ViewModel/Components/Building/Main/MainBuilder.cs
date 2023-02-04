@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using WisdomLight.Model.Results.Confirming;
+using WisdomLight.View;
 using WisdomLight.ViewModel.Components.Building.Filler;
 using WisdomLight.ViewModel.Components.Building.Main.Preferences;
 using WisdomLight.ViewModel.Components.Core.Commands;
@@ -11,8 +12,19 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 {
     public class MainBuilder : IMainBuilder
     {
+#warning Potential solution for re-focus after text input...
+        /// <summary>
+        /// if (Keyboard.FocusedElement is TextBox textBox)
+        /// {
+        ///     TraversalRequest tRequest = new
+        ///     TraversalRequest(FocusNavigationDirection.Next);
+        ///     _ = textBox.MoveFocus(tRequest);
+        /// }
+        /// </summary>
+
+        private IWindowService _windows;
         private MainViewModel _viewModel;
-        private PreferencesViewModel _preferences;
+        private PreferencesViewModel _data;
 
         private IPreferencesBuilder _preferencesBuilder;
         private IFillerBuilder _filler;
@@ -29,8 +41,13 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         public MainBuilder()
         {
-            _filler = new FillerBuilder();
+            _filler = new FillerBuilder(_windows);
             _preferencesBuilder = new PreferencesBuilder();
+        }
+
+        public MainBuilder(IWindowService windows) : this()
+        {
+            _windows = windows;
         }
 
         private IFillerBuilder BaseFiller()
@@ -40,7 +57,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         public IMainBuilder Preferences()
         {
-            _preferences = _preferencesBuilder.Serializer().Templates().Defend().DefaultPath().Build();
+            _data = _preferencesBuilder.Serializer().Templates().Defend().DefaultPath().Build();
             return this;
         }
 
@@ -66,13 +83,10 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                 {
                     FileViewModel viewModel = BaseFiller().Template().Build();
 
-                    viewModel.Data.Location = _viewModel.Preferences.SelectedLocation;
+                    viewModel.Data.Name = "Новый документ";
+                    viewModel.Data.Location = _viewModel.Data.SelectedLocation;
 
-                    new FillTemplatesWindow
-                    {
-                        ViewModel = viewModel
-                    }
-                    .Show();
+                    _windows.ShowWindow(viewModel);
                 }
             );
             return this;
@@ -83,19 +97,19 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _openCommand = new RelayCommand(
                 argument =>
                 {
-                    ReConfirmer dialog = DialogManager.Open(_viewModel.Preferences.SelectedLocation, _viewModel.Preferences.Serializer.Current);
+                    ReConfirmer dialog = DialogManager.Open(_viewModel.Data.SelectedLocation, _viewModel.Data.Serializer.Current);
                     if (!dialog.Result)
                         return;
 
-                    _viewModel.Preferences.Serializer.Current = dialog.Key;
+                    _viewModel.Data.Serializer.Current = dialog.Key;
 
                     FileViewModel viewModel = BaseFiller().Build();
                     
-                    viewModel.Data = _viewModel.Preferences.Serializer.Load(dialog.FullPath);
+                    viewModel.Data = _viewModel.Data.Serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;
                     viewModel.Data.FileName = dialog.Name;
 
-                    new FillTemplatesWindow { ViewModel = viewModel }.Show();
+                    _windows.ShowWindow(viewModel);
                 }
             );
             return this;
@@ -113,12 +127,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             return this;
         }
 
-        //    if (Keyboard.FocusedElement is TextBox textBox)
-        //    {
-        //        TraversalRequest tRequest = new
-        //            TraversalRequest(FocusNavigationDirection.Next);
-        //        _ = textBox.MoveFocus(tRequest);
-        //    }
+        
 
         public IMainBuilder Reset()
         {
@@ -140,7 +149,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         {
             _viewModel = new MainViewModel
             {
-                Preferences = _preferences,
+                Data = _data,
                 AddCommand = _addCommand,
                 DropCommand = _dropCommand,
                 NewCommand = _newCommand,

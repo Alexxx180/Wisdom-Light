@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace WisdomLight.View
+﻿namespace WisdomLight.View
 {
     internal class WindowService : IWindowService
     {
@@ -9,7 +7,6 @@ namespace WisdomLight.View
             MainWindow window = new MainWindow()
             {
                 Content = viewModel,
-                //DataContext = viewModel
             };
             window.Show();
         }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Input;
 using WisdomLight.Model;
 using WisdomLight.Model.Results.Confirming;
+using WisdomLight.View;
 using WisdomLight.ViewModel.Components.Building.Bank;
 using WisdomLight.ViewModel.Components.Building.Filler.Templates;
 using WisdomLight.ViewModel.Components.Core.Commands;
@@ -19,6 +20,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 {
     public class FillerBuilder : IFillerBuilder
     {
+        private IWindowService _windows;
         private FileViewModel _viewModel;
         private TemplateViewModel _data;
         private List<FileDocument> _exporters;
@@ -46,9 +48,14 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _template = new TemplateBuilder();
         }
 
-        private FileViewModel ViewModel()
+        public FillerBuilder(IWindowService windows) : this()
         {
-            return Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose().Build();
+            _windows = windows;
+        }
+
+        private IFillerBuilder ViewModel()
+        {
+            return Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose();
         }
 
         public IFillerBuilder Add()
@@ -96,10 +103,10 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                 {
                     string location = _viewModel.Data.Location;
 
-                    _viewModel = ViewModel();
+                    _viewModel = ViewModel().Template().Build();
                     _viewModel.Data.Location = location;
 
-                    new FillTemplatesWindow { ViewModel = _viewModel }.Show();
+                    _windows.ShowWindow(_viewModel);
                 }
             );
             return this;
@@ -117,13 +124,13 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
                     serializer.Current = dialog.Key;
 
-                    FileViewModel viewModel = ViewModel();
+                    FileViewModel viewModel = ViewModel().Build();
 
                     viewModel.Data = serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;
                     viewModel.Data.FileName = dialog.Name;
 
-                    new FillTemplatesWindow { ViewModel = viewModel }.Show();
+                    _windows.ShowWindow(viewModel);
                 }
             );
             return this;

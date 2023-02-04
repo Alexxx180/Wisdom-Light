@@ -30,6 +30,6 @@ namespace WisdomLight.ViewModel.Components
         public ICommand SearchCommand { get; protected internal set; }
         public ICommand CloseCommand { get; protected internal set; }
 
-        public PreferencesViewModel Preferences { get; set; }
+        public PreferencesViewModel Data { get; set; }
     }
 }
