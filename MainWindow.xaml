@@ -11,10 +11,27 @@
         Width="640" Height="480"
         MinWidth="320" MinHeight="200"
         WindowStartupLocation="CenterScreen"
+        xmlns:vm="clr-namespace:WisdomLight.ViewModel.Components"
         xmlns:visible="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Visible"
         xmlns:bool="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Bool"
         x:Name="ThisWindow">
-    <Grid>
+    <!--<Window.DataContext>
+        <Binding ElementName="ThisWindow" Path="ViewModel"/>
+    </Window.DataContext>-->
+    <!--<Window.Resources>
+        <DataTemplate DataType="{x:Type vm:MainViewModel}">
+            <ContentControl Template="{StaticResource }"/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:FileViewModel}">
+            <ContentControl Template="{StaticResource TextField}"/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type fields:DateExpression}">
+            <ContentControl Template="{StaticResource DateField}"/>
+        </DataTemplate>
+    </Window.Resources>-->
+    <!--<Grid>
         <Grid.DataContext>
             <Binding ElementName="ThisWindow" Path="ViewModel"/>
         </Grid.DataContext>
@@ -115,5 +132,5 @@
                 </ListBox.ItemsSource>
             </ListBox>
         </DockPanel>
-    </Grid>
+    </Grid>-->
 </Window>

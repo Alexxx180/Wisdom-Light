@@ -15,16 +15,16 @@ namespace WisdomLight
             InitializeComponent();
         }
 
-        private MainViewModel _viewModel;
-        public MainViewModel ViewModel
-        {
-            get => _viewModel;
-            set
-            {
-                _viewModel = value;
-                OnPropertyChanged();
-            }
-        }
+        //private MainViewModel _viewModel;
+        //public MainViewModel ViewModel
+        //{
+        //    get => _viewModel;
+        //    set
+        //    {
+        //        _viewModel = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;

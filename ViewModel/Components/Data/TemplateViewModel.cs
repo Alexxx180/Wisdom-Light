@@ -53,7 +53,7 @@ namespace WisdomLight.ViewModel.Components.Data
             set
             {
                 _isRelative = value;
-                Path = Paths[value ? 1 : 0];
+                //Path = Paths[value ? 1 : 0];
                 OnPropertyChanged();
             }
         }

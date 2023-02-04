@@ -26,8 +26,7 @@ namespace WisdomLight.View.Binds.Attach
             {
                 window.Loaded += (s, e) =>
                 {
-                    FrameworkElement child = window.Content as FrameworkElement;
-                    if (child.DataContext is ICloseable viewmodel)
+                    if (window.Content is ICloseable viewmodel)
                     {
                         viewmodel.Close += () => window.Close();
                         window.Closing += (s, e) =>

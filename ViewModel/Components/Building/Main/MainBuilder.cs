@@ -33,9 +33,9 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _preferencesBuilder = new PreferencesBuilder();
         }
 
-        private FileViewModel FileFiller()
+        private IFillerBuilder BaseFiller()
         {
-            return _filler.Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose().Build();
+            return _filler.Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose();
         }
 
         public IMainBuilder Preferences()
@@ -64,7 +64,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _newCommand = new RelayCommand(
                 argument =>
                 {
-                    FileViewModel viewModel = FileFiller();
+                    FileViewModel viewModel = BaseFiller().Template().Build();
 
                     viewModel.Data.Location = _viewModel.Preferences.SelectedLocation;
 
@@ -89,7 +89,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
                     _viewModel.Preferences.Serializer.Current = dialog.Key;
 
-                    FileViewModel viewModel = FileFiller();
+                    FileViewModel viewModel = BaseFiller().Build();
                     
                     viewModel.Data = _viewModel.Preferences.Serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;

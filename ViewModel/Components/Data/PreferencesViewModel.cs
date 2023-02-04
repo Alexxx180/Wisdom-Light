@@ -19,7 +19,22 @@ namespace WisdomLight.ViewModel.Components.Data
             }
         }
 
-        public string SelectedLocation { get; set; }
+        private ObservableCollection<string> _links;
+        public ObservableCollection<string> Links
+        {
+            get => _links;
+            set
+            {
+                _links = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SelectedLocation
+        {
+            get;
+            set;
+        }
 
         private string _userLocation;
         public string UserLocation
