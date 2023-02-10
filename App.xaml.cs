@@ -16,7 +16,7 @@ namespace WisdomLight
             Logger();
 
             IWindowService windows = new WindowService();
-            MainViewModel viewModel = new MainBuilder(windows).Preferences().NewFile().Open().CanClose().Close().Build();
+            MainViewModel viewModel = new MainBuilder(windows).Preferences().NewFile().Open().CanClose().Close().OpenDependency().RenameDependency().Build();
             windows.ShowWindow(viewModel);
             //new MainWindow
             //{

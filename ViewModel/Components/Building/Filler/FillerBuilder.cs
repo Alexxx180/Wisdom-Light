@@ -43,14 +43,10 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
         private ITemplateBuilder _template;
 
-        public FillerBuilder()
-        {
-            _template = new TemplateBuilder();
-        }
-
-        public FillerBuilder(IWindowService windows) : this()
+        public FillerBuilder(IWindowService windows)
         {
             _windows = windows;
+            _template = new TemplateBuilder();
         }
 
         private IFillerBuilder ViewModel()
@@ -104,6 +100,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                     string location = _viewModel.Data.Location;
 
                     _viewModel = ViewModel().Template().Build();
+                    _viewModel.Data.Name = "Новый документ";
                     _viewModel.Data.Location = location;
 
                     _windows.ShowWindow(_viewModel);

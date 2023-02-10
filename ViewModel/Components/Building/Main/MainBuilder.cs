@@ -7,6 +7,7 @@ using WisdomLight.ViewModel.Components.Building.Main.Preferences;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Data;
+using WisdomLight.ViewModel.Components.Data.Units;
 
 namespace WisdomLight.ViewModel.Components.Building.Main
 {
@@ -29,8 +30,14 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         private IPreferencesBuilder _preferencesBuilder;
         private IFillerBuilder _filler;
 
-        public ICommand _addCommand;
-        public ICommand _dropCommand;
+        public ICommand _addInformation;
+        public ICommand _dropInformation;
+        public ICommand _addDocument;
+        public ICommand _dropDocument;
+
+        public ICommand _renameDependency;
+        public ICommand _openDependency;
+
         public ICommand _newCommand;
         public ICommand _openCommand;
         public ICommand _importCommand;
@@ -39,15 +46,11 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         private bool _canClose;
 
-        public MainBuilder()
-        {
-            _filler = new FillerBuilder(_windows);
-            _preferencesBuilder = new PreferencesBuilder();
-        }
-
-        public MainBuilder(IWindowService windows) : this()
+        public MainBuilder(IWindowService windows)
         {
             _windows = windows;
+            _filler = new FillerBuilder(_windows);
+            _preferencesBuilder = new PreferencesBuilder();
         }
 
         private IFillerBuilder BaseFiller()
@@ -61,12 +64,49 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             return this;
         }
 
-        public IMainBuilder Add()
+        public IMainBuilder AddDocument()
         {
             throw new NotImplementedException();
         }
 
-        public IMainBuilder Drop()
+        public IMainBuilder DropDocument()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMainBuilder OpenDependency()
+        {
+            _openDependency = new RelayCommand(
+                argument =>
+                {
+                    ReConfirmer dialog = DialogManager.Template(_viewModel.Data.SelectedLocation);
+                    if (!dialog.Result)
+                        return;
+
+                    _data.SelectedDependency.DependencyPath = dialog.FullPath;
+                },
+                canExecute => _data.IsDependencySelected
+            );
+            return this;
+        }
+
+        public IMainBuilder RenameDependency()
+        {
+            _renameDependency = new RelayCommand(
+                argument =>
+                {
+                    _data.SelectedDependency.Name = argument.ToString();
+                }
+            );
+            return this;
+        }
+
+        public IMainBuilder AddInformation()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMainBuilder DropInformation()
         {
             throw new NotImplementedException();
         }
@@ -133,8 +173,12 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         {
             _canClose = false;
             _viewModel = null;
-            _addCommand = null;
-            _dropCommand = null;
+            _addInformation = null;
+            _dropInformation = null;
+            _addDocument = null;
+            _dropDocument = null;
+            _openDependency = null;
+            _renameDependency = null;
             _newCommand = null;
             _openCommand = null;
             _importCommand = null;
@@ -150,8 +194,12 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _viewModel = new MainViewModel
             {
                 Data = _data,
-                AddCommand = _addCommand,
-                DropCommand = _dropCommand,
+                AddInformation = _addInformation,
+                DropInformation = _dropInformation,
+                AddDocument = _addDocument,
+                DropDocument = _dropDocument,
+                OpenDependency = _openDependency,
+                RenameDependency = _renameDependency,
                 NewCommand = _newCommand,
                 OpenCommand = _openCommand,
                 ImportCommand = _importCommand,

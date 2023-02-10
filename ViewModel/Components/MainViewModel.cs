@@ -22,8 +22,13 @@ namespace WisdomLight.ViewModel.Components
             }
         }
 
-        public ICommand AddCommand { get; protected internal set; }
-        public ICommand DropCommand { get; protected internal set; }
+        public ICommand AddInformation { get; protected internal set; }
+        public ICommand DropInformation { get; protected internal set; }
+        public ICommand AddDocument { get; protected internal set; }
+        public ICommand DropDocument { get; protected internal set; }
+        public ICommand OpenDependency { get; protected internal set; }
+        public ICommand RenameDependency { get; protected internal set; }
+
         public ICommand NewCommand { get; protected internal set; }
         public ICommand OpenCommand { get; protected internal set; }
         public ICommand ImportCommand { get; protected internal set; }

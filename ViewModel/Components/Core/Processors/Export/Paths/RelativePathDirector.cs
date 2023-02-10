@@ -18,16 +18,16 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Paths
             _builder.SetPath(path);
         }
 
-        private string GenerateFile(string path, DependencyCounter counter)
+        private string GenerateFile(string path, string counter)
         {
-            string directory = Path.GetFileNameWithoutExtension(path);
-            Directory.CreateDirectory(directory);
+            //string directory = Path.GetFileNameWithoutExtension(path);
+            //Directory.CreateDirectory(directory);
 
-            int count = Directory.GetFiles(directory).Length;
-            string fullPath = Path.Combine(directory, count.ToString()).ToFile("json");
+            //int count = Directory.GetFiles(directory).Length;
+            //string fullPath = Path.Combine(directory, count.ToString()).ToFile("json");
 
-            _filler.Save(fullPath, counter);
-            return fullPath;
+            //_filler.Save(fullPath, counter);
+            return path;//fullPath;
         }
 
         private string NewDependencyPath(string path)
@@ -39,30 +39,30 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Paths
 
 
 
-            DependencyCounter counter = new DependencyCounter
-            {
-                Dependency = path,
-                Count = 0
-            };
+            //DependencyCounter counter = new DependencyCounter
+            //{
+            //    Dependency = path,
+            //    Count = 0
+            //};
 
-            GenerateFile(path, counter);
-            _filler.Save(path, counter);
+            //GenerateFile(path, counter);
+            //_filler.Save(path, counter);
 
             return "";
         }
 
         private string GetExistingDependency(string path)
         {
-            return _filler.Load(path).Dependency;
+            return path;//_filler.Load(path).Dependency;
         }
 
         private string AddExistingDependency(string path)
         {
-            DependencyCounter counter = _filler.Load(path);
-            counter.Count++;
-            _filler.Save(path, counter);
+            //DependencyCounter counter = _filler.Load(path);
+            //counter.Count++;
+            //_filler.Save(path, counter);
 
-            return counter.Dependency;
+            return "";//counter.Dependency;
         }
 
         public string DirectPath(string path)

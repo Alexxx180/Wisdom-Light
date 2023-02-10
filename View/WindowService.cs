@@ -4,7 +4,7 @@
     {
         public void ShowWindow(object viewModel)
         {
-            MainWindow window = new MainWindow()
+            EditorWindow window = new EditorWindow()
             {
                 Content = viewModel,
             };

@@ -5,9 +5,9 @@ namespace WisdomLight
     /// <summary>
     /// Containing data templates
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EditorWindow : Window
     {
-        public MainWindow()
+        public EditorWindow()
         {
             InitializeComponent();
         }

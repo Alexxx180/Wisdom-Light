@@ -12,6 +12,19 @@ namespace WisdomLight.ViewModel.Components.Data
         public PreferencesViewModel()
         {
             Name = "Облегченная Мудрость";
+            Dependencies = new ObservableCollection<DependenciesNode>()
+            {
+                new DependenciesNode
+                {
+                    Name = "Templates",
+                    Nodes = new ObservableCollection<DependenciesNode>
+                    {
+                        new DependenciesNode { Name = "#1" },
+                        new DependenciesNode { Name = "#2" },
+                        new DependenciesNode { Name = "#3" }
+                    }
+                }
+            };
         }
 
         private ObservableCollection<string> _templates;
@@ -25,21 +38,40 @@ namespace WisdomLight.ViewModel.Components.Data
             }
         }
 
-        private ObservableCollection<string> _links;
-        public ObservableCollection<string> Links
+        private ObservableCollection<DependenciesNode> _dependencies;
+        public ObservableCollection<DependenciesNode> Dependencies
         {
-            get => _links;
+            get => _dependencies;
             set
             {
-                _links = value;
+                _dependencies = value;
                 OnPropertyChanged();
             }
         }
 
+        private DependenciesNode _selectedDependency;
+        public DependenciesNode SelectedDependency
+        {
+            get => _selectedDependency;
+            set
+            {
+                _selectedDependency = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsDependencySelected));
+            }
+        }
+
+        public bool IsDependencySelected => SelectedDependency is not null;
+
+        private string _selectedLocation;
         public string SelectedLocation
         {
-            get;
-            set;
+            get => _selectedLocation;
+            set
+            {
+                _selectedLocation = value;
+                OnPropertyChanged();
+            }
         }
 
         private string _userLocation;

@@ -4,9 +4,17 @@
     {
         public IMainBuilder Preferences();
 
-        public IMainBuilder Add();
+        public IMainBuilder AddInformation();
 
-        public IMainBuilder Drop();
+        public IMainBuilder DropInformation();
+
+        public IMainBuilder AddDocument();
+
+        public IMainBuilder DropDocument();
+
+        public IMainBuilder OpenDependency();
+
+        public IMainBuilder RenameDependency();
 
         public IMainBuilder NewFile();
 
