@@ -110,7 +110,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _path.Append(current.Name);
             for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
             {
-                _data.Queriers.SelectedItems[i].Enqueue(current.No);
+                _data.Queriers.SelectedItems[i].Push(current.No);
             }
 
             current = current.Parent;
@@ -119,7 +119,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                 _path.Insert(0, $"{current.Name}/");
                 for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
                 {
-                    _data.Queriers.SelectedItems[i].Enqueue(current.No);
+                    _data.Queriers.SelectedItems[i].Push(current.No);
                 }
                 current = current.Parent;
             }

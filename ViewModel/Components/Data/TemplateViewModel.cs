@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Paths;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
@@ -10,6 +11,7 @@ namespace WisdomLight.ViewModel.Components.Data
 {
     public class TemplateViewModel : NameLabel, IDefender
     {
+        private DependenciesViewModel _dependencies;
         public List<ParagraphExtracting> Extracting { get; set; }
         public FileFiller Serializer { get; set; }
 
@@ -66,6 +68,24 @@ namespace WisdomLight.ViewModel.Components.Data
                 _isRelative = value;
                 //Path = Paths[value ? 1 : 0];
                 OnPropertyChanged();
+            }
+        }
+
+        public IEnumerable<string> LinkDocumentPath()
+        {
+            for (int i = 0; i < Links.Fields.Count; i++)
+            {
+                yield return Links.Fields[i].Type;
+            }
+        }
+
+        public IEnumerable<string> QueryDocuments()
+        {
+            for (int i = 0; i < Queriers.Fields.Count; i++)
+            {
+                Querier courier = Queriers.Fields[i];
+                if (courier.Count >= 1)
+                    yield return courier.QueryPath(_dependencies);
             }
         }
 

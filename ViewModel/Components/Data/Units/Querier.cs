@@ -2,10 +2,11 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WisdomLight.Model;
+using WisdomLight.ViewModel.Components.Core.Dialogs;
 
 namespace WisdomLight.ViewModel.Components.Data.Units
 {
-    public class Querier : Queue<int>, INotifyPropertyChanged, ICloneable<Querier>
+    public class Querier : Stack<int>, INotifyPropertyChanged, ICloneable<Querier>
     {
         private string _name;
         public string Name
@@ -30,6 +31,18 @@ namespace WisdomLight.ViewModel.Components.Data.Units
         public Querier(IEnumerable<int> elements, string path) : this(elements)
         {
             Name = path;
+        }
+
+        public string QueryPath(DependenciesViewModel dependencies)
+        {
+            int first = Pop();
+            DependenciesNode node = dependencies.Dependencies[first];
+            foreach (int index in this)
+            {
+                node = node[index];
+            }
+            Push(first);
+            return node.DependencyPath;
         }
 
         public Querier Clone()
