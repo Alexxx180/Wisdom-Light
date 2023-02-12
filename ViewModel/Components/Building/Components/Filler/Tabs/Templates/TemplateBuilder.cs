@@ -16,7 +16,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
         
         private FileFiller _serializer;
 
-        private IEditableBuilder<DocumentLinker> _documents;
+        private IEditableBuilder<Querier> _queriers;
+        private IEditableBuilder<DocumentLinker> _links;
         private IEditableBuilder<FieldSelector> _information;
 
         private bool _isDefended;
@@ -24,7 +25,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
 
         public TemplateBuilder()
         {
-            _documents = new EditableBuilder<DocumentLinker>();
+            _links = new EditableBuilder<DocumentLinker>();
+            _queriers = new EditableBuilder<Querier>();
             _information = new EditableBuilder<FieldSelector>();
         }
 
@@ -32,8 +34,9 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
         {
             _viewModel = new TemplateViewModel
             {
-                Documents = _documents.Build(),
+                Links = _links.Build(),
                 Information = _information.Build(),
+                Queriers = _queriers.Build(),
                 Extracting = _extracting,
                 IsDefended = _isDefended,
                 IsRelative = _isRelative,
@@ -48,7 +51,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
             _extracting = null;
             _isDefended = false;
             _isRelative = false;
-            _documents.Reset();
+            _links.Reset();
+            _queriers.Reset();
             _information.Reset();
             return this;
         }
@@ -65,9 +69,15 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
             return this;
         }
 
-        public ITemplateBuilder Documents()
+        public ITemplateBuilder Links()
         {
-            _documents.Fields().SelectedItems();
+            _links.Fields().SelectedItems();
+            return this;
+        }
+
+        public ITemplateBuilder Queriers()
+        {
+            _queriers.Fields().SelectedItems();
             return this;
         }
 
@@ -86,8 +96,6 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
             };
             return this;
         }
-
-        
 
         public ITemplateBuilder Serializer()
         {

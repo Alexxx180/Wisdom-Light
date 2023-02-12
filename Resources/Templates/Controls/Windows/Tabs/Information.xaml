@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:selection="clr-namespace:WisdomLight.View.Binds.Attach.Selection"
                     xmlns:fields="clr-namespace:WisdomLight.ViewModel.Components.Data.Units.Fields">
-    <ControlTemplate x:Key="InformationTabFilling">
+    <ControlTemplate x:Key="InlineInformationView">
         <ControlTemplate.Resources>
             <DataTemplate DataType="{x:Type fields:NumberExpression}">
                 <ContentControl Template="{StaticResource NumberField}"/>
@@ -33,7 +33,7 @@
         </ListBox>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="InformationTabEditing">
+    <ControlTemplate x:Key="InlineInformationEdit">
         <ListBox>
             <selection:MultiSelection.SyncSelectedItems>
                 <Binding Path="SelectedItems"/>

@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace WisdomLight.ViewModel
 {
-    public class NotifyPropertyChanged
+    public class NotifyPropertyChanged : INotifyPropertyChanged
     {
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;

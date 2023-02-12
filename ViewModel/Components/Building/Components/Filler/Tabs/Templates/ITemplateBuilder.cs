@@ -8,7 +8,9 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
 
         public ITemplateBuilder Relate();
 
-        public ITemplateBuilder Documents();
+        public ITemplateBuilder Links();
+
+        public ITemplateBuilder Queriers();
 
         public ITemplateBuilder Information();
 

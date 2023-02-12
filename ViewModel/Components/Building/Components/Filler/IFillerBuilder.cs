@@ -4,7 +4,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 {
     public interface IFillerBuilder
     {
-        public IFillerBuilder ChooseDependency(DependenciesViewModel dependencies);
+        public IFillerBuilder OpenQuery(DependenciesViewModel dependencies);
 
         public IFillerBuilder Template();
 
@@ -26,7 +26,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
         public IFillerBuilder Drop();
 
-        public IFillerBuilder Choose();
+        public IFillerBuilder OpenLink();
 
         public IFillerBuilder Reset();
 

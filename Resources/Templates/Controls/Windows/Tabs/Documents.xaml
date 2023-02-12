@@ -4,13 +4,13 @@
                     xmlns:decoration="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Decoration">
     <decoration:FontWeightConverter x:Key="FontWeightConverter"/>
 
-    <ControlTemplate x:Key="DocumentsTabFilling">
+    <ControlTemplate x:Key="LinkerPathsView">
         <ListBox>
             <ListBox.HorizontalContentAlignment>
                 Stretch
             </ListBox.HorizontalContentAlignment>
             <ListBox.ItemTemplate>
-                <StaticResource ResourceKey="DocumentPathText"/>
+                <StaticResource ResourceKey="LinkerPathView"/>
             </ListBox.ItemTemplate>
             <ListBox.ItemsSource>
                 <Binding Path="Fields"/>
@@ -18,7 +18,7 @@
         </ListBox>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="DocumentsTabEditing">
+    <ControlTemplate x:Key="LinkerPathsEdit">
         <ListBox>
             <selection:MultiSelection.SyncSelectedItems>
                 <Binding Path="SelectedItems"/>
@@ -30,7 +30,27 @@
                 Stretch
             </ListBox.HorizontalContentAlignment>
             <ListBox.ItemTemplate>
-                <StaticResource ResourceKey="DocumentPathField"/>
+                <StaticResource ResourceKey="LinkerPathEdit"/>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsSource>
+                <Binding Path="Fields"/>
+            </ListBox.ItemsSource>
+        </ListBox>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="QuerierPaths">
+        <ListBox>
+            <selection:MultiSelection.SyncSelectedItems>
+                <Binding Path="SelectedItems"/>
+            </selection:MultiSelection.SyncSelectedItems>
+            <ListBox.SelectionMode>
+                Multiple
+            </ListBox.SelectionMode>
+            <ListBox.HorizontalContentAlignment>
+                Stretch
+            </ListBox.HorizontalContentAlignment>
+            <ListBox.ItemTemplate>
+                <StaticResource ResourceKey="QuerierPath"/>
             </ListBox.ItemTemplate>
             <ListBox.ItemsSource>
                 <Binding Path="Fields"/>

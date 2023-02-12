@@ -1,0 +1,87 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:visible="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Visible">
+    <visible:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter"/>
+    <visible:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
+
+    <ControlTemplate x:Key="InformationEditingTools">
+        <ToolBarTray Orientation="Vertical">
+            <ToolBar Width="30">
+                <Button Command="{Binding AddInformation}" Style="{StaticResource AddButton}"/>
+                <Button Command="{Binding DropInformation}" Style="{StaticResource DeleteButton}"/>
+                <Separator/>
+                <Button Command="{Binding SaveCommand}" Style="{StaticResource SaveButton}"/>
+            </ToolBar>
+        </ToolBarTray>
+    </ControlTemplate>
+
+    <!--<Button Command="{StaticResource SaveCommand}" Style="{StaticResource SaveButton}"/>-->
+    
+    <ControlTemplate x:Key="LinkerTools">
+        <ToolBarTray Orientation="Vertical">
+            <ToolBar Width="30">
+                <Button Command="{Binding AddLink}" Style="{StaticResource AddButton}"/>
+                <Button Command="{Binding DropLink}" Style="{StaticResource DeleteButton}"/>
+                <Separator/>
+                <Button Command="{Binding OpenLink}" Style="{StaticResource OpenButton}"/>
+            </ToolBar>
+        </ToolBarTray>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="QueryTools">
+        <ToolBarTray Orientation="Vertical">
+            <ToolBar Width="30">
+                <Button Command="{Binding AddQuery}" Style="{StaticResource AddButton}"/>
+                <Button Command="{Binding DropQuery}" Style="{StaticResource DeleteButton}"/>
+                <Separator/>
+                <Button Command="{Binding OpenQuery}" Style="{StaticResource OpenButton}"/>
+            </ToolBar>
+        </ToolBarTray>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="Editor">
+        <TabControl>
+            <TabItem Header="Информация">
+                <DockPanel LastChildFill="True">
+                    <ContentControl Template="{StaticResource InformationEditingTools}"/>
+
+                    <ContentControl Template="{StaticResource InlineInformationEdit}">
+                        <ContentControl.DataContext>
+                            <Binding Path="Data.Information"/>
+                        </ContentControl.DataContext>
+                    </ContentControl>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="Документы">
+                <Grid>
+                    <DockPanel LastChildFill="True">
+                        <DockPanel.Visibility>
+                            <Binding Path="Data.IsRelative" Converter="{StaticResource InverseVisibilityConverter}"/>
+                        </DockPanel.Visibility>
+
+                        <ContentControl Template="{StaticResource LinkerTools}"/>
+                        <ContentControl Template="{StaticResource LinkerPathsEdit}">
+                            <ContentControl.DataContext>
+                                <Binding Path="Data.Links"/>
+                            </ContentControl.DataContext>
+                        </ContentControl>
+                    </DockPanel>
+
+                    <DockPanel LastChildFill="True">
+                        <DockPanel.Visibility>
+                            <Binding Path="Data.IsRelative" Converter="{StaticResource BooleanVisibilityConverter}"/>
+                        </DockPanel.Visibility>
+
+                        <ContentControl Template="{StaticResource QueryTools}"/>
+                        <ContentControl Template="{StaticResource QuerierPaths}">
+                            <ContentControl.DataContext>
+                                <Binding Path="Data.Queriers"/>
+                            </ContentControl.DataContext>
+                        </ContentControl>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </ControlTemplate>
+</ResourceDictionary>

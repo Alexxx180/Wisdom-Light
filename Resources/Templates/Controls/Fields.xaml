@@ -3,8 +3,8 @@
                     xmlns:controls="clr-namespace:WisdomLight.View.Controls"
                     xmlns:viewmodel="clr-namespace:WisdomLight.ViewModel"
                     xmlns:fields="clr-namespace:WisdomLight.ViewModel.Components.Data.Units.Fields">
+    <!--CommandParameter="{Binding Full File Path + File Name with Extension}"-->
     <ItemContainerTemplate x:Key="FileSelection">
-        <!--CommandParameter="{Binding Full File Path + File Name with Extension}"-->
         <controls:CommandControl CommandParameter="{Binding}" Height="30">
             <controls:CommandControl.Command>
                 <Binding Path="DataContext.OpenCommand" Mode="OneWay">
@@ -50,7 +50,7 @@
         </Grid>
     </ItemContainerTemplate>
 
-    <ItemContainerTemplate x:Key="DocumentPathField">
+    <ItemContainerTemplate x:Key="LinkerPathEdit">
         <UniformGrid Margin="25, 0" Rows="2" Height="50">
             <TextBox Style="{StaticResource Box}">
                 <TextBox.Text>
@@ -73,11 +73,17 @@
         </UniformGrid>
     </ItemContainerTemplate>
 
-    <ItemContainerTemplate x:Key="DocumentPathText">
+    <ItemContainerTemplate x:Key="LinkerPathView">
         <UniformGrid Margin="25, 0" Rows="2" Height="50"
                      Style="{StaticResource Light}">
             <TextBlock Text="{Binding Path=Name}" />
             <TextBlock Text="{Binding Path=Type}"/>
         </UniformGrid>
+    </ItemContainerTemplate>
+    
+    <ItemContainerTemplate x:Key="QuerierPath">
+        <Border DataContext="{Binding}" Name="QueryPath" Height="25" Margin="25,0">
+            <TextBlock Text="{Binding Name}"/>
+        </Border>
     </ItemContainerTemplate>
 </ResourceDictionary>

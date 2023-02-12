@@ -8,9 +8,9 @@
 
         public IMainBuilder DropInformation();
 
-        public IMainBuilder AddDocument();
+        public IMainBuilder AddLink();
 
-        public IMainBuilder DropDocument();
+        public IMainBuilder DropLink();
 
         public IMainBuilder OpenDependency();
 

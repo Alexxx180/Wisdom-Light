@@ -74,7 +74,7 @@
 
             <TabControl Margin="10" Grid.Row="1">
                 <TabItem>
-                    <TabItem.Header>Генерация</TabItem.Header>
+                    <TabItem.Header>Заполнение</TabItem.Header>
                     <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
                         <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical">
                             <ToolBarTray.Visibility>

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Windows.Input;
@@ -7,6 +6,7 @@ using WisdomLight.Model;
 using WisdomLight.Model.Results.Confirming;
 using WisdomLight.View;
 using WisdomLight.ViewModel.Components.Building.Bank;
+using WisdomLight.ViewModel.Components.Building.Components.Filler.Tabs;
 using WisdomLight.ViewModel.Components.Building.Filler.Templates;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
@@ -22,6 +22,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 {
     public class FillerBuilder : IFillerBuilder
     {
+        #region Classic
+        private const string QueryPlaceHolder = "Выберите зависимость";
         private readonly StringBuilder _path;
 
         private IWindowService _windows;
@@ -33,21 +35,23 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
         private ICommand _newCommand;
         private ICommand _openCommand;
+        private ICommand _closeCommand;
+        private bool _canClose;
+
         private ICommand _saveCommand;
         private ICommand _saveAsCommand;
         private ICommand _exportCommand;
-        private ICommand _closeCommand;
 
         public ICommand _addInformation;
         public ICommand _dropInformation;
 
-        public ICommand _addDocument;
-        public ICommand _dropDocument;
-        public ICommand _openDocument;
+        public ICommand _addLink;
+        public ICommand _dropLink;
+        public ICommand _openLink;
 
-        public ICommand _chooseDependency;
-
-        private bool _canClose;
+        public ICommand _addQuery;
+        public ICommand _dropQuery;
+        public ICommand _openQuery;
 
         private ITemplateBuilder _template;
 
@@ -60,9 +64,27 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _template = new TemplateBuilder();
         }
 
-        public IFillerBuilder ChooseDependency(DependenciesViewModel dependencies)
+        public IFillerBuilder OpenLink()
         {
-            _chooseDependency = new RelayCommand(argument =>
+            _openLink = new RelayCommand(
+                argument =>
+                {
+                    ReConfirmer confirmer = DialogManager.Template(Defaults.Runtime);
+                    if (!confirmer.Result)
+                        return;
+
+                    for (int i = 0; i < _viewModel.Data.Links.SelectedItems.Count; i++)
+                    {
+                        _viewModel.Data.Links.SelectedItems[i].Set(confirmer);
+                    }
+                }
+            );
+            return this;
+        }
+
+        public IFillerBuilder OpenQuery(DependenciesViewModel dependencies)
+        {
+            _openQuery = new RelayCommand(argument =>
                 _dependenciesDialog.ShowDialog(dependencies, (result, selection) =>
                 {
                     if ((result is not bool value) || !value)
@@ -81,71 +103,61 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
         {
             for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
             {
-                _data.Queriers.SelectedItems[i].Clear();
+                //_data.Queriers.SelectedItems[i].Clear();
             }
 
             DependenciesNode current = viewModel.SelectedDependency;
             _path.Insert(0, current.Name);
-            do
+            for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
             {
+                //_data.Queriers.SelectedItems[i].Enqueue(current.No);
+            }
+
+            current = current.Parent;
+            while (current != null)
+            {
+                _path.Insert(0, $"{current.Name}/");
                 for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
                 {
-                    _data.Queriers.SelectedItems[i].Enqueue(current.No);
+                    //_data.Queriers.SelectedItems[i].Enqueue(current.No);
                 }
                 current = current.Parent;
-                _path.Insert(0, $"{current.Name}/");
             }
-            while (current != null);
 
             for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
             {
-                _data.Queriers.SelectedItems[i].Path = _path.ToString();
+                //_data.Queriers.SelectedItems[i].TreeName = _path.ToString();
             }
         }
 
         private IFillerBuilder ViewModel()
         {
-            return Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose();
+            return Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().OpenLink();
         }
 
         public IFillerBuilder Add()
         {
             _addInformation = new RelayCommand(argument => _viewModel.Data.Information.Add(InformationAdditor()));
-            _addDocument = new RelayCommand(argument => _viewModel.Data.Documents.Add(new DocumentLinker { Name = "", Type = "" }));
+            _addLink = new RelayCommand(argument => _viewModel.Data.Links.Add(new DocumentLinker(string.Empty))); //string.Empty
+            _addQuery = new RelayCommand(argument => _viewModel.Data.Queriers.Add(new Querier("Выберите зависимость"))); //{ TreeName = "Выберите зависимость" }
             return this;
         }
 
         public IFillerBuilder Drop()
         {
             _dropInformation = new RelayCommand(argument => _viewModel.Data.Information.RemoveSelected());
-            _dropDocument = new RelayCommand(argument => _viewModel.Data.Documents.RemoveSelected());
-            return this;
-        }
-
-        public IFillerBuilder Choose()
-        {
-            _openDocument = new RelayCommand(
-                argument =>
-                {
-                    ReConfirmer confirmer = DialogManager.Template(Defaults.Runtime);
-                    if (!confirmer.Result)
-                        return;
-
-                    for (int i = 0; i < _viewModel.Data.Documents.SelectedItems.Count; i++)
-                    {
-                        _viewModel.Data.Documents.SelectedItems[i].Set(confirmer);
-                    }
-                }
-            );
+            _dropLink = new RelayCommand(argument => _viewModel.Data.Links.RemoveSelected());
+            _dropQuery = new RelayCommand(argument => _viewModel.Data.Queriers.RemoveSelected());
             return this;
         }
 
         public IFillerBuilder Template()
         {
-            _data = _template.Documents().Information().Serializer().Relate().Defend().Extracting().Build();
+            _data = _template.Links().Queriers().Information().Serializer().Relate().Defend().Extracting().Build();
             return this;
         }
 
+        #region Window
         public IFillerBuilder NewFile()
         {
             _newCommand = new RelayCommand(
@@ -187,6 +199,20 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             return this;
         }
 
+        public IFillerBuilder Close()
+        {
+            _closeCommand = new RelayCommand(argument => _viewModel.Close?.Invoke(), can => _viewModel.CanClose);
+            return this;
+        }
+
+        public IFillerBuilder CanClose()
+        {
+            _canClose = true;
+            return this;
+        }
+        #endregion
+
+        #region Files
         public IFillerBuilder Save()
         {
             _saveCommand = new RelayCommand(
@@ -221,23 +247,11 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                     for (byte i = 0; i < _viewModel.Exporters.Count; i++)
                     {
                         _viewModel.Exporters[i].Extract(_viewModel.Data.Extracting);
-                        _viewModel.Exporters[i].Export(_viewModel.Data.Documents.Fields,
+                        _viewModel.Exporters[i].Export(_viewModel.Data.Links.Fields,
                             _viewModel.Data.Information.Fields, export.Path);
                     }
                 }
             );
-            return this;
-        }
-
-        public IFillerBuilder Close()
-        {
-            _closeCommand = new RelayCommand(argument => _viewModel.Close?.Invoke(), can => _viewModel.CanClose);
-            return this;
-        }
-
-        public IFillerBuilder CanClose()
-        {
-            _canClose = true;
             return this;
         }
 
@@ -252,6 +266,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _viewModel.Data.Location = Path.GetDirectoryName(dialog.Path);
             _viewModel.Data.FileName = Path.GetFileName(dialog.Path);
         }
+        #endregion
 
         private FieldSelector InformationAdditor()
         {
@@ -269,6 +284,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             };
         }
 
+        #region Building
         public IFillerBuilder Reset()
         {
             _canClose = false;
@@ -282,10 +298,12 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _closeCommand = null;
             _addInformation = null;
             _dropInformation = null;
-            _addDocument = null;
-            _dropDocument = null;
-            _openDocument = null;
-            _chooseDependency = null;
+            _addLink = null;
+            _dropLink = null;
+            _openLink = null;
+            _addQuery = null;
+            _dropQuery = null;
+            _openQuery = null;
             _template.Reset();
             return this;
         }
@@ -305,12 +323,17 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                 CanClose = _canClose,
                 AddInformation = _addInformation,
                 DropInformation = _dropInformation,
-                AddDocument = _addDocument,
-                DropDocument = _dropDocument,
-                OpenDocument = _openDocument,
-                ChooseDependency = _chooseDependency
+                AddLink = _addLink,
+                DropLink = _dropLink,
+                OpenLink = _openLink,
+                AddQuery = _addQuery,
+                DropQuery = _dropQuery,
+                OpenQuery = _openQuery
             };
             return _viewModel;
         }
+        #endregion
+
+        #endregion
     }
 }

@@ -1,0 +1,60 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:visible="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Visible">
+    <visible:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter"/>
+    <visible:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
+
+    <ControlTemplate x:Key="FillerTools">
+        <ToolBarTray Orientation="Vertical">
+            <ToolBar Width="30">
+                <Button Command="{Binding SaveCommand}" Style="{StaticResource SaveButton}"/>
+            </ToolBar>
+        </ToolBarTray>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="Filler">
+        <TabControl>
+            <TabItem Header="Информация">
+                <DockPanel LastChildFill="True">
+                    <ContentControl DockPanel.Dock="Left" Template="{StaticResource FillerTools}"/>
+                    <ContentControl Template="{StaticResource InlineInformationView}">
+                        <ContentControl.DataContext>
+                            <Binding Path="Data.Information"/>
+                        </ContentControl.DataContext>
+                    </ContentControl>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="Документы">
+                <DockPanel LastChildFill="True">
+                    <ContentControl DockPanel.Dock="Left" Template="{StaticResource FillerTools}"/>
+                    <Grid>
+                        <Border DataContext="{Binding Data}">
+                            <Border.Visibility>
+                                <Binding Path="IsRelative" Converter="{StaticResource InverseVisibilityConverter}"/>
+                            </Border.Visibility>
+
+                            <ContentControl Template="{StaticResource LinkerPathsView}">
+                                <ContentControl.DataContext>
+                                    <Binding Path="Links"/>
+                                </ContentControl.DataContext>
+                            </ContentControl>
+                        </Border>
+
+                        <Border DataContext="{Binding Data}">
+                            <Border.Visibility>
+                                <Binding Path="IsRelative" Converter="{StaticResource BooleanVisibilityConverter}"/>
+                            </Border.Visibility>
+
+                            <ContentControl Template="{StaticResource QuerierPaths}">
+                                <ContentControl.DataContext>
+                                    <Binding Path="Queriers"/>
+                                </ContentControl.DataContext>
+                            </ContentControl>
+                        </Border>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+    </ControlTemplate>
+</ResourceDictionary>

@@ -2,6 +2,8 @@
 using System.Windows.Input;
 using WisdomLight.Model.Results.Confirming;
 using WisdomLight.View;
+using WisdomLight.ViewModel.Components.Building.Components.Filler;
+using WisdomLight.ViewModel.Components.Building.Components.Filler.Tabs;
 using WisdomLight.ViewModel.Components.Building.Filler;
 using WisdomLight.ViewModel.Components.Building.Main.Preferences;
 using WisdomLight.ViewModel.Components.Core.Commands;
@@ -24,7 +26,6 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         /// </summary>
 
         private IWindowService _windows;
-        private IDialogService<DependenciesViewModel> _dependenciesDialog;
 
         private MainViewModel _viewModel;
         private PreferencesViewModel _data;
@@ -34,8 +35,9 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         public ICommand _addInformation;
         public ICommand _dropInformation;
-        public ICommand _addDocument;
-        public ICommand _dropDocument;
+
+        public ICommand _addLink;
+        public ICommand _dropLink;
 
         public ICommand _renameDependency;
         public ICommand _openDependency;
@@ -57,7 +59,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         private IFillerBuilder BaseFiller()
         {
-            return _filler.Reset().NewFile().Open().Save().SaveAs().Export().CanClose().Close().Add().Drop().Choose();
+            return _filler.Reset().NewFile().Open().CanClose().Close().Save().SaveAs().Export().Add().Drop().OpenLink();
         }
 
         public IMainBuilder Preferences()
@@ -66,12 +68,12 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             return this;
         }
 
-        public IMainBuilder AddDocument()
+        public IMainBuilder AddLink()
         {
             throw new NotImplementedException();
         }
 
-        public IMainBuilder DropDocument()
+        public IMainBuilder DropLink()
         {
             throw new NotImplementedException();
         }
@@ -123,7 +125,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _newCommand = new RelayCommand(
                 argument =>
                 {
-                    FileViewModel viewModel = BaseFiller().Template().ChooseDependency(_viewModel.Data.DependencyTree).Build();
+                    FileViewModel viewModel = BaseFiller().Template().OpenQuery(_viewModel.Data.DependencyTree).Build();
 
                     viewModel.Data.Name = "Новый документ";
                     viewModel.Data.Location = _viewModel.Data.SelectedLocation;
@@ -145,7 +147,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
                     _viewModel.Data.Serializer.Current = dialog.Key;
 
-                    FileViewModel viewModel = BaseFiller().ChooseDependency(_viewModel.Data.DependencyTree).Build();
+                    FileViewModel viewModel = BaseFiller().OpenQuery(_viewModel.Data.DependencyTree).Build();
                     
                     viewModel.Data = _viewModel.Data.Serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;
@@ -177,8 +179,8 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _viewModel = null;
             _addInformation = null;
             _dropInformation = null;
-            _addDocument = null;
-            _dropDocument = null;
+            _addLink = null;
+            _dropLink = null;
             _openDependency = null;
             _renameDependency = null;
             _newCommand = null;
@@ -198,8 +200,8 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                 Data = _data,
                 AddInformation = _addInformation,
                 DropInformation = _dropInformation,
-                AddDocument = _addDocument,
-                DropDocument = _dropDocument,
+                AddLink = _addLink,
+                DropLink = _dropLink,
                 OpenDependency = _openDependency,
                 RenameDependency = _renameDependency,
                 NewCommand = _newCommand,

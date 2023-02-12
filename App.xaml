@@ -7,22 +7,22 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Total.xaml"/>
-                <ResourceDictionary Source="Resources/Styles/Blocks.xaml"/>
-                <ResourceDictionary Source="Resources/Styles/Buttons.xaml"/>
-                <ResourceDictionary Source="Resources/Styles/Editors.xaml"/>
-                <ResourceDictionary Source="Resources/Styles/CheckBoxes.xaml"/>
-                <ResourceDictionary Source="Resources/Styles/ComboBoxes.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Text.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Editing/Buttons.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Editing/Input.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Editing/CheckBoxes.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Editing/ComboBoxes.xaml"/>
                 
                 <ResourceDictionary Source="Resources/Templates/Controls/Fields.xaml"/>
                 <ResourceDictionary Source="Resources/Templates/Data/Items.xaml"/>
 
-                <ResourceDictionary Source="Resources/Templates/Controls/Tabs/Information.xaml"/>
-                <ResourceDictionary Source="Resources/Templates/Controls/Tabs/Documents.xaml"/>
-                <ResourceDictionary Source="Resources/Templates/Controls/Tabs/Mode/Filling.xaml"/>
-                <ResourceDictionary Source="Resources/Templates/Controls/Tabs/Mode/Editing.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/Controls/Windows/Tabs/Information.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/Controls/Windows/Tabs/Documents.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/Controls/Windows/Tabs/Mode/View.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/Controls/Windows/Tabs/Mode/Edit.xaml"/>
 
                 <ResourceDictionary Source="Resources/Templates/Data/Hierarchy/Rooter.xaml"/>
-                <ResourceDictionary Source="Resources/Templates/Data/Dialogs/Dependencies.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/Data/Hierarchy/Dialogs/Dependencies.xaml"/>
                 
                 <ResourceDictionary Source="Resources/Templates/Controls/Windows/Main.xaml"/>
                 <ResourceDictionary Source="Resources/Templates/Controls/Windows/Editor.xaml"/>

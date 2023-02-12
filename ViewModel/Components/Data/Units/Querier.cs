@@ -5,35 +5,36 @@ using WisdomLight.Model;
 
 namespace WisdomLight.ViewModel.Components.Data.Units
 {
-    public class Querier : Queue<int>, ICloneable<Querier>
+    public class Querier : Queue<int>, INotifyPropertyChanged, ICloneable<Querier>
     {
-        private string _path;
-        public string Path
+        private string _name;
+        public string Name
         {
-            get => _path;
+            get => _name;
             set
             {
-                _path = value;
+                _name = value;
                 OnPropertyChanged();
             }
         }
 
-        public Querier() : base()
+        public Querier() : base() { }
+
+        public Querier(string placeholder) : base()
         {
+            Name = placeholder;
         }
 
-        public Querier(IEnumerable<int> elements) : base(elements)
-        {
-        }
+        public Querier(IEnumerable<int> elements) : base(elements) { }
 
         public Querier(IEnumerable<int> elements, string path) : this(elements)
         {
-            Path = path;
+            Name = path;
         }
 
         public Querier Clone()
         {
-            return new Querier(this);
+            return new Querier(this, Name);
         }
 
         #region INotifyPropertyChanged Members

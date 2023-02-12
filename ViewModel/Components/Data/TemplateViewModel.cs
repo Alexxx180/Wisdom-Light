@@ -13,13 +13,13 @@ namespace WisdomLight.ViewModel.Components.Data
         public List<ParagraphExtracting> Extracting { get; set; }
         public FileFiller Serializer { get; set; }
 
-        private EditableCollection<DocumentLinker> _documents;
-        public EditableCollection<DocumentLinker> Documents
+        private EditableCollection<DocumentLinker> _links;
+        public EditableCollection<DocumentLinker> Links
         {
-            get => _documents;
+            get => _links;
             set
             {
-                _documents = value;
+                _links = value;
                 OnPropertyChanged();
             }
         }

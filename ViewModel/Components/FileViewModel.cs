@@ -33,12 +33,16 @@ namespace WisdomLight.ViewModel.Components
 
         public ICommand AddInformation { get; protected internal set; }
         public ICommand DropInformation { get; protected internal set; }
-        public ICommand AddDocument { get; protected internal set; }
-        public ICommand DropDocument { get; protected internal set; }
-        public ICommand OpenDocument { get; protected internal set; }
+
+        public ICommand AddLink { get; protected internal set; }
+        public ICommand DropLink { get; protected internal set; }
+        public ICommand OpenLink { get; protected internal set; }
+
+        public ICommand AddQuery { get; protected internal set; }
+        public ICommand DropQuery { get; protected internal set; }
+        public ICommand OpenQuery { get; protected internal set; }
 
         public ICommand RelativePathCommand { get; protected internal set; }
-        public ICommand ChooseDependency { get; protected internal set; }
 
         public TemplateViewModel Data { get; set; }
         public List<FileDocument> Exporters { get; set; }
