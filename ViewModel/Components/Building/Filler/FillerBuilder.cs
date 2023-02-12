@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Text;
 using System.Windows.Input;
 using WisdomLight.Model;
 using WisdomLight.Model.Results.Confirming;
@@ -20,7 +22,11 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 {
     public class FillerBuilder : IFillerBuilder
     {
+        private readonly StringBuilder _path;
+
         private IWindowService _windows;
+        private IDialogService<DependenciesViewModel> _dependenciesDialog;
+
         private FileViewModel _viewModel;
         private TemplateViewModel _data;
         private List<FileDocument> _exporters;
@@ -39,14 +45,62 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
         public ICommand _dropDocument;
         public ICommand _openDocument;
 
+        public ICommand _chooseDependency;
+
         private bool _canClose;
 
         private ITemplateBuilder _template;
 
-        public FillerBuilder(IWindowService windows)
+        public FillerBuilder(IWindowService windows,
+            IDialogService<DependenciesViewModel> dependencies)
         {
+            _path = new StringBuilder();
             _windows = windows;
+            _dependenciesDialog = dependencies;
             _template = new TemplateBuilder();
+        }
+
+        public IFillerBuilder ChooseDependency(DependenciesViewModel dependencies)
+        {
+            _chooseDependency = new RelayCommand(argument =>
+                _dependenciesDialog.ShowDialog(dependencies, (result, selection) =>
+                {
+                    if ((result is not bool value) || !value)
+                        return;
+                    if (!selection.SelectedDependency.IsDependency)
+                        return;
+
+                    QueryProcessor(selection);
+                    _path.Clear();
+                })
+            );
+            return this;
+        }
+
+        private void QueryProcessor(DependenciesViewModel viewModel)
+        {
+            for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
+            {
+                _data.Queriers.SelectedItems[i].Clear();
+            }
+
+            DependenciesNode current = viewModel.SelectedDependency;
+            _path.Insert(0, current.Name);
+            do
+            {
+                for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
+                {
+                    _data.Queriers.SelectedItems[i].Enqueue(current.No);
+                }
+                current = current.Parent;
+                _path.Insert(0, $"{current.Name}/");
+            }
+            while (current != null);
+
+            for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
+            {
+                _data.Queriers.SelectedItems[i].Path = _path.ToString();
+            }
         }
 
         private IFillerBuilder ViewModel()
@@ -231,6 +285,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _addDocument = null;
             _dropDocument = null;
             _openDocument = null;
+            _chooseDependency = null;
             _template.Reset();
             return this;
         }
@@ -252,7 +307,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                 DropInformation = _dropInformation,
                 AddDocument = _addDocument,
                 DropDocument = _dropDocument,
-                OpenDocument = _openDocument
+                OpenDocument = _openDocument,
+                ChooseDependency = _chooseDependency
             };
             return _viewModel;
         }

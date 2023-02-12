@@ -1,14 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:vm="clr-namespace:WisdomLight.ViewModel.Components"
-                    xmlns:decoration="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Decoration"
-                    xmlns:selection="clr-namespace:WisdomLight.View.Binds.Attach.Selection"
                     xmlns:visible="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Visible"
                     xmlns:bool="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Bool">
     <ControlTemplate x:Key="MainView">
         <ControlTemplate.Resources>
             <visible:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter"/>
-            <decoration:FontWeightConverter x:Key="FontWeightConverter"/>
         </ControlTemplate.Resources>
         
         <Grid>
@@ -89,16 +85,8 @@
                                 </Binding>
                             </ToolBarTray.Visibility>
                             <ToolBar>
-                                <Button Height="30" FontSize="16" MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="AddButton"/>
-                                    </Button.Style>
-                                </Button>
-                                <Button Height="30" FontSize="16" MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="DeleteButton"/>
-                                    </Button.Style>
-                                </Button>
+                                <Button Style="{StaticResource AddButton}"/>
+                                <Button Style="{StaticResource DeleteButton}"/>
                             </ToolBar>
                         </ToolBarTray>
 
@@ -126,33 +114,17 @@
                                 </Binding>
                             </ToolBarTray.Visibility>
                             <ToolBar>
-                                <Button Height="30" FontSize="16" MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="AddButton"/>
-                                    </Button.Style>
-                                </Button>
-                                <Button Height="30" FontSize="16" MinWidth="25">
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="DeleteButton"/>
-                                    </Button.Style>
-                                </Button>
-                                <Button Command="{Binding OpenDependency}" Height="30" FontSize="16" MinWidth="25">
-                                    <Button.Content>
-                                        <TextBlock Text="O"/>
-                                    </Button.Content>
-                                    
-                                    <Button.Style>
-                                        <StaticResource ResourceKey="Steps"/>
-                                    </Button.Style>
-                                </Button>
+                                <Button Style="{StaticResource AddButton}"/>
+                                <Button Style="{StaticResource DeleteButton}"/>
+                                <Button Command="{Binding OpenDependency}" Style="{StaticResource OpenButton}"/>
                             </ToolBar>
                         </ToolBarTray>
 
 
-                        <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
+                        <DockPanel DataContext="{Binding Data.DependencyTree}" HorizontalAlignment="Stretch" LastChildFill="True">
                             <TextBlock Text="Зависимость" DockPanel.Dock="Bottom">
                                 <TextBlock.Visibility>
-                                    <Binding Path="Data.SelectedDependency.IsDependency">
+                                    <Binding Path="SelectedDependency.IsDependency">
                                         <Binding.Converter>
                                             <StaticResource ResourceKey="BooleanVisibilityConverter"/>
                                         </Binding.Converter>
@@ -160,29 +132,8 @@
                                 </TextBlock.Visibility>
                             </TextBlock>
 
-                            <TreeView ItemsSource="{Binding Data.Dependencies}" DockPanel.Dock="Top"
-                                  selection:TreeViewSelection.TreeViewSelectedItem="{Binding Data.SelectedDependency, Mode=TwoWay}">
-                                <TreeView.ItemContainerStyle>
-                                    <Style TargetType="{x:Type TreeViewItem}">
-                                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                        <Setter Property="FontWeight">
-                                            <Setter.Value>
-                                                <Binding Path="IsDependency" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                                                    <Binding.Converter>
-                                                        <StaticResource ResourceKey="FontWeightConverter"/>
-                                                    </Binding.Converter>
-                                                </Binding>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <!--<Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsDependency}" Value="True">
-                                                <Setter Property="Foreground" Value="Aqua"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>-->
-                                    </Style>
-                                </TreeView.ItemContainerStyle>
-                            </TreeView>
+                            <!--DockPanel.Dock="Top" ContentTemplate="{StaticResource DocumentDependencyTree}"-->
+                            <ContentControl DockPanel.Dock="Top" Template="{StaticResource DocumentDependencyTree}"/>
                         </DockPanel>
                     </DockPanel>
                 </TabItem>

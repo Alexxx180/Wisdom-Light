@@ -1,7 +1,11 @@
-﻿namespace WisdomLight.ViewModel.Components.Building.Filler
+﻿using WisdomLight.ViewModel.Components.Data;
+
+namespace WisdomLight.ViewModel.Components.Building.Filler
 {
     public interface IFillerBuilder
     {
+        public IFillerBuilder ChooseDependency(DependenciesViewModel dependencies);
+
         public IFillerBuilder Template();
 
         public IFillerBuilder NewFile();

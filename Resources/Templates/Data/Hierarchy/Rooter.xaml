@@ -9,7 +9,7 @@
         <HierarchicalDataTemplate.ItemsSource>
             <Binding Path="Nodes"/>
         </HierarchicalDataTemplate.ItemsSource>
-        <!---->
+        
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding Name}" Style="{StaticResource DependencySelection}">
                 <TextBlock.ToolTip>

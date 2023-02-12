@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using WisdomLight.ViewModel.Components.Building.Bank;
+using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data.Units;
 
@@ -12,18 +13,22 @@ namespace WisdomLight.ViewModel.Components.Data
         public PreferencesViewModel()
         {
             Name = "Облегченная Мудрость";
-            Dependencies = new ObservableCollection<DependenciesNode>()
+            DependenciesNode root = new DependenciesNode
             {
-                new DependenciesNode
+                Name = "Templates",
+                Nodes = new DependenciesCollection
                 {
-                    Name = "Templates",
-                    Nodes = new ObservableCollection<DependenciesNode>
-                    {
-                        new DependenciesNode { Name = "#1" },
-                        new DependenciesNode { Name = "#2" },
-                        new DependenciesNode { Name = "#3" }
-                    }
+                    new DependenciesNode { Name = "#1" },
+                    new DependenciesNode { Name = "#2" },
+                    new DependenciesNode { Name = "#3" }
                 }
+            };
+
+            DependenciesCollection nodes = new DependenciesCollection() { root };
+            DependencyTree = new DependenciesViewModel
+            {
+                Dependencies = nodes,
+                SelectedDependency = root
             };
         }
 
@@ -38,30 +43,16 @@ namespace WisdomLight.ViewModel.Components.Data
             }
         }
 
-        private ObservableCollection<DependenciesNode> _dependencies;
-        public ObservableCollection<DependenciesNode> Dependencies
+        private DependenciesViewModel _dependencyTree;
+        public DependenciesViewModel DependencyTree
         {
-            get => _dependencies;
+            get => _dependencyTree;
             set
             {
-                _dependencies = value;
+                _dependencyTree = value;
                 OnPropertyChanged();
             }
         }
-
-        private DependenciesNode _selectedDependency;
-        public DependenciesNode SelectedDependency
-        {
-            get => _selectedDependency;
-            set
-            {
-                _selectedDependency = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsDependencySelected));
-            }
-        }
-
-        public bool IsDependencySelected => SelectedDependency is not null;
 
         private string _selectedLocation;
         public string SelectedLocation

@@ -28,12 +28,4 @@
     <Style x:Key="DarkBox" BasedOn="{StaticResource Dark}">
         <Setter Property="Control.BorderThickness" Value="1"/>
     </Style>
-
-    <Style x:Key="AddAccent">
-        <Setter Property="Control.Background" Value="#FF00FF2A"/>
-    </Style>
-
-    <Style x:Key="DropAccent">
-        <Setter Property="Control.Background" Value="#FFFF2A2A"/>
-    </Style>
 </ResourceDictionary>

@@ -1,21 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ControlTemplate x:Key="FileButtons">
-        <StackPanel>
-            <Button Command="{Binding SaveCommand}" Height="30" FontSize="12" MinWidth="25">
-                <Button.Style>
-                    <StaticResource ResourceKey="Steps2"/>
-                </Button.Style>
-
-                <TextBlock Text="S" />
-            </Button>
-        </StackPanel>
-    </ControlTemplate>
-
     <ControlTemplate x:Key="FillerTools">
         <ToolBarTray Orientation="Vertical">
             <ToolBar Width="30">
-                <ContentControl Template="{StaticResource FileButtons}"/>
+                <Button Command="{Binding SaveCommand}" Style="{StaticResource SaveButton}"/>
             </ToolBar>
         </ToolBarTray>
     </ControlTemplate>

@@ -38,6 +38,7 @@ namespace WisdomLight.ViewModel.Components
         public ICommand OpenDocument { get; protected internal set; }
 
         public ICommand RelativePathCommand { get; protected internal set; }
+        public ICommand ChooseDependency { get; protected internal set; }
 
         public TemplateViewModel Data { get; set; }
         public List<FileDocument> Exporters { get; set; }

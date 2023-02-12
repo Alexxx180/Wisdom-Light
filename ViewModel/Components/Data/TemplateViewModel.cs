@@ -24,6 +24,17 @@ namespace WisdomLight.ViewModel.Components.Data
             }
         }
 
+        private EditableCollection<Querier> _queriers;
+        public EditableCollection<Querier> Queriers
+        {
+            get => _queriers;
+            set
+            {
+                _queriers = value;
+                OnPropertyChanged();
+            }
+        }
+
         private EditableCollection<FieldSelector> _information;
         public EditableCollection<FieldSelector> Information
         {

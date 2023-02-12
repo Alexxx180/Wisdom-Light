@@ -23,6 +23,7 @@
             </ListBox.HorizontalContentAlignment>
             <ListBox.ItemTemplate>
                 <ItemContainerTemplate>
+                    <!--Content="{Binding Current}"-->
                     <ContentPresenter Content="{Binding Current}" />
                 </ItemContainerTemplate>
             </ListBox.ItemTemplate>

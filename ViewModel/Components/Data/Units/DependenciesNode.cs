@@ -1,10 +1,21 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using WisdomLight.ViewModel.Components.Core.Dialogs;
 
 namespace WisdomLight.ViewModel.Components.Data.Units
 {
     public class DependenciesNode : NameLabel, INotifyPropertyChanged
     {
+        private DependenciesNode _parent;
+        public DependenciesNode Parent
+        {
+            get => _parent;
+            set
+            {
+                _parent = value;
+                OnPropertyChanged();
+            }
+        }
+
         public DependenciesNode()
         {
             IsDependency = false;
@@ -14,6 +25,17 @@ namespace WisdomLight.ViewModel.Components.Data.Units
         {
             get => Nodes[index];
             set => Nodes[index] = value;
+        }
+
+        private int _no;
+        public int No
+        {
+            get => _no;
+            set
+            {
+                _no = value;
+                OnPropertyChanged();
+            }
         }
 
         private bool _isSelected;
@@ -74,6 +96,6 @@ namespace WisdomLight.ViewModel.Components.Data.Units
             }
         }
 
-        public ObservableCollection<DependenciesNode> Nodes { get; set; }
+        public DependenciesCollection Nodes { get; set; }
     }
 }

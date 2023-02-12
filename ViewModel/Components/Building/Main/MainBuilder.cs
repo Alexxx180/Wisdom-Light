@@ -24,6 +24,8 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         /// </summary>
 
         private IWindowService _windows;
+        private IDialogService<DependenciesViewModel> _dependenciesDialog;
+
         private MainViewModel _viewModel;
         private PreferencesViewModel _data;
 
@@ -46,10 +48,10 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         private bool _canClose;
 
-        public MainBuilder(IWindowService windows)
+        public MainBuilder(IWindowService windows, IDialogService<DependenciesViewModel> dialog)
         {
             _windows = windows;
-            _filler = new FillerBuilder(_windows);
+            _filler = new FillerBuilder(_windows, dialog);
             _preferencesBuilder = new PreferencesBuilder();
         }
 
@@ -83,9 +85,9 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                     if (!dialog.Result)
                         return;
 
-                    _data.SelectedDependency.DependencyPath = dialog.FullPath;
+                    _data.DependencyTree.SelectedDependency.DependencyPath = dialog.FullPath;
                 },
-                canExecute => _data.IsDependencySelected
+                canExecute => _data.DependencyTree.IsDependencySelected
             );
             return this;
         }
@@ -95,7 +97,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _renameDependency = new RelayCommand(
                 argument =>
                 {
-                    _data.SelectedDependency.Name = argument.ToString();
+                    _data.DependencyTree.SelectedDependency.Name = argument.ToString();
                 }
             );
             return this;
@@ -121,7 +123,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _newCommand = new RelayCommand(
                 argument =>
                 {
-                    FileViewModel viewModel = BaseFiller().Template().Build();
+                    FileViewModel viewModel = BaseFiller().Template().ChooseDependency(_viewModel.Data.DependencyTree).Build();
 
                     viewModel.Data.Name = "Новый документ";
                     viewModel.Data.Location = _viewModel.Data.SelectedLocation;
@@ -143,7 +145,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
                     _viewModel.Data.Serializer.Current = dialog.Key;
 
-                    FileViewModel viewModel = BaseFiller().Build();
+                    FileViewModel viewModel = BaseFiller().ChooseDependency(_viewModel.Data.DependencyTree).Build();
                     
                     viewModel.Data = _viewModel.Data.Serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;

@@ -22,6 +22,7 @@
                 <ResourceDictionary Source="Resources/Templates/Controls/Tabs/Mode/Editing.xaml"/>
 
                 <ResourceDictionary Source="Resources/Templates/Data/Hierarchy/Rooter.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/Data/Dialogs/Dependencies.xaml"/>
                 
                 <ResourceDictionary Source="Resources/Templates/Controls/Windows/Main.xaml"/>
                 <ResourceDictionary Source="Resources/Templates/Controls/Windows/Editor.xaml"/>
@@ -30,6 +31,7 @@
             <DataTemplate DataType="{x:Type vm:MainViewModel}">
                 <ContentControl Template="{StaticResource MainView}"/>
             </DataTemplate>
+            
             <DataTemplate DataType="{x:Type vm:FileViewModel}">
                 <ContentControl Template="{StaticResource EditorView}"/>
             </DataTemplate>

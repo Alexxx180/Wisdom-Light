@@ -2,6 +2,8 @@
 using WisdomLight.View;
 using WisdomLight.ViewModel.Components;
 using WisdomLight.ViewModel.Components.Building.Main;
+using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Data;
 using static WisdomLight.ViewModel.Components.Building.Bank.Setup;
 
 namespace WisdomLight
@@ -16,7 +18,8 @@ namespace WisdomLight
             Logger();
 
             IWindowService windows = new WindowService();
-            MainViewModel viewModel = new MainBuilder(windows).Preferences().NewFile().Open().CanClose().Close().OpenDependency().RenameDependency().Build();
+            IDialogService<DependenciesViewModel> dialog = new DependenciesDialog();
+            MainViewModel viewModel = new MainBuilder(windows, dialog).Preferences().NewFile().Open().CanClose().Close().OpenDependency().RenameDependency().Build();
             windows.ShowWindow(viewModel);
             //new MainWindow
             //{
