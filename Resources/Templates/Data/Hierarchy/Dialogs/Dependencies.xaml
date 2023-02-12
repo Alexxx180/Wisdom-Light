@@ -4,7 +4,11 @@
     <DataTemplate DataType="{x:Type data:DependenciesViewModel}">
         <DockPanel Margin="15" LastChildFill="True">
             <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
-                <Button IsEnabled="{Binding SelectedDependency.IsDependency}" IsDefault="True" Style="{StaticResource OkButton}"/>
+                <Button Command="{Binding CloseCommand}" IsDefault="True" Style="{StaticResource OkButton}">
+                    <Button.IsEnabled>
+                        <Binding Path="SelectedDependency.IsDependency"/>
+                    </Button.IsEnabled>
+                </Button>
                 <Separator/>
                 <Button IsCancel="True" Style="{StaticResource CancelButton}"/>
             </WrapPanel>

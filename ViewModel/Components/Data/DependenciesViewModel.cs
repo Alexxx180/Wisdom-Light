@@ -1,9 +1,12 @@
-﻿using WisdomLight.ViewModel.Components.Core.Dialogs;
+﻿using System;
+using System.Windows.Input;
+using WisdomLight.ViewModel.Components.Core.Commands;
+using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Data.Units;
 
 namespace WisdomLight.ViewModel.Components.Data
 {
-    public class DependenciesViewModel : NotifyPropertyChanged
+    public class DependenciesViewModel : NotifyPropertyChanged, ICloseable
     {
         private DependenciesCollection _dependencies;
         public DependenciesCollection Dependencies
@@ -29,5 +32,20 @@ namespace WisdomLight.ViewModel.Components.Data
         }
 
         public bool IsDependencySelected => SelectedDependency is not null;
+
+        public Action Close { get; set; }
+
+        private bool _canClose;
+        public bool CanClose
+        {
+            get => _canClose;
+            set
+            {
+                _canClose = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand CloseCommand { get; protected internal set; }
     }
 }

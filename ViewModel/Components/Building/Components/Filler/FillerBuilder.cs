@@ -87,7 +87,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _openQuery = new RelayCommand(argument =>
                 _dependenciesDialog.ShowDialog(dependencies, (result, selection) =>
                 {
-                    if ((result is not bool value) || !value)
+                    if (!result)
                         return;
                     if (!selection.SelectedDependency.IsDependency)
                         return;
@@ -103,14 +103,14 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
         {
             for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
             {
-                //_data.Queriers.SelectedItems[i].Clear();
+                _data.Queriers.SelectedItems[i].Clear();
             }
 
             DependenciesNode current = viewModel.SelectedDependency;
-            _path.Insert(0, current.Name);
+            _path.Append(current.Name);
             for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
             {
-                //_data.Queriers.SelectedItems[i].Enqueue(current.No);
+                _data.Queriers.SelectedItems[i].Enqueue(current.No);
             }
 
             current = current.Parent;
@@ -119,14 +119,14 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                 _path.Insert(0, $"{current.Name}/");
                 for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
                 {
-                    //_data.Queriers.SelectedItems[i].Enqueue(current.No);
+                    _data.Queriers.SelectedItems[i].Enqueue(current.No);
                 }
                 current = current.Parent;
             }
 
             for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
             {
-                //_data.Queriers.SelectedItems[i].TreeName = _path.ToString();
+                _data.Queriers.SelectedItems[i].Name = _path.ToString();
             }
         }
 
@@ -138,8 +138,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
         public IFillerBuilder Add()
         {
             _addInformation = new RelayCommand(argument => _viewModel.Data.Information.Add(InformationAdditor()));
-            _addLink = new RelayCommand(argument => _viewModel.Data.Links.Add(new DocumentLinker(string.Empty))); //string.Empty
-            _addQuery = new RelayCommand(argument => _viewModel.Data.Queriers.Add(new Querier("Выберите зависимость"))); //{ TreeName = "Выберите зависимость" }
+            _addLink = new RelayCommand(argument => _viewModel.Data.Links.Add(new DocumentLinker(string.Empty)));
+            _addQuery = new RelayCommand(argument => _viewModel.Data.Queriers.Add(new Querier(QueryPlaceHolder)));
             return this;
         }
 

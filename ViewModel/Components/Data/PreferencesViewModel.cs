@@ -16,18 +16,19 @@ namespace WisdomLight.ViewModel.Components.Data
             DependenciesNode root = new DependenciesNode
             {
                 Name = "Templates",
-                Nodes = new DependenciesCollection
-                {
-                    new DependenciesNode { Name = "#1" },
-                    new DependenciesNode { Name = "#2" },
-                    new DependenciesNode { Name = "#3" }
-                }
             };
 
-            DependenciesCollection nodes = new DependenciesCollection() { root };
+            DependenciesCollection rootNodes = new DependenciesCollection(root)
+            {
+                new DependenciesNode { Name = "#1" },
+                new DependenciesNode { Name = "#2" },
+                new DependenciesNode { Name = "#3" }
+            };
+            root.Nodes = rootNodes;
+
             DependencyTree = new DependenciesViewModel
             {
-                Dependencies = nodes,
+                Dependencies = new DependenciesCollection() { root },
                 SelectedDependency = root
             };
         }

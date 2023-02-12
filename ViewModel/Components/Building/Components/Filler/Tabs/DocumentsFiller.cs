@@ -51,14 +51,14 @@ namespace WisdomLight.ViewModel.Components.Building.Components.Filler.Tabs
             _openQuery = new RelayCommand(argument =>
                 _dependenciesDialog.ShowDialog(dependencies, (result, selection) =>
                 {
-                    if ((result is not bool value) || !value)
+                    if (!result)
                         return;
                     if (!selection.SelectedDependency.IsDependency)
                         return;
 
                     for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
                     {
-                        //_data.Queriers.SelectedItems[i].Clear();
+                        _data.Queriers.SelectedItems[i].Clear();
                     }
 
                     DependenciesNode current = selection.SelectedDependency;
@@ -67,7 +67,7 @@ namespace WisdomLight.ViewModel.Components.Building.Components.Filler.Tabs
                     {
                         for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
                         {
-                            //_data.Queriers.SelectedItems[i].Enqueue(current.No);
+                            _data.Queriers.SelectedItems[i].Enqueue(current.No);
                         }
                         current = current.Parent;
                         _path.Insert(0, $"{current.Name}/");
@@ -76,7 +76,7 @@ namespace WisdomLight.ViewModel.Components.Building.Components.Filler.Tabs
 
                     for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
                     {
-                        //_data.Queriers.SelectedItems[i].TreeName = _path.ToString();
+                        _data.Queriers.SelectedItems[i].Name = _path.ToString();
                     }
                     _path.Clear();
                 })
