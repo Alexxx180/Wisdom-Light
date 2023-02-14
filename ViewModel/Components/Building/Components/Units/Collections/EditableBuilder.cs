@@ -8,12 +8,12 @@ namespace WisdomLight.ViewModel.Components.Building.Collections
     public class EditableBuilder<T> : IEditableBuilder<T> where T : ICloneable<T>
     {
         private EditableCollection<T> _editables;
-        private ObservableCollection<T> _fields;
-        private List<T> _selectedItems;
+        private protected ObservableCollection<T> _fields;
+        private protected List<T> _selectedItems;
 
         public T _additor;
 
-        public EditableCollection<T> Build()
+        public virtual EditableCollection<T> Build()
         {
             _editables = new EditableCollection<T>
             {
@@ -23,26 +23,26 @@ namespace WisdomLight.ViewModel.Components.Building.Collections
             return _editables;
         }
 
-        public IEditableBuilder<T> Reset()
+        public virtual IEditableBuilder<T> Reset()
         {
             _selectedItems = null;
             _fields = null;
             return this;
         }
 
-        public IEditableBuilder<T> Fields()
+        public virtual IEditableBuilder<T> Fields()
         {
             _fields = new ObservableCollection<T>();
             return this;
         }
 
-        public IEditableBuilder<T> SelectedItems()
+        public virtual IEditableBuilder<T> SelectedItems()
         {
             _selectedItems = new List<T>();
             return this;
         }
 
-        public IEditableBuilder<T> Additor(T item)
+        public virtual IEditableBuilder<T> Additor(T item)
         {
             _additor = item;
             return this;

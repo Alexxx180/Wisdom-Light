@@ -32,6 +32,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
         private FileViewModel _viewModel;
         private TemplateViewModel _data;
         private List<FileDocument> _exporters;
+        private DependenciesViewModel _dependencies;
 
         private ICommand _newCommand;
         private ICommand _openCommand;
@@ -82,10 +83,17 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             return this;
         }
 
-        public IFillerBuilder OpenQuery(DependenciesViewModel dependencies)
+        public IFillerBuilder SetDependencies(DependenciesViewModel dependencies)
+        {
+            _dependencies = dependencies;
+            _template.SetDependencies(dependencies);
+            return this;
+        }
+
+        public IFillerBuilder OpenQuery()
         {
             _openQuery = new RelayCommand(argument =>
-                _dependenciesDialog.ShowDialog(dependencies, (result, selection) =>
+                _dependenciesDialog.ShowDialog(_dependencies, (result, selection) =>
                 {
                     if (!result)
                         return;
@@ -247,7 +255,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                     for (byte i = 0; i < _viewModel.Exporters.Count; i++)
                     {
                         _viewModel.Exporters[i].Extract(_viewModel.Data.Extracting);
-                        _viewModel.Exporters[i].Export(_viewModel.Data.Links.Fields,
+                        _viewModel.Exporters[i].Export(_viewModel.Data.Documents,
                             _viewModel.Data.Information.Fields, export.Path);
                     }
                 }

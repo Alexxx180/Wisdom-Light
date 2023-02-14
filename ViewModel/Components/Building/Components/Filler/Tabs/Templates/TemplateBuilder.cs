@@ -2,9 +2,9 @@
 using WisdomLight.ViewModel.Components.Building.Collections;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
-using WisdomLight.ViewModel.Components.Data.Units;
 using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
+using WisdomLight.ViewModel.Components.Building.Components.Units.Collections;
 
 namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
 {
@@ -16,8 +16,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
         
         private FileFiller _serializer;
 
-        private IEditableBuilder<Querier> _queriers;
-        private IEditableBuilder<DocumentLinker> _links;
+        private QueryBuilder _queriers;
+        private LinkerBuilder _links;
         private IEditableBuilder<FieldSelector> _information;
 
         private bool _isDefended;
@@ -25,8 +25,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
 
         public TemplateBuilder()
         {
-            _links = new EditableBuilder<DocumentLinker>();
-            _queriers = new EditableBuilder<Querier>();
+            _links = new LinkerBuilder();
+            _queriers = new QueryBuilder();
             _information = new EditableBuilder<FieldSelector>();
         }
 
@@ -54,6 +54,12 @@ namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
             _links.Reset();
             _queriers.Reset();
             _information.Reset();
+            return this;
+        }
+
+        public ITemplateBuilder SetDependencies(DependenciesViewModel dependencies)
+        {
+            _queriers.SetDependencies(dependencies);
             return this;
         }
 

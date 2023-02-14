@@ -6,21 +6,22 @@ using WisdomLight.ViewModel.Components.Data.Units;
 using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 using Serilog;
+using WisdomLight.ViewModel.Components.Data.Units.Collections;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
 {
     public abstract class FileDocument : Saver, IDocument
     {
-        public void Export(IList<DocumentLinker> paths, IList<FieldSelector> expressions, string folder)
+        public void Export(IDocuments documents, IList<FieldSelector> expressions, string folder)
         {
-            for (byte i = 0; i < paths.Count; i++)
+            foreach (string document in documents.GetNextDocument())
             {
-                string template = paths[i].Type;
-
-                if (!File.Exists(template))
+                if (!File.Exists(document))
                     continue;
 
-                TemplateFrom(template).GenerateTo($"{folder}\\{Path.GetFileName(template)}");
+                string name = Path.GetFileName(document);
+                string fullName = Path.Combine(folder, name);
+                TemplateFrom(document).GenerateTo(fullName);
 
                 try
                 {

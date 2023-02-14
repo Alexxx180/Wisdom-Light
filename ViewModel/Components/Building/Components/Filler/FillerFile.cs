@@ -65,7 +65,7 @@ namespace WisdomLight.ViewModel.Components.Building.Components.Filler.Blocks
                     for (byte i = 0; i < _viewModel.Exporters.Count; i++)
                     {
                         _viewModel.Exporters[i].Extract(_viewModel.Data.Extracting);
-                        _viewModel.Exporters[i].Export(_viewModel.Data.Links.Fields,
+                        _viewModel.Exporters[i].Export(_viewModel.Data.Documents,
                             _viewModel.Data.Information.Fields, export.Path);
                     }
                 }

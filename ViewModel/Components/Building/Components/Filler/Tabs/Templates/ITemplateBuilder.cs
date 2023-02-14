@@ -1,9 +1,12 @@
-﻿using WisdomLight.ViewModel.Components.Data;
+﻿using WisdomLight.ViewModel.Components.Building.Components.Units;
+using WisdomLight.ViewModel.Components.Data;
 
 namespace WisdomLight.ViewModel.Components.Building.Filler.Templates
 {
     public interface ITemplateBuilder
     {
+        public ITemplateBuilder SetDependencies(DependenciesViewModel dependencies);
+
         public ITemplateBuilder Defend();
 
         public ITemplateBuilder Relate();

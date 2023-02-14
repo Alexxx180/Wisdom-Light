@@ -33,18 +33,6 @@ namespace WisdomLight.ViewModel.Components.Data.Units
             Name = path;
         }
 
-        public string QueryPath(DependenciesViewModel dependencies)
-        {
-            int first = Pop();
-            DependenciesNode node = dependencies.Dependencies[first];
-            foreach (int index in this)
-            {
-                node = node[index];
-            }
-            Push(first);
-            return node.DependencyPath;
-        }
-
         public Querier Clone()
         {
             return new Querier(this, Name);

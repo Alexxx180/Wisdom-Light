@@ -65,6 +65,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         public IMainBuilder Preferences()
         {
             _data = _preferencesBuilder.Serializer().Templates().Defend().DefaultPath().Build();
+            _filler.SetDependencies(_data.DependencyTree);
             return this;
         }
 
@@ -125,7 +126,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _newCommand = new RelayCommand(
                 argument =>
                 {
-                    FileViewModel viewModel = BaseFiller().Template().OpenQuery(_viewModel.Data.DependencyTree).Build();
+                    FileViewModel viewModel = BaseFiller().Template().OpenQuery().Build();
 
                     viewModel.Data.Name = "Новый документ";
                     viewModel.Data.Location = _viewModel.Data.SelectedLocation;
@@ -147,7 +148,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
                     _viewModel.Data.Serializer.Current = dialog.Key;
 
-                    FileViewModel viewModel = BaseFiller().OpenQuery(_viewModel.Data.DependencyTree).Build();
+                    FileViewModel viewModel = BaseFiller().OpenQuery().Build();
                     
                     viewModel.Data = _viewModel.Data.Serializer.Load(dialog.FullPath);
                     viewModel.Data.Location = dialog.Path;

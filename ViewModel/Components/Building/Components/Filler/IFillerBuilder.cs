@@ -4,7 +4,9 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 {
     public interface IFillerBuilder
     {
-        public IFillerBuilder OpenQuery(DependenciesViewModel dependencies);
+        public IFillerBuilder SetDependencies(DependenciesViewModel dependencies);
+
+        public IFillerBuilder OpenQuery();
 
         public IFillerBuilder Template();
 
