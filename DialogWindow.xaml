@@ -5,7 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:attach="clr-namespace:WisdomLight.View.Binds.Attach"
         attach:WindowCloser.EnableWindowClosing="True"
-        mc:Ignorable="d"
-        Title="DialogWindow" Height="320" Width="380"
-        MinWidth="200" MinHeight="200">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="DialogWindow"
+        x:Name="This">
+    <Window.Height>
+        <Binding ElementName="This" Path="Content.Height.Initial"/>
+    </Window.Height>
+
+    <Window.MinHeight>
+        <Binding ElementName="This" Path="Content.Height.Min"/>
+    </Window.MinHeight>
+
+    <Window.MaxHeight>
+        <Binding ElementName="This" Path="Content.Height.Max"/>
+    </Window.MaxHeight>
+
+    <Window.Width>
+        <Binding ElementName="This" Path="Content.Width.Initial"/>
+    </Window.Width>
+
+    <Window.MinWidth>
+        <Binding ElementName="This" Path="Content.Width.Min"/>
+    </Window.MinWidth>
+
+    <Window.MaxWidth>
+        <Binding ElementName="This" Path="Content.Width.Max"/>
+    </Window.MaxWidth>
 </Window>

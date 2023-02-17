@@ -29,15 +29,18 @@
                 <Button IsCancel="True" Style="{StaticResource CancelButton}"/>
             </WrapPanel>
 
-            <TextBox Style="{StaticResource NameBox}">
-                <TextBox.Text>
-                    <Binding Path="Name" Mode="TwoWay">
-                        <Binding.UpdateSourceTrigger>
-                            LostFocus
-                        </Binding.UpdateSourceTrigger>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+            <UniformGrid Rows="2" Margin="0,0,0,10" Style="{StaticResource GlobalFont}">
+                <TextBlock Text="Введите новое имя"/>
+                <TextBox Style="{StaticResource NameBox}">
+                    <TextBox.Text>
+                        <Binding Path="Name" Mode="TwoWay">
+                            <Binding.UpdateSourceTrigger>
+                                LostFocus
+                            </Binding.UpdateSourceTrigger>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </UniformGrid>
         </DockPanel>
     </DataTemplate>
 </ResourceDictionary>

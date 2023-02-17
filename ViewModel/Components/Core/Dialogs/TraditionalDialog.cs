@@ -1,6 +1,6 @@
 ﻿namespace WisdomLight.ViewModel.Components.Core.Dialogs
 {
-    public abstract class Dialog : ITraditionalDialogService
+    public abstract class TraditionalDialog : ITraditionalDialogService
     {
         public string Title { get; set; }
         public string InitialDirectory { get; set; }

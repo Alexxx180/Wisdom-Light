@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using WisdomLight.Model;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Data.Units;
@@ -8,6 +9,12 @@ namespace WisdomLight.ViewModel.Components.Data
 {
     public class DependenciesViewModel : NotifyPropertyChanged, ICloseable
     {
+        public DependenciesViewModel()
+        {
+            Width = new Limiter(200, 380, 640);
+            Height = new Limiter(200, 320, 480);
+        }
+
         private DependenciesCollection _dependencies;
         public DependenciesCollection Dependencies
         {
@@ -57,6 +64,9 @@ namespace WisdomLight.ViewModel.Components.Data
                 OnPropertyChanged();
             }
         }
+
+        public Limiter Width { get; }
+        public Limiter Height { get; }
 
         public ICommand CloseCommand { get; protected internal set; }
     }

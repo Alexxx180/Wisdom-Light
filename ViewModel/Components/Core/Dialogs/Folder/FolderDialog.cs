@@ -3,7 +3,7 @@ using WisdomLight.Model;
 
 namespace WisdomLight.ViewModel.Components.Core.Dialogs.Folder
 {
-    public class FolderDialog : Dialog
+    public class FolderDialog : TraditionalDialog
     {
         public Confirmer Result { get; private protected set; }
 

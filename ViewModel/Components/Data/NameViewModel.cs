@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Input;
+using WisdomLight.Model;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Data.Units;
@@ -16,6 +17,9 @@ namespace WisdomLight.ViewModel.Components.Data
         {
             _dependencies = dependencies.Nodes;
             Name = dependencies.Name;
+
+            Width = new Limiter(200, 320, 480);
+            Height = new Limiter(155);
         }
 
         public override string Name
@@ -40,6 +44,9 @@ namespace WisdomLight.ViewModel.Components.Data
                 OnPropertyChanged();
             }
         }
+
+        public Limiter Width { get; }
+        public Limiter Height { get; }
 
         public ICommand CloseCommand { get; protected internal set; }
     }
