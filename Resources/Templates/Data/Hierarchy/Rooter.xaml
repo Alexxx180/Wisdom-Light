@@ -23,7 +23,7 @@
                         </ToolTip.Visibility>
 
                         <TextBlock>
-                            <Run Text="Документ" FontWeight="Bold"/>
+                            <Run Text="Зависимость" FontWeight="Bold"/>
                             <LineBreak/>
                             <Run Text="{Binding DependencyPath}" TextDecorations="Underline"/>
                         </TextBlock>

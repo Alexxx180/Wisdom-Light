@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WisdomLight.ViewModel.Components.Data.Units;
 
 namespace WisdomLight.ViewModel.Components.Core.Dialogs
@@ -35,6 +31,12 @@ namespace WisdomLight.ViewModel.Components.Core.Dialogs
                 this[i].No--;
 
             base.Remove(node);
+        }
+
+        public IEnumerable<string> GetNames()
+        {
+            for (int i = 0; i < Count; i++)
+                yield return this[i].Name;
         }
     }
 }

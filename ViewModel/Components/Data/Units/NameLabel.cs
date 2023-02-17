@@ -3,7 +3,7 @@
     public abstract class NameLabel : NotifyPropertyChanged
     {
         private string _name;
-        public string Name
+        public virtual string Name
         {
             get => _name;
             set

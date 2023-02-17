@@ -32,6 +32,18 @@ namespace WisdomLight.ViewModel.Components.Data
         }
 
         public bool IsDependencySelected => SelectedDependency is not null;
+        
+        public string QueryPath(Querier courier)
+        {
+            int first = courier.Pop();
+            DependenciesNode node = Dependencies[first];
+            foreach (int index in courier)
+            {
+                node = node[index];
+            }
+            courier.Push(first);
+            return node.DependencyPath;
+        }
 
         public Action Close { get; set; }
 
@@ -44,18 +56,6 @@ namespace WisdomLight.ViewModel.Components.Data
                 _canClose = value;
                 OnPropertyChanged();
             }
-        }
-
-        public string QueryPath(Querier courier)
-        {
-            int first = courier.Pop();
-            DependenciesNode node = Dependencies[first];
-            foreach (int index in courier)
-            {
-                node = node[index];
-            }
-            courier.Push(first);
-            return node.DependencyPath;
         }
 
         public ICommand CloseCommand { get; protected internal set; }

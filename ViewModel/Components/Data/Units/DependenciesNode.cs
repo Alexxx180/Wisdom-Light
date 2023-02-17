@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
+using WisdomLight.Model;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
 
 namespace WisdomLight.ViewModel.Components.Data.Units
 {
-    public class DependenciesNode : NameLabel, INotifyPropertyChanged
+    public class DependenciesNode : NameLabel, INotifyPropertyChanged, ICloneable<DependenciesNode>
     {
         private DependenciesNode _parent;
         public DependenciesNode Parent
@@ -94,6 +95,27 @@ namespace WisdomLight.ViewModel.Components.Data.Units
                     OnPropertyChanged();
                 }
             }
+        }
+
+        public DependenciesNode Clone()
+        {
+            return new DependenciesNode
+            {
+                Parent = this,
+                Nodes = new DependenciesCollection()
+            };
+        }
+
+        public void Add(string name)
+        {
+            DependenciesNode next = Clone();
+            next.Name = name;
+            Nodes.Add(next);
+        }
+
+        public void Drop()
+        {
+            Parent.Nodes.Remove(this);
         }
 
         public DependenciesCollection Nodes { get; set; }

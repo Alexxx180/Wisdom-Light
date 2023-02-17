@@ -85,20 +85,26 @@
                                 </Binding>
                             </ToolBarTray.Visibility>
                             <ToolBar>
-                                <Button Style="{StaticResource AddButton}"/>
-                                <Button Style="{StaticResource DeleteButton}"/>
+                                <Button Command="{Binding AddInformation}" Style="{StaticResource AddButton}"/>
+                                <Button Command="{Binding DropInformation}" Style="{StaticResource DeleteButton}"/>
+                                <Button Command="{Binding OpenTemplate}" Style="{StaticResource OpenButton}"/>
                             </ToolBar>
                         </ToolBarTray>
 
 
-                        <ListBox DockPanel.Dock="Left">
-                            <ListBox.ItemTemplate>
-                                <StaticResource ResourceKey="FileSelection"/>
-                            </ListBox.ItemTemplate>
-                            <ListBox.ItemsSource>
-                                <Binding Path="Data.Templates"/>
-                            </ListBox.ItemsSource>
-                        </ListBox>
+                        <DockPanel DataContext="{Binding Data.GenerationTree}" HorizontalAlignment="Stretch" LastChildFill="True">
+                            <TextBlock Text="Шаблон" DockPanel.Dock="Bottom">
+                                <TextBlock.Visibility>
+                                    <Binding Path="SelectedDependency.IsDependency">
+                                        <Binding.Converter>
+                                            <StaticResource ResourceKey="BooleanVisibilityConverter"/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </TextBlock.Visibility>
+                            </TextBlock>
+
+                            <ContentControl DockPanel.Dock="Top" Template="{StaticResource DocumentDependencyTree}"/>
+                        </DockPanel>
                     </DockPanel>
                 </TabItem>
 
@@ -114,15 +120,15 @@
                                 </Binding>
                             </ToolBarTray.Visibility>
                             <ToolBar>
-                                <Button Style="{StaticResource AddButton}"/>
-                                <Button Style="{StaticResource DeleteButton}"/>
+                                <Button Command="{Binding AddLink}" Style="{StaticResource AddButton}"/>
+                                <Button Command="{Binding DropLink}" Style="{StaticResource DeleteButton}"/>
                                 <Button Command="{Binding OpenDependency}" Style="{StaticResource OpenButton}"/>
                             </ToolBar>
                         </ToolBarTray>
 
 
                         <DockPanel DataContext="{Binding Data.DependencyTree}" HorizontalAlignment="Stretch" LastChildFill="True">
-                            <TextBlock Text="Зависимость" DockPanel.Dock="Bottom">
+                            <TextBlock Text="Документ" DockPanel.Dock="Bottom">
                                 <TextBlock.Visibility>
                                     <Binding Path="SelectedDependency.IsDependency">
                                         <Binding.Converter>
@@ -132,7 +138,6 @@
                                 </TextBlock.Visibility>
                             </TextBlock>
 
-                            <!--DockPanel.Dock="Top" ContentTemplate="{StaticResource DocumentDependencyTree}"-->
                             <ContentControl DockPanel.Dock="Top" Template="{StaticResource DocumentDependencyTree}"/>
                         </DockPanel>
                     </DockPanel>

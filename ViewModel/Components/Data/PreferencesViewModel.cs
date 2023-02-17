@@ -1,45 +1,43 @@
-﻿using System.Collections.ObjectModel;
-using WisdomLight.ViewModel.Components.Building.Bank;
-using WisdomLight.ViewModel.Components.Core.Dialogs;
+﻿using WisdomLight.ViewModel.Components.Building.Bank;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
-using WisdomLight.ViewModel.Components.Data.Units;
 
 namespace WisdomLight.ViewModel.Components.Data
 {
-    public class PreferencesViewModel : NameLabel
+    public class PreferencesViewModel : NotifyPropertyChanged
     {
+        public string Name { get; }
         public FileFiller Serializer { get; set; }
 
         public PreferencesViewModel()
         {
             Name = "Облегченная Мудрость";
-            DependenciesNode root = new DependenciesNode
-            {
-                Name = "Templates",
-            };
+            //DependenciesNode root = new DependenciesNode
+            //{
+            //    Name = "Templates",
+            //};
 
-            DependenciesCollection rootNodes = new DependenciesCollection(root)
-            {
-                new DependenciesNode { Name = "#1" },
-                new DependenciesNode { Name = "#2" },
-                new DependenciesNode { Name = "#3" }
-            };
-            root.Nodes = rootNodes;
+            //DependenciesCollection rootNodes = new DependenciesCollection(root)
+            //{
+            //    new DependenciesNode { Name = "#1" },
+            //    new DependenciesNode { Name = "#2" },
+            //    new DependenciesNode { Name = "#3" }
+            //};
+            //root.Nodes = rootNodes;
 
-            DependencyTree = new DependenciesViewModel
-            {
-                Dependencies = new DependenciesCollection() { root },
-                SelectedDependency = root
-            };
+            //DependencyTree = new DependenciesViewModel
+            //{
+            //    Dependencies = new DependenciesCollection() { root },
+            //    SelectedDependency = root
+            //};
         }
 
-        private ObservableCollection<string> _templates;
-        public ObservableCollection<string> Templates
+        private DependenciesViewModel _generationTree;
+        public DependenciesViewModel GenerationTree
         {
-            get => _templates;
+            get => _generationTree;
             set
             {
-                _templates = value;
+                _generationTree = value;
                 OnPropertyChanged();
             }
         }

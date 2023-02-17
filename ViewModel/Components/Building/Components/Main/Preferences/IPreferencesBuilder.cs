@@ -10,6 +10,8 @@ namespace WisdomLight.ViewModel.Components.Building.Main.Preferences
 
         public IPreferencesBuilder Templates();
 
+        public IPreferencesBuilder Documents();
+
         public IPreferencesBuilder Serializer();
 
         public IPreferencesBuilder Reset();

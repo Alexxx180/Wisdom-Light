@@ -26,6 +26,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         /// </summary>
 
         private IWindowService _windows;
+        private IDialogService<NameViewModel> _naming;
 
         private MainViewModel _viewModel;
         private PreferencesViewModel _data;
@@ -55,6 +56,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _windows = windows;
             _filler = new FillerBuilder(_windows, dialog);
             _preferencesBuilder = new PreferencesBuilder();
+            _naming = new NameDialog();
         }
 
         private IFillerBuilder BaseFiller()
@@ -64,19 +66,39 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         public IMainBuilder Preferences()
         {
-            _data = _preferencesBuilder.Serializer().Templates().Defend().DefaultPath().Build();
+            _data = _preferencesBuilder.Serializer().Templates().Documents().Defend().DefaultPath().Build();
             _filler.SetDependencies(_data.DependencyTree);
             return this;
         }
 
         public IMainBuilder AddLink()
         {
-            throw new NotImplementedException();
+            _addLink = new RelayCommand(
+                argument =>
+                {
+                    DependenciesNode current = _data.DependencyTree.SelectedDependency;
+                    NameViewModel viewModel = new NameViewModel(current);
+                    _naming.ShowDialog(viewModel, (result, selection) =>
+                    {
+                        if (result)
+                            current.Add(selection.Name);
+                    });
+                }
+            );
+            return this;
         }
 
         public IMainBuilder DropLink()
         {
-            throw new NotImplementedException();
+            _dropLink = new RelayCommand(
+                argument => _data.DependencyTree.SelectedDependency.Drop(),
+                can =>
+                {
+                    DependenciesViewModel tree = _data.DependencyTree;
+                    return (tree != null) && (tree.SelectedDependency != null) && (tree.SelectedDependency.Parent != null);
+                }
+            );
+            return this;
         }
 
         public IMainBuilder OpenDependency()
@@ -90,7 +112,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
                     _data.DependencyTree.SelectedDependency.DependencyPath = dialog.FullPath;
                 },
-                canExecute => _data.DependencyTree.IsDependencySelected
+                canExecute => (_data.DependencyTree != null) && _data.DependencyTree.IsDependencySelected
             );
             return this;
         }
@@ -108,12 +130,32 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         public IMainBuilder AddInformation()
         {
-            throw new NotImplementedException();
+            _addInformation = new RelayCommand(
+                argument =>
+                {
+                    DependenciesNode current = _data.GenerationTree.SelectedDependency;
+                    NameViewModel viewModel = new NameViewModel(current);
+                    _naming.ShowDialog(viewModel, (result, selection) =>
+                    {
+                        if (result)
+                            current.Add(selection.Name);
+                    });
+                }
+            );
+            return this;
         }
 
         public IMainBuilder DropInformation()
         {
-            throw new NotImplementedException();
+            _dropInformation = new RelayCommand(
+                argument => _data.GenerationTree.SelectedDependency.Drop(),
+                can =>
+                {
+                    DependenciesViewModel tree = _data.GenerationTree;
+                    return (tree != null) && (tree.SelectedDependency != null) && (tree.SelectedDependency.Parent != null);
+                }
+            );
+            return this;
         }
 
         public IMainBuilder Import()

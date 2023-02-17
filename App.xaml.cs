@@ -19,7 +19,8 @@ namespace WisdomLight
 
             IWindowService windows = new WindowService();
             IDialogService<DependenciesViewModel> dialog = new DependenciesDialog();
-            MainViewModel viewModel = new MainBuilder(windows, dialog).Preferences().NewFile().Open().CanClose().Close().OpenDependency().RenameDependency().Build();
+            MainViewModel viewModel = new MainBuilder(windows, dialog).Preferences().NewFile().Open().CanClose().Close().
+                AddInformation().DropInformation().AddLink().DropLink().OpenDependency().RenameDependency().Build();
             windows.ShowWindow(viewModel);
             //new MainWindow
             //{
