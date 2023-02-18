@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Windows.Input;
 using WisdomLight.ViewModel.Components.Core.Commands;
+using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
 
 namespace WisdomLight.ViewModel.Components
 {
     public class MainViewModel : NotifyPropertyChanged, ICloseable
     {
-        public MainViewModel() { }
+        public MainViewModel()
+        {
+            Serializer = new PreferencesFiller();
+        }
 
         public Action Close { get; set; }
 
@@ -35,8 +39,10 @@ namespace WisdomLight.ViewModel.Components
         public ICommand OpenCommand { get; protected internal set; }
         public ICommand ImportCommand { get; protected internal set; }
         public ICommand SearchCommand { get; protected internal set; }
+        public ICommand SaveCommand { get; protected internal set; }
         public ICommand CloseCommand { get; protected internal set; }
 
+        public PreferencesFiller Serializer { get; protected internal set; }
         public PreferencesViewModel Data { get; set; }
     }
 }

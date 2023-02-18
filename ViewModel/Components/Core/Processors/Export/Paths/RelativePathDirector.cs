@@ -10,7 +10,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Paths
     public class RelativePathDirector : IPathDirector
     {
         private PathBuilder _builder;
-        public DependenciesFiller _filler { get; set; }
+        public PreferencesFiller _filler { get; set; }
 
         public RelativePathDirector(string path)
         {

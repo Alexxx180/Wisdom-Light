@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Newtonsoft.Json;
 using WisdomLight.Model;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
@@ -7,12 +8,20 @@ using WisdomLight.ViewModel.Components.Data.Units;
 
 namespace WisdomLight.ViewModel.Components.Data
 {
-    public class DependenciesViewModel : NotifyPropertyChanged, ICloseable
+    public class DependenciesViewModel : NotifyPropertyChanged, ICloser
     {
         public DependenciesViewModel()
         {
             Width = new Limiter(200, 380, 640);
             Height = new Limiter(200, 320, 480);
+        }
+
+        public void Relate()
+        {
+            for (int i = 0; i < Dependencies.Count; i++)
+            {
+                Dependencies[i].Relate();
+            }
         }
 
         private DependenciesCollection _dependencies;
@@ -27,6 +36,8 @@ namespace WisdomLight.ViewModel.Components.Data
         }
 
         private DependenciesNode _selectedDependency;
+
+        [JsonIgnore]
         public DependenciesNode SelectedDependency
         {
             get => _selectedDependency;
@@ -52,6 +63,7 @@ namespace WisdomLight.ViewModel.Components.Data
             return node.DependencyPath;
         }
 
+        [JsonIgnore]
         public Action Close { get; set; }
 
         private bool _canClose;
@@ -68,6 +80,7 @@ namespace WisdomLight.ViewModel.Components.Data
         public Limiter Width { get; }
         public Limiter Height { get; }
 
-        public ICommand CloseCommand { get; protected internal set; }
+        [JsonIgnore]
+        public ICommand CloseCommand { get; set; }
     }
 }

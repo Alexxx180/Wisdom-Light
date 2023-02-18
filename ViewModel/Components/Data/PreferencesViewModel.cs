@@ -11,24 +11,6 @@ namespace WisdomLight.ViewModel.Components.Data
         public PreferencesViewModel()
         {
             Name = "Облегченная Мудрость";
-            //DependenciesNode root = new DependenciesNode
-            //{
-            //    Name = "Templates",
-            //};
-
-            //DependenciesCollection rootNodes = new DependenciesCollection(root)
-            //{
-            //    new DependenciesNode { Name = "#1" },
-            //    new DependenciesNode { Name = "#2" },
-            //    new DependenciesNode { Name = "#3" }
-            //};
-            //root.Nodes = rootNodes;
-
-            //DependencyTree = new DependenciesViewModel
-            //{
-            //    Dependencies = new DependenciesCollection() { root },
-            //    SelectedDependency = root
-            //};
         }
 
         private DependenciesViewModel _generationTree;

@@ -4,9 +4,9 @@ using WisdomLight.ViewModel.Components.Core.Commands;
 
 namespace WisdomLight.ViewModel.Components.Core.Dialogs
 {
-    public class DialogService<T> : IDialogService<T> where T : ICloseable
+    public class DialogService<T> : IDialogService<T> where T : ICloser
     {
-        public void ShowDialog(T viewModel, Action<bool, T> callback)
+        public virtual void ShowDialog(T viewModel, Action<bool, T> callback)
         {
             Dialog(viewModel, callback);
         }
@@ -16,6 +16,13 @@ namespace WisdomLight.ViewModel.Components.Core.Dialogs
             DialogWindow dialog = new DialogWindow();
             viewModel.Close = () => dialog.Close();
             viewModel.CanClose = true;
+            viewModel.CloseCommand = new RelayCommand(
+                argument =>
+                {
+                    dialog.DialogResult = true;
+                    dialog.Close();
+                }
+            );
 
             dialog.Content = viewModel;
 

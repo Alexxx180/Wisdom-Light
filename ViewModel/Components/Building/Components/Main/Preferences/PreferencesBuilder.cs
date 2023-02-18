@@ -35,7 +35,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main.Preferences
                 Name = name
             };
 
-            DependenciesCollection rootNodes = new DependenciesCollection(root);
+            DependenciesCollection rootNodes = new DependenciesCollection();
             root.Nodes = rootNodes;
 
             return new DependenciesViewModel

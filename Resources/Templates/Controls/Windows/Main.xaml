@@ -25,23 +25,26 @@
                         <MenuItem Header="Открыть..." Command="{Binding OpenCommand}"/>
                         <Separator/>
                         <MenuItem Header="Импорт" Visibility="Collapsed"/>
-                        <MenuItem Header="Поиск..." Visibility="Collapsed">
-                            <MenuItem.IsEnabled>
-                                <Binding Path="Data.IsDefaultPath">
-                                    <Binding.Converter>
-                                        <bool:InverseConverter/>
-                                    </Binding.Converter>
-                                </Binding>
-                            </MenuItem.IsEnabled>
-                        </MenuItem>
                         <Separator/>
                         <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
                     </MenuItem>
                     <MenuItem Header="Настройки">
-                        <MenuItem Header="Путь по умолчанию" Visibility="Collapsed" IsCheckable="True" IsChecked="{Binding Data.IsDefaultPath}">
-                            <MenuItem.ToolTip>
-                                <TextBlock Text="Всегда использовать относительный путь папки приложения."/>
-                            </MenuItem.ToolTip>
+                        <MenuItem Header="Сохранить" Command="{Binding SaveCommand}"/>
+                        <MenuItem Header="Импорт" Visibility="Collapsed">
+                            <MenuItem Header="Путь по умолчанию" IsCheckable="True" IsChecked="{Binding Data.IsDefaultPath}">
+                                <MenuItem.ToolTip>
+                                    <TextBlock Text="Всегда использовать относительный путь папки приложения."/>
+                                </MenuItem.ToolTip>
+                            </MenuItem>
+                            <MenuItem Header="Поиск...">
+                                <MenuItem.IsEnabled>
+                                    <Binding Path="Data.IsDefaultPath">
+                                        <Binding.Converter>
+                                            <bool:InverseConverter/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </MenuItem.IsEnabled>
+                            </MenuItem>
                         </MenuItem>
                         <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding Data.IsDefended}">
                             <MenuItem.ToolTip>

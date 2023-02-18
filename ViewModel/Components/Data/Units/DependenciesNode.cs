@@ -1,21 +1,24 @@
 ﻿using System.ComponentModel;
-using WisdomLight.Model;
+using Newtonsoft.Json;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
 
 namespace WisdomLight.ViewModel.Components.Data.Units
 {
-    public class DependenciesNode : NameLabel, INotifyPropertyChanged, ICloneable<DependenciesNode>
+    public class DependenciesNode : NameLabel, INotifyPropertyChanged
     {
-        private DependenciesNode _parent;
-        public DependenciesNode Parent
-        {
-            get => _parent;
-            set
-            {
-                _parent = value;
-                OnPropertyChanged();
-            }
-        }
+        //private DependenciesNode _parent;
+
+        [JsonIgnore]
+        public DependenciesNode Parent { get; private set; }
+        //public DependenciesNode Parent
+        //{
+        //    get => _parent;
+        //    private set
+        //    {
+        //        _parent = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         public DependenciesNode()
         {
@@ -101,16 +104,34 @@ namespace WisdomLight.ViewModel.Components.Data.Units
         {
             return new DependenciesNode
             {
-                Parent = this,
                 Nodes = new DependenciesCollection()
             };
         }
 
+        public void Relate()
+        {
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                DependenciesNode node = Nodes[i];
+                node.Parent = this;
+                node.Relate();
+            }
+        }
+
+        public void Add(DependenciesNode node)
+        {
+            node.Parent = this;
+            Nodes.Add(node);
+        }
+
         public void Add(string name)
         {
-            DependenciesNode next = Clone();
-            next.Name = name;
-            Nodes.Add(next);
+            DependenciesNode next = new DependenciesNode
+            {
+                Name = name,
+                Nodes = new DependenciesCollection()
+            };
+            Add(next);
         }
 
         public void Drop()

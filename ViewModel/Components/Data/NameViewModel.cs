@@ -8,7 +8,7 @@ using WisdomLight.ViewModel.Components.Data.Units;
 
 namespace WisdomLight.ViewModel.Components.Data
 {
-    public class NameViewModel : NameLabel, ICloseable
+    public class NameViewModel : NameLabel, ICloser
     {
         private DependenciesCollection _dependencies;
         public bool IsAvailable => !string.IsNullOrEmpty(Name) && !_dependencies.GetNames().Contains(Name);
@@ -48,6 +48,6 @@ namespace WisdomLight.ViewModel.Components.Data
         public Limiter Width { get; }
         public Limiter Height { get; }
 
-        public ICommand CloseCommand { get; protected internal set; }
+        public ICommand CloseCommand { get; set; }
     }
 }

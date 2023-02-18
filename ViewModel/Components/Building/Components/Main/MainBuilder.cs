@@ -1,13 +1,17 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Input;
 using WisdomLight.Model.Results.Confirming;
 using WisdomLight.View;
+using WisdomLight.ViewModel.Components.Building.Bank;
 using WisdomLight.ViewModel.Components.Building.Components.Filler;
 using WisdomLight.ViewModel.Components.Building.Components.Filler.Tabs;
+using WisdomLight.ViewModel.Components.Building.Extensions.Paths.Files;
 using WisdomLight.ViewModel.Components.Building.Filler;
 using WisdomLight.ViewModel.Components.Building.Main.Preferences;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
 using WisdomLight.ViewModel.Components.Data.Units;
 
@@ -15,6 +19,8 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 {
     public class MainBuilder : IMainBuilder
     {
+        private const string Settings = "config.json";
+
 #warning Potential solution for re-focus after text input...
         /// <summary>
         /// if (Keyboard.FocusedElement is TextBox textBox)
@@ -30,6 +36,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         private MainViewModel _viewModel;
         private PreferencesViewModel _data;
+        private PreferencesFiller _serializer;
 
         private IPreferencesBuilder _preferencesBuilder;
         private IFillerBuilder _filler;
@@ -49,6 +56,8 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         public ICommand _searchCommand;
         public ICommand _closeCommand;
 
+        public ICommand _saveCommand;
+
         private bool _canClose;
 
         public MainBuilder(IWindowService windows, IDialogService<DependenciesViewModel> dialog)
@@ -56,6 +65,10 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _windows = windows;
             _filler = new FillerBuilder(_windows, dialog);
             _preferencesBuilder = new PreferencesBuilder();
+            _serializer = new PreferencesFiller
+            {
+                Current = 0
+            };
             _naming = new NameDialog();
         }
 
@@ -64,10 +77,48 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             return _filler.Reset().NewFile().Open().CanClose().Close().Save().SaveAs().Export().Add().Drop().OpenLink();
         }
 
+        private void SetDependencies(PreferencesViewModel viewModel)
+        {
+            _data = viewModel;
+            _filler.SetDependencies(_data.DependencyTree);
+        }
+
+        private void SetDependencies()
+        {
+            SetDependencies(_preferencesBuilder.Serializer().Templates().Documents().Defend().DefaultPath().Build());
+        }
+
+        public IMainBuilder Save()
+        {
+            _saveCommand = new RelayCommand(
+                argument =>
+                {
+                    string path = Path.Combine(Defaults.Runtime, Settings);
+                    _viewModel.Serializer.Save(path, _viewModel.Data);
+                }
+            );
+            return this;
+        }
+
         public IMainBuilder Preferences()
         {
-            _data = _preferencesBuilder.Serializer().Templates().Documents().Defend().DefaultPath().Build();
-            _filler.SetDependencies(_data.DependencyTree);
+            string path = Path.Combine(Defaults.Runtime, Settings);
+            if (!File.Exists(path))
+            {
+                SetDependencies();
+                return this;
+            }
+
+            PreferencesViewModel viewModel = _serializer.Load(path);
+            if (viewModel != null)
+            {
+                viewModel.DependencyTree.Relate();
+                viewModel.GenerationTree.Relate();
+                SetDependencies(viewModel);
+                return this;
+            }
+
+            SetDependencies();
             return this;
         }
 
@@ -213,9 +264,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _canClose = true;
             return this;
         }
-
         
-
         public IMainBuilder Reset()
         {
             _canClose = false;
@@ -251,8 +300,10 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                 OpenCommand = _openCommand,
                 ImportCommand = _importCommand,
                 SearchCommand = _searchCommand,
+                SaveCommand = _saveCommand,
                 CloseCommand = _closeCommand,
-                CanClose = _canClose
+                CanClose = _canClose,
+                Serializer = _serializer
             };
             return _viewModel;
         }

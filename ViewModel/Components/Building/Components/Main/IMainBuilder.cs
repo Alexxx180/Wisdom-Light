@@ -21,7 +21,9 @@
         public IMainBuilder Open();
 
         public IMainBuilder Import();
-        
+
+        public IMainBuilder Save();
+
         public IMainBuilder Close();
 
         public IMainBuilder CanClose();
