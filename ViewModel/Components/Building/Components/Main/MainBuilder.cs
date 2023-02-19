@@ -313,7 +313,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _openTemplate = new RelayCommand(
                 argument =>
                 {
-                    ReConfirmer dialog = DocumentManager.Open(_viewModel.Data.SelectedLocation);
+                    ReConfirmer dialog = TemplateManager.Open(_viewModel.Data.SelectedLocation);
                     if (!dialog.Result)
                         return;
 
