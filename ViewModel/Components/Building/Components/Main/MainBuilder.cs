@@ -413,6 +413,13 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
             viewModel.Data = preferences.Serializer.Load(dialog.FullPath);
             viewModel.Data.Queriers.ViewModel = preferences.DependencyTree;
+            for (int i = 0; i < viewModel.Data.Queriers.Fields.Count; i++)
+            {
+                Stack<int> original = viewModel.Data.Queriers.Fields[i].Path;
+                List<int> crutch = new List<int>(original);
+                //crutch.Reverse();
+                viewModel.Data.Queriers.Fields[i].Path = new Stack<int>(crutch);
+            }
             viewModel.Data.Location = dialog.Path;
             viewModel.Data.FileName = dialog.Name;
 
