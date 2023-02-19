@@ -93,6 +93,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
         public IFillerBuilder OpenQuery()
         {
             _openQuery = new RelayCommand(argument =>
+            {
                 _dependenciesDialog.ShowDialog(_dependencies, (result, selection) =>
                 {
                     if (!result)
@@ -102,8 +103,8 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
                     QueryProcessor(selection);
                     _path.Clear();
-                })
-            );
+                });
+            });
             return this;
         }
 
