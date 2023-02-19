@@ -437,13 +437,15 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                 argument =>
                 {
                     DependenciesNode current = _viewModel.Data.GenerationTree.SelectedDependency;
-                    ReConfirmer open = new ReConfirmer(0, current.Name, current.DependencyPath, true);
+                    string directory = Path.GetDirectoryName(current.DependencyPath);
+                    string name = Path.GetFileName(current.DependencyPath);
+                    ReConfirmer open = new ReConfirmer(0, name, directory, true);
 
                     OpenFile(_viewModel.Data, open);
                 },
                 can =>
                 {
-                    DependenciesViewModel tree = _viewModel.Data.DependencyTree;
+                    DependenciesViewModel tree = _viewModel.Data.GenerationTree;
                     return (tree != null) && (tree.SelectedDependency != null) && tree.SelectedDependency.IsDependency;
                 }
             );
