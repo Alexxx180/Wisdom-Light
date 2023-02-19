@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data.Units;
@@ -9,17 +10,35 @@ namespace WisdomLight.ViewModel.Components.Data
 {
     public class TemplateViewModel : NameLabel, IDefender
     {
+        [JsonIgnore]
+        protected internal IDocuments Documents { get; set; }
+
         public List<ParagraphExtracting> Extracting { get; set; }
         public FileFiller Serializer { get; set; }
 
-        private EditableCollection<DocumentLinker> _documents;
-        public EditableCollection<DocumentLinker> Documents
+        private LinkerList _links;
+        public LinkerList Links
         {
-            get => _documents;
+            get => _links;
             set
             {
-                _documents = value;
+                _links = value;
                 OnPropertyChanged();
+                if (!IsRelative)
+                    Documents = Links;
+            }
+        }
+
+        private RouterCollection _queriers;
+        public RouterCollection Queriers
+        {
+            get => _queriers;
+            set
+            {
+                _queriers = value;
+                OnPropertyChanged();
+                if (IsRelative)
+                    Documents = Queriers;
             }
         }
 
@@ -52,6 +71,7 @@ namespace WisdomLight.ViewModel.Components.Data
             set
             {
                 _isRelative = value;
+                Documents = value ? Queriers : Links;
                 OnPropertyChanged();
             }
         }

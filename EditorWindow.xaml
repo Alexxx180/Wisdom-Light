@@ -1,0 +1,15 @@
+﻿<Window x:Class="WisdomLight.EditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:attach="clr-namespace:WisdomLight.View.Binds.Attach"
+        attach:WindowCloser.EnableWindowClosing="True"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        x:Name="Editing"
+        Icon="/Resources/Images/Icons/favicon.ico"
+        Title="{Binding ElementName=Editing, Path=Content.Data.Name}"
+        Width="640" Height="480"
+        MinWidth="320" MinHeight="200">
+</Window>

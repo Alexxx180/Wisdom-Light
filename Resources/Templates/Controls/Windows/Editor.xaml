@@ -1,0 +1,82 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:visible="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Visible">
+    <ControlTemplate x:Key="EditorView">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="27"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <DockPanel>
+                <Menu Style="{StaticResource LightBox}">
+                    <MenuItem Header="Файл">
+                        <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding Data.IsDefended}" />
+                        <MenuItem Header="Открыть..." Command="{Binding OpenCommand}" />
+                        <Separator/>
+                        <MenuItem Header="Сохранить" Command="{Binding SaveCommand}"/>
+                        <MenuItem Header="Сохранить как" Command="{Binding SaveAsCommand}" IsEnabled="{Binding Data.IsDefended}" />
+                        <MenuItem Header="Экспорт" Command="{Binding ExportCommand}" />
+                        <Separator/>
+                        <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
+                    </MenuItem>
+                    <MenuItem Header="Настройки">
+                        <MenuItem Header="Обрабатывать" Visibility="Collapsed" IsEnabled="{Binding Data.IsDefended}">
+                            <MenuItem Header="Текст" IsCheckable="True"/>
+                            <MenuItem Header="Таблицы" IsCheckable="True"/>
+                        </MenuItem>
+                        <MenuItem Header="Относительные пути" IsCheckable="True" IsEnabled="{Binding Data.IsDefended}" IsChecked="{Binding Data.IsRelative}" />
+                        <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding Data.IsDefended}" />
+                    </MenuItem>
+                    <MenuItem Header="Справка" Visibility="Collapsed">
+                        <MenuItem Header="Начало работы"/>
+                        <MenuItem Header="Оператору" IsEnabled="{Binding Data.IsDefended}"/>
+                        <MenuItem Header="Пользователю"/>
+                        <Separator/>
+                        <MenuItem Header="О Программе"/>
+                    </MenuItem>
+                </Menu>
+
+                <Border DockPanel.Dock="Right" Style="{StaticResource DarkBox}">
+                    <TextBox Style="{StaticResource NamingLight}">
+                        <TextBox.Text>
+                            <Binding Path="Data.Name"/>
+                        </TextBox.Text>
+                    </TextBox>
+                </Border>
+            </DockPanel>
+
+
+            <Grid Grid.Row="1" Margin="15" Style="{StaticResource DarkBox}">
+                <ContentControl Grid.Row="1" Grid.Column="1">
+                    <ContentControl.Visibility>
+                        <Binding Path="Data.IsDefended">
+                            <Binding.Converter>
+                                <visible:InverseVisibilityConverter/>
+                            </Binding.Converter>
+                        </Binding>
+                    </ContentControl.Visibility>
+
+                    <ContentControl.Template>
+                        <StaticResource ResourceKey="Filler"/>
+                    </ContentControl.Template>
+                </ContentControl>
+
+                <ContentControl Grid.Row="1" Grid.Column="1">
+                    <ContentControl.Visibility>
+                        <Binding Path="Data.IsDefended">
+                            <Binding.Converter>
+                                <visible:BooleanVisibilityConverter/>
+                            </Binding.Converter>
+                        </Binding>
+                    </ContentControl.Visibility>
+
+                    <ContentControl.Template>
+                        <StaticResource ResourceKey="Editor"/>
+                    </ContentControl.Template>
+                </ContentControl>
+            </Grid>
+
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>

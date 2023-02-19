@@ -1,0 +1,34 @@
+﻿<Window x:Class="WisdomLight.DialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:attach="clr-namespace:WisdomLight.View.Binds.Attach"
+        attach:WindowCloser.EnableWindowClosing="True"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="DialogWindow"
+        x:Name="This">
+    <Window.Height>
+        <Binding ElementName="This" Path="Content.Height.Initial"/>
+    </Window.Height>
+
+    <Window.MinHeight>
+        <Binding ElementName="This" Path="Content.Height.Min"/>
+    </Window.MinHeight>
+
+    <Window.MaxHeight>
+        <Binding ElementName="This" Path="Content.Height.Max"/>
+    </Window.MaxHeight>
+
+    <Window.Width>
+        <Binding ElementName="This" Path="Content.Width.Initial"/>
+    </Window.Width>
+
+    <Window.MinWidth>
+        <Binding ElementName="This" Path="Content.Width.Min"/>
+    </Window.MinWidth>
+
+    <Window.MaxWidth>
+        <Binding ElementName="This" Path="Content.Width.Max"/>
+    </Window.MaxWidth>
+</Window>

@@ -1,7 +1,9 @@
-﻿namespace WisdomLight.ViewModel.Components.Core.Dialogs
+﻿using System;
+
+namespace WisdomLight.ViewModel.Components.Core.Dialogs
 {
-    public interface IDialogService
+    public interface IDialogService<T>
     {
-        public void ShowDialog();
+        public void ShowDialog(T viewModel, Action<bool, T> result);
     }
 }

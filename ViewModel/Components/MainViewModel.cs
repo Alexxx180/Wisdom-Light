@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Windows.Input;
 using WisdomLight.ViewModel.Components.Core.Commands;
+using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
 
 namespace WisdomLight.ViewModel.Components
 {
     public class MainViewModel : NotifyPropertyChanged, ICloseable
     {
-        public MainViewModel() { }
+        public MainViewModel()
+        {
+            Serializer = new PreferencesFiller();
+        }
 
         public Action Close { get; set; }
 
@@ -22,14 +26,36 @@ namespace WisdomLight.ViewModel.Components
             }
         }
 
-        public ICommand AddCommand { get; protected internal set; }
-        public ICommand DropCommand { get; protected internal set; }
+        public ICommand AddInformation { get; protected internal set; }
+        public ICommand DropInformation { get; protected internal set; }
+        public ICommand OpenTemplate { get; protected internal set; }
+
+        public ICommand AddLink { get; protected internal set; }
+        public ICommand DropLink { get; protected internal set; }
+        public ICommand OpenDependency { get; protected internal set; }
+        public ICommand RenameDependency { get; protected internal set; }
+
         public ICommand NewCommand { get; protected internal set; }
         public ICommand OpenCommand { get; protected internal set; }
-        public ICommand ImportCommand { get; protected internal set; }
-        public ICommand SearchCommand { get; protected internal set; }
+        
+        public ICommand SaveCommand { get; protected internal set; }
         public ICommand CloseCommand { get; protected internal set; }
 
-        public PreferencesViewModel Preferences { get; set; }
+        public ICommand SearchCommand { get; protected internal set; }
+        public ICommand ImportCommand { get; protected internal set; }
+        public ICommand ExportCommand { get; protected internal set; }
+
+        public PreferencesFiller Serializer { get; protected internal set; }
+
+        private PreferencesViewModel _data;
+        public PreferencesViewModel Data
+        {
+            get => _data;
+            set
+            {
+                _data = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

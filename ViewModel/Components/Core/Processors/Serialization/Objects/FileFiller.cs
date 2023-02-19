@@ -1,6 +1,4 @@
-﻿using WisdomLight.Model.Exceptions.IO;
-using WisdomLight.ViewModel.Components.Core.Dialogs;
-using WisdomLight.ViewModel.Components.Data;
+﻿using WisdomLight.ViewModel.Components.Data;
 using static WisdomLight.ViewModel.Components.Building.Bank.Serialization;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects
@@ -19,30 +17,12 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects
 
         internal void Save(string path, TemplateViewModel program)
         {
-            try
-            {
-                _processor.Write(path, program);
-            }
-            catch (SaveException exception)
-            {
-                DialogManager.Message(exception);
-            }
+            _processor.Write(path, program);
         }
 
         internal TemplateViewModel Load(string path)
         {
-            TemplateViewModel template = null;
-
-            try
-            {
-                template = _processor.Read<TemplateViewModel>(path);
-            }
-            catch (ReadException exception)
-            {
-                DialogManager.Message(exception);
-            }
-
-            return template;
+            return _processor.Read<TemplateViewModel>(path);
         }
 
         private byte _current;

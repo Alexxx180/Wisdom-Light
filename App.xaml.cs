@@ -1,5 +1,9 @@
 ﻿using System.Windows;
+using WisdomLight.View;
+using WisdomLight.ViewModel.Components;
 using WisdomLight.ViewModel.Components.Building.Main;
+using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Data;
 using static WisdomLight.ViewModel.Components.Building.Bank.Setup;
 
 namespace WisdomLight
@@ -13,24 +17,11 @@ namespace WisdomLight
         {
             Logger();
 
-            new MainWindow
-            {
-                ViewModel = new MainBuilder().Preferences().NewFile().Open().CanClose().Close().Build()
-            }
-            .Show();
-        }
-
-        private void ExportProof()
-        {
-            //_wordDocument.Export(new List<DocumentLinker>
-            //{
-            //    new DocumentLinker
-            //    {
-            //        Name = "Lol", Type = @"D:\Aleksandr\misc\Development\Sandbox\Selderey.docx"
-            //    }
-            //}, null, @"D:\Aleksandr\misc\Development\Sandbox\a");
-
-            //private WordDocument _wordDocument = new WordDocument();
+            IWindowService windows = new WindowService();
+            IDialogService<DependenciesViewModel> dialog = new DependenciesDialog();
+            MainViewModel viewModel = new MainBuilder(windows, dialog).Preferences().NewFile().Open().Save().CanClose().Close().
+                AddInformation().DropInformation().AddLink().DropLink().OpenDependency().RenameDependency().Import().Export().Build();
+            windows.ShowWindow(viewModel);
         }
     }
 }

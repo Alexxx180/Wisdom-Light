@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:data="clr-namespace:WisdomLight.ViewModel.Components.Data">
+    <DataTemplate DataType="{x:Type data:DependenciesViewModel}">
+        <DockPanel Margin="15" LastChildFill="True">
+            <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                <Button Command="{Binding CloseCommand}" IsDefault="True" Style="{StaticResource OkButton}">
+                    <Button.IsEnabled>
+                        <Binding Path="SelectedDependency.IsDependency"/>
+                    </Button.IsEnabled>
+                </Button>
+                <Separator/>
+                <Button IsCancel="True" Style="{StaticResource CancelButton}"/>
+            </WrapPanel>
+
+            <ContentControl DockPanel.Dock="Top" Template="{StaticResource DocumentDependencyTree}" Margin="0,0,0,5" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type data:NameViewModel}">
+        <DockPanel Margin="15" LastChildFill="True">
+            <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                <Button Command="{Binding CloseCommand}" IsDefault="True" Style="{StaticResource OkButton}">
+                    <Button.IsEnabled>
+                        <Binding Path="IsAvailable"/>
+                    </Button.IsEnabled>
+                </Button>
+                <Separator/>
+                <Button IsCancel="True" Style="{StaticResource CancelButton}"/>
+            </WrapPanel>
+
+            <UniformGrid Rows="2" Margin="0,0,0,10" Style="{StaticResource GlobalFont}">
+                <TextBlock Text="Введите новое имя"/>
+                <TextBox Style="{StaticResource NameBox}">
+                    <TextBox.Text>
+                        <Binding Path="Name" Mode="TwoWay">
+                            <Binding.UpdateSourceTrigger>
+                                LostFocus
+                            </Binding.UpdateSourceTrigger>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </UniformGrid>
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

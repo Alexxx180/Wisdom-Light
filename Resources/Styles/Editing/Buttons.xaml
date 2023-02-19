@@ -1,0 +1,81 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="CompactButton" BasedOn="{StaticResource GlobalFont}">
+        <Setter Property="Control.Height" Value="30"/>
+        <Setter Property="Control.FontSize" Value="16"/>
+        <Setter Property="Control.MinWidth" Value="25"/>
+    </Style>
+
+    <Style x:Key="LongButton" BasedOn="{StaticResource GlobalFont}">
+        <Setter Property="Control.Height" Value="25"/>
+        <Setter Property="Control.Width" Value="75"/>
+        <Setter Property="Control.FontSize" Value="14"/>
+    </Style>
+
+    <Style x:Key="FastOperation" BasedOn="{StaticResource CompactButton}">
+        <Setter Property="Control.FontWeight" Value="Bold"/>
+        <Setter Property="Control.Background" Value="#FFFFFFFF"/>
+        <Setter Property="Control.Foreground" Value="#FF002FA7"/>
+        <Setter Property="Control.BorderBrush" Value="#FF002FA7"/>
+    </Style>
+
+    <Style x:Key="LongOperation" BasedOn="{StaticResource CompactButton}">
+        <Setter Property="Control.FontWeight" Value="Bold"/>
+        <Setter Property="Control.Background" Value="#FFCCCCCC"/>
+        <Setter Property="Control.Foreground" Value="#FF002FA7"/>
+        <Setter Property="Control.BorderBrush" Value="#FF000000"/>
+    </Style>
+
+    <Style x:Key="DeleteButton" TargetType="Button" BasedOn="{StaticResource CompactButton}">
+        <Setter Property="Background" Value="#FFFF2A2A"/>
+        <Setter Property="Control.BorderBrush" Value="#FF000000"/>
+        <Setter Property="Content" Value="✖"/>
+    </Style>
+
+    <Style x:Key="AddButton" TargetType="Button" BasedOn="{StaticResource CompactButton}">
+        <Setter Property="Background" Value="#FF00FF2A"/>
+        <Setter Property="Control.BorderBrush" Value="#FF000000"/>
+        <Setter Property="Content" Value="✚"/>
+    </Style>
+
+    <Style x:Key="OpenButton" TargetType="Button">
+        <Style.BasedOn>
+            <StaticResource ResourceKey="FastOperation"/>
+        </Style.BasedOn>
+        <Setter Property="Content" Value="O"/>
+    </Style>
+
+    <Style x:Key="SaveButton" TargetType="Button">
+        <Style.BasedOn>
+            <StaticResource ResourceKey="LongOperation"/>
+        </Style.BasedOn>
+        <Setter Property="Content" Value="S"/>
+    </Style>
+
+    <Style x:Key="OkButton" TargetType="Button">
+        <Style.BasedOn>
+            <StaticResource ResourceKey="LongButton"/>
+        </Style.BasedOn>
+        <Setter Property="Content" Value="OK"/>
+    </Style>
+
+    <Style x:Key="CancelButton" TargetType="Button">
+        <Style.BasedOn>
+            <StaticResource ResourceKey="LongButton"/>
+        </Style.BasedOn>
+        <Setter Property="Content" Value="Отмена"/>
+    </Style>
+
+    <Style x:Key="HeaderMenuItems" TargetType="TabItem" BasedOn="{StaticResource GlobalFont}">
+        <Setter Property="Padding" Value="10,0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#FF002FA7"/>
+        <Setter Property="BorderBrush" Value="#141414"/>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Foreground" Value="#141414"/>
+                <Setter Property="Background" Value="#FF002FA7"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

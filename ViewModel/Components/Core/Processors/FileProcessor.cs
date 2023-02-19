@@ -5,6 +5,10 @@ using WisdomLight.ViewModel.Components.Building.Extensions.Paths.Files;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors
 {
+    /// <summary>
+    /// Determines how to handle 
+    /// files in operating system
+    /// </summary>
     public abstract class FileProcessor : Saver
     {
         /// <summary>
@@ -20,7 +24,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors
             }
             catch (IOException exception)
             {
-                throw new DeleteException(exception, path);
+                Messages.Error(new DeleteException(exception, path));
             }
         }
 
@@ -30,7 +34,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors
         /// <param name="original">Original full file name</param>
         /// <param name="next">New full file name</param>
         /// <param name="extension"></param>
-        /// <exception cref="MoveException">Renaming failure</exception>
+        /// <exception cref="MoveException">Moving failure</exception>
         internal static void Move(string original, string next)
         {
             try
@@ -39,7 +43,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors
             }
             catch (IOException exception)
             {
-                throw new MoveException(exception, original, next);
+                Messages.Error(new MoveException(exception, original, next));
             }
         }
 
@@ -53,8 +57,17 @@ namespace WisdomLight.ViewModel.Components.Core.Processors
         internal static void Rename(string path, string original, string next)
         {
             string name = original.ToPath(path);
-            if (File.Exists(name))
-                Move(name, next.ToPath(path));
+            if (!File.Exists(name))
+                return;
+
+            try
+            {
+                File.Move(original, next.ToPath(path), true);
+            }
+            catch (IOException exception)
+            {
+                Messages.Error(new RenameException(exception, path, original, next));
+            }
         }
 
         /// <summary>
@@ -80,14 +93,12 @@ namespace WisdomLight.ViewModel.Components.Core.Processors
         /// Deserialize object from file
         /// </summary>
         /// <param name="path">Original full file path</param>
-        /// <exception cref="ReadException">Reading failure</exception>
         protected internal abstract T Read<T>(string path);
 
         /// <summary>
         /// Serialize object into file
         /// </summary>
         /// <param name="path">Original full file path</param>
-        /// <exception cref="SaveException">Reading failure</exception>
         protected internal abstract void Write<T>(string path, T serializable);
     }
 }

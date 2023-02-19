@@ -13,7 +13,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
 {
     internal class JsonProcessor : FileProcessor
     {
-        private const string Extension = "json";
+        public const string Extension = "json";
         private static readonly JsonSerializer _serializer;
 
         static JsonProcessor()
@@ -61,7 +61,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
         /// <exception cref="ReadException">Reading failure</exception>
         protected internal override T Read<T>(string path)
         {
-            T deserilizeable;
+            T deserilizeable = default;
 
             try
             {
@@ -72,11 +72,11 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
             }
             catch (JsonException exception)
             {
-                throw new ParseException(exception, path);
+                Messages.Error(new ParseException(exception, path));
             }
             catch (IOException exception)
             {
-                throw new ReadException(exception, path);
+                Messages.Error(new ReadException(exception, path));
             }
 
             return deserilizeable;
@@ -99,7 +99,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
             }
             catch (ArgumentException exception)
             {
-                throw new SaveException(exception, path);
+                Messages.Error(new SaveException(exception, path));
             }
         }
     }

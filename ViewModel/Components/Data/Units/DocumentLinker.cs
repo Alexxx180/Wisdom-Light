@@ -5,6 +5,14 @@ namespace WisdomLight.ViewModel.Components.Data.Units
 {
     public class DocumentLinker : TypeLabel, ICloneable<DocumentLinker>
     {
+        public DocumentLinker() { }
+
+        public DocumentLinker(string same)
+        {
+            Name = same;
+            Type = same;
+        }
+
         private string _type;
         public override string Type
         {

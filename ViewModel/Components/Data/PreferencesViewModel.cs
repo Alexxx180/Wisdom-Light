@@ -1,25 +1,51 @@
-﻿using System.Collections.ObjectModel;
+﻿using WisdomLight.Model;
 using WisdomLight.ViewModel.Components.Building.Bank;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 
 namespace WisdomLight.ViewModel.Components.Data
 {
-    public class PreferencesViewModel : NotifyPropertyChanged
+    public class PreferencesViewModel : NotifyPropertyChanged, ICloneable<PreferencesViewModel>
     {
+        public string Name { get; }
         public FileFiller Serializer { get; set; }
 
-        private ObservableCollection<string> _templates;
-        public ObservableCollection<string> Templates
+        public PreferencesViewModel()
         {
-            get => _templates;
+            Name = "Облегченная Мудрость";
+        }
+
+        private DependenciesViewModel _generationTree;
+        public DependenciesViewModel GenerationTree
+        {
+            get => _generationTree;
             set
             {
-                _templates = value;
+                _generationTree = value;
                 OnPropertyChanged();
             }
         }
 
-        public string SelectedLocation { get; set; }
+        private DependenciesViewModel _dependencyTree;
+        public DependenciesViewModel DependencyTree
+        {
+            get => _dependencyTree;
+            set
+            {
+                _dependencyTree = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _selectedLocation;
+        public string SelectedLocation
+        {
+            get => _selectedLocation;
+            set
+            {
+                _selectedLocation = value;
+                OnPropertyChanged();
+            }
+        }
 
         private string _userLocation;
         public string UserLocation
@@ -54,6 +80,19 @@ namespace WisdomLight.ViewModel.Components.Data
                     Defaults.Runtime : UserLocation;
                 OnPropertyChanged();
             }
+        }
+
+        public PreferencesViewModel Clone()
+        {
+            return new PreferencesViewModel
+            {
+                GenerationTree = GenerationTree.Clone(),
+                DependencyTree = DependencyTree.Clone(),
+                Serializer = Serializer,
+                UserLocation = UserLocation,
+                IsDefended = IsDefended,
+                IsDefaultPath = IsDefaultPath
+            };
         }
     }
 }
