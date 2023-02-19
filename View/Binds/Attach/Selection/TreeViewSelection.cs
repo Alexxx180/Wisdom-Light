@@ -76,7 +76,8 @@ namespace WisdomLight.View.Binds.Attach.Selection
                 bool found = SelectItem(o, itm);
                 if (!found)
                 {
-                    itm.IsExpanded = false;
+                    if (itm != null)
+                        itm.IsExpanded = false;
                 }
                 else
                 {

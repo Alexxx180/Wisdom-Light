@@ -12,7 +12,7 @@ namespace WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager
 
         static TemplateManager()
         {
-            _filter = Option("Шаблон данных JSON", "*.json");
+            _filter = Option("Бланк для заполнения данных - JSON", "*.json");
         }
 
         public static ReConfirmer Open(string initial, byte type = 1)

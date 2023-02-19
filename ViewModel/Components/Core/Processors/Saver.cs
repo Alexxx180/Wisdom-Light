@@ -18,7 +18,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors
             }
             catch (IOException exception)
             {
-                throw new SaveException(exception, path);
+                Messages.Error(new SaveException(exception, path));
             }
         }
     }

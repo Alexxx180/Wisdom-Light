@@ -88,7 +88,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
             }
             catch (IOException exception)
             {
-                throw new SaveException(exception, _renderTo);
+                Messages.Error(new SaveException(exception, _renderTo));
             }
         }
 

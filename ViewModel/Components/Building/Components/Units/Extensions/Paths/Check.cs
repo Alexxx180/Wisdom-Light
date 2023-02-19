@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using WisdomLight.Model.Exceptions.Argument;
+using WisdomLight.ViewModel.Components.Core.Processors;
 
 namespace WisdomLight.ViewModel.Components.Building.Extensions.Paths
 {
@@ -16,7 +17,8 @@ namespace WisdomLight.ViewModel.Components.Building.Extensions.Paths
             }
             catch (ArgumentException exception)
             {
-                throw new BrokenExtensionException(exception, name);
+                isFile = false;
+                Messages.Error(new BrokenExtensionException(exception, name));
             }
 
             return isFile;

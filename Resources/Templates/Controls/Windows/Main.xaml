@@ -97,7 +97,7 @@
 
 
                         <DockPanel DataContext="{Binding Data.GenerationTree}" HorizontalAlignment="Stretch" LastChildFill="True">
-                            <TextBlock Text="Шаблон" DockPanel.Dock="Bottom">
+                            <TextBlock Text="Бланк" DockPanel.Dock="Bottom">
                                 <TextBlock.Visibility>
                                     <Binding Path="SelectedDependency.IsDependency">
                                         <Binding.Converter>

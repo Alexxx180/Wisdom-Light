@@ -24,7 +24,6 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
     public class FillerBuilder : IFillerBuilder
     {
         #region Classic
-        private const string QueryPlaceHolder = "Выберите зависимость";
         private readonly StringBuilder _path;
 
         private IWindowService _windows;
@@ -148,7 +147,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
         {
             _addInformation = new RelayCommand(argument => _viewModel.Data.Information.Add(InformationAdditor()));
             _addLink = new RelayCommand(argument => _viewModel.Data.Links.Add(new DocumentLinker(string.Empty)));
-            _addQuery = new RelayCommand(argument => _viewModel.Data.Queriers.Add(new Querier(QueryPlaceHolder)));
+            _addQuery = new RelayCommand(argument => _viewModel.Data.Queriers.Add(new Querier() { Name = Querier.PlaceHolder, Path = new Stack<int>() }));
             return this;
         }
 
@@ -199,6 +198,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                     FileViewModel viewModel = ViewModel().Build();
 
                     viewModel.Data = serializer.Load(dialog.FullPath);
+                    viewModel.Data.Queriers.ViewModel = _dependencies;
                     viewModel.Data.Location = dialog.Path;
                     viewModel.Data.FileName = dialog.Name;
 

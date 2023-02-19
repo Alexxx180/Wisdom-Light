@@ -55,7 +55,7 @@ namespace WisdomLight.ViewModel.Components.Data
         {
             int first = courier.Pop();
             DependenciesNode node = Dependencies[first];
-            foreach (int index in courier)
+            foreach (int index in courier.Path)
             {
                 node = node[index];
             }

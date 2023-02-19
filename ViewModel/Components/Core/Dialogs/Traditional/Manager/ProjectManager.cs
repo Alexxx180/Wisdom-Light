@@ -12,7 +12,7 @@ namespace WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager
 
         static ProjectManager()
         {
-            _filter = Option("Зависимости 'Облегченная Мудрость'", "*.zip");
+            _filter = Option("Зависимости - ZIP", "*.zip");
         }
 
         public static ReConfirmer Open(string initial, byte type = 1)

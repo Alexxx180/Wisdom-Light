@@ -16,6 +16,7 @@ using WisdomLight.ViewModel.Components.Building.Main.Preferences;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager;
+using WisdomLight.ViewModel.Components.Core.Processors;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
@@ -118,6 +119,14 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             }
         }
 
+        private void CreateManifest(ZipArchive zip, PreferencesViewModel preferences)
+        {
+            string temporary = Path.ChangeExtension(Path.GetTempFileName(), JsonProcessor.Extension);
+            _viewModel.Serializer.Save(temporary, preferences);
+            zip.CreateEntryFromFile(temporary, Settings);
+            FileProcessor.Delete(temporary);
+        }
+
         public IMainBuilder Export()
         {
             _exportCommand = new RelayCommand(
@@ -136,10 +145,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                         ExportNodes(zip, preferences.DependencyTree, path);
                         ExportNodes(zip, preferences.GenerationTree, path);
 
-                        string temporary = Path.ChangeExtension(Path.GetTempFileName(), JsonProcessor.Extension);
-                        _viewModel.Serializer.Save(temporary, preferences);
-                        zip.CreateEntryFromFile(temporary, Settings);
-                        File.Delete(temporary);
+                        CreateManifest(zip, preferences);
                     }
                 }
             );
@@ -173,6 +179,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             {
                 RebuildDependency(parent.Dependencies[i]);
             }
+            parent.Relate();
         }
 
         public IMainBuilder Import()
@@ -207,9 +214,13 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
                     string dependencies = Path.Combine(Defaults.Runtime, Settings);
                     PreferencesViewModel preferences = _viewModel.Serializer.Load(dependencies);
+                    RebuildDependencies(preferences.GenerationTree);
                     RebuildDependencies(preferences.DependencyTree);
+
                     _viewModel.Serializer.Save(dependencies, preferences);
                     _viewModel.Data = preferences;
+
+                    _filler.SetDependencies(preferences.DependencyTree);
                 }
             );
             return this;
@@ -382,6 +393,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                     FileViewModel viewModel = BaseFiller().OpenQuery().Build();
                     
                     viewModel.Data = _viewModel.Data.Serializer.Load(dialog.FullPath);
+                    viewModel.Data.Queriers.ViewModel = _viewModel.Data.DependencyTree;
                     viewModel.Data.Location = dialog.Path;
                     viewModel.Data.FileName = dialog.Name;
 

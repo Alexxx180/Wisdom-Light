@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using WisdomLight.Model;
-using WisdomLight.ViewModel.Components.Core.Dialogs;
 
 namespace WisdomLight.ViewModel.Components.Data.Units
 {
-    public class Querier : Stack<int>, INotifyPropertyChanged, ICloneable<Querier>
+    public class Querier : NotifyPropertyChanged, ICloneable<Querier>
     {
+        protected internal const string PlaceHolder = "Выберите зависимость";
+        public Stack<int> Path { get; set; }
+
         private string _name;
         public string Name
         {
@@ -19,41 +19,29 @@ namespace WisdomLight.ViewModel.Components.Data.Units
             }
         }
 
-        public Querier() : base() { }
-
-        public Querier(string placeholder) : base()
+        public void Push(int item)
         {
-            Name = placeholder;
+            Path.Push(item);
         }
 
-        public Querier(IEnumerable<int> elements) : base(elements) { }
-
-        public Querier(IEnumerable<int> elements, string path) : this(elements)
+        public int Pop()
         {
-            Name = path;
+            return Path.Pop();
+        }
+
+        public void Clear()
+        {
+            Name = PlaceHolder;
+            Path.Clear();
         }
 
         public Querier Clone()
         {
-            return new Querier(this, Name);
-        }
-
-        #region INotifyPropertyChanged Members
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Raises this object's PropertyChanged event.
-        /// </summary>
-        /// <param name="propertyName">The property that has a new value.</param>
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
+            return new Querier
             {
-                PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
-                handler(this, e);
-            }
+                Name = Name,
+                Path = new Stack<int>(Path)
+            };
         }
-        #endregion
     }
 }

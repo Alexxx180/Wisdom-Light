@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data.Units;
@@ -9,6 +10,7 @@ namespace WisdomLight.ViewModel.Components.Data
 {
     public class TemplateViewModel : NameLabel, IDefender
     {
+        [JsonIgnore]
         protected internal IDocuments Documents { get; set; }
 
         public List<ParagraphExtracting> Extracting { get; set; }
@@ -22,6 +24,8 @@ namespace WisdomLight.ViewModel.Components.Data
             {
                 _links = value;
                 OnPropertyChanged();
+                if (!IsRelative)
+                    Documents = Links;
             }
         }
 
@@ -33,6 +37,8 @@ namespace WisdomLight.ViewModel.Components.Data
             {
                 _queriers = value;
                 OnPropertyChanged();
+                if (IsRelative)
+                    Documents = Queriers;
             }
         }
 
