@@ -34,9 +34,9 @@
                 <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Style="{StaticResource Box}" Text="{Binding Path=Current.Name}"/>
+            <TextBox Style="{StaticResource Box}" Text="{Binding Path=Current.Name}" TabIndex="0"/>
 
-            <ComboBox Grid.Column="1" DisplayMemberPath="Type">
+            <ComboBox Grid.Column="1" DisplayMemberPath="Type" TabIndex="1">
                 <ComboBox.ItemsSource>
                     <Binding Path="Expressions"/>
                 </ComboBox.ItemsSource>
@@ -52,7 +52,7 @@
 
     <ItemContainerTemplate x:Key="LinkerPathEdit">
         <UniformGrid Margin="25, 0" Rows="2" Height="50">
-            <TextBox Style="{StaticResource Box}">
+            <TextBox Style="{StaticResource Box}" TabIndex="0">
                 <TextBox.Text>
                     <Binding Path="Name" Mode="TwoWay">
                         <Binding.UpdateSourceTrigger>
@@ -61,7 +61,7 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <TextBox Style="{StaticResource Box}">
+            <TextBox Style="{StaticResource Box}" TabIndex="1">
                 <TextBox.Text>
                     <Binding Path="Type" Mode="TwoWay">
                         <Binding.UpdateSourceTrigger>

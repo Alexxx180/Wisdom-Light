@@ -7,23 +7,23 @@
     <ControlTemplate x:Key="InformationEditingTools">
         <ToolBarTray Orientation="Vertical">
             <ToolBar Width="30">
-                <Button Command="{Binding AddInformation}" Style="{StaticResource AddButton}"/>
-                <Button Command="{Binding DropInformation}" Style="{StaticResource DeleteButton}"/>
+                <Button Focusable="False" Command="{Binding AddInformation}" Style="{StaticResource AddButton}"/>
+                <Button Focusable="False" Command="{Binding DropInformation}" Style="{StaticResource DeleteButton}"/>
                 <Separator/>
-                <Button Command="{Binding SaveCommand}" Style="{StaticResource SaveButton}"/>
+                <Button Focusable="False" Command="{Binding SaveCommand}" Style="{StaticResource SaveButton}"/>
             </ToolBar>
         </ToolBarTray>
     </ControlTemplate>
-
-    <!--<Button Command="{StaticResource SaveCommand}" Style="{StaticResource SaveButton}"/>-->
     
     <ControlTemplate x:Key="LinkerTools">
         <ToolBarTray Orientation="Vertical">
             <ToolBar Width="30">
-                <Button Command="{Binding AddLink}" Style="{StaticResource AddButton}"/>
-                <Button Command="{Binding DropLink}" Style="{StaticResource DeleteButton}"/>
+                <Button Focusable="False" Command="{Binding AddLink}" Style="{StaticResource AddButton}"/>
+                <Button Focusable="False" Command="{Binding DropLink}" Style="{StaticResource DeleteButton}"/>
                 <Separator/>
-                <Button Command="{Binding OpenLink}" Style="{StaticResource OpenButton}"/>
+                <Button Focusable="False" Command="{Binding OpenLink}" Style="{StaticResource OpenButton}"/>
+                <Separator/>
+                <Button Focusable="False" Command="{Binding SaveCommand}" Style="{StaticResource SaveButton}"/>
             </ToolBar>
         </ToolBarTray>
     </ControlTemplate>
@@ -31,10 +31,12 @@
     <ControlTemplate x:Key="QueryTools">
         <ToolBarTray Orientation="Vertical">
             <ToolBar Width="30">
-                <Button Command="{Binding AddQuery}" Style="{StaticResource AddButton}"/>
-                <Button Command="{Binding DropQuery}" Style="{StaticResource DeleteButton}"/>
+                <Button Focusable="False" Command="{Binding AddQuery}" Style="{StaticResource AddButton}"/>
+                <Button Focusable="False" Command="{Binding DropQuery}" Style="{StaticResource DeleteButton}"/>
                 <Separator/>
-                <Button Command="{Binding OpenQuery}" Style="{StaticResource OpenButton}"/>
+                <Button Focusable="False" Command="{Binding OpenQuery}" Style="{StaticResource OpenButton}"/>
+                <Separator/>
+                <Button Focusable="False" Command="{Binding SaveCommand}" Style="{StaticResource SaveButton}"/>
             </ToolBar>
         </ToolBarTray>
     </ControlTemplate>
@@ -43,6 +45,11 @@
         <TabControl>
             <TabItem Header="Информация">
                 <DockPanel LastChildFill="True">
+                    <DockPanel.InputBindings>
+                        <KeyBinding Key="Insert" Command="{Binding AddInformation}" />
+                        <KeyBinding Key="Delete" Command="{Binding DropInformation}" />
+                    </DockPanel.InputBindings>
+
                     <ContentControl Template="{StaticResource InformationEditingTools}"/>
 
                     <ContentControl Template="{StaticResource InlineInformationEdit}">
@@ -56,6 +63,12 @@
             <TabItem Header="Документы">
                 <Grid>
                     <DockPanel LastChildFill="True">
+                        <DockPanel.InputBindings>
+                            <KeyBinding Key="Insert" Command="{Binding AddLink}" />
+                            <KeyBinding Key="Delete" Command="{Binding DropLink}" />
+                            <KeyBinding Modifiers="Alt" Key="O" Command="{Binding OpenLink}" />
+                        </DockPanel.InputBindings>
+
                         <DockPanel.Visibility>
                             <Binding Path="Data.IsRelative" Converter="{StaticResource InverseVisibilityConverter}"/>
                         </DockPanel.Visibility>
@@ -69,6 +82,12 @@
                     </DockPanel>
 
                     <DockPanel LastChildFill="True">
+                        <DockPanel.InputBindings>
+                            <KeyBinding Key="Insert" Command="{Binding AddQuery}" />
+                            <KeyBinding Key="Delete" Command="{Binding DropQuery}" />
+                            <KeyBinding Modifiers="Alt" Key="O" Command="{Binding OpenQuery}" />
+                        </DockPanel.InputBindings>
+                        
                         <DockPanel.Visibility>
                             <Binding Path="Data.IsRelative" Converter="{StaticResource BooleanVisibilityConverter}"/>
                         </DockPanel.Visibility>

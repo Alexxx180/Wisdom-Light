@@ -44,6 +44,13 @@
         <Setter Property="Content" Value="O"/>
     </Style>
 
+    <Style x:Key="EditButton" TargetType="Button">
+        <Style.BasedOn>
+            <StaticResource ResourceKey="FastOperation"/>
+        </Style.BasedOn>
+        <Setter Property="Content" Value="#"/>
+    </Style>
+
     <Style x:Key="SaveButton" TargetType="Button">
         <Style.BasedOn>
             <StaticResource ResourceKey="LongOperation"/>

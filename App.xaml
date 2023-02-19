@@ -29,11 +29,30 @@
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type vm:MainViewModel}">
-                <ContentControl Template="{StaticResource MainView}"/>
+                <ContentControl Template="{StaticResource MainView}" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}">
+                    <ContentControl.InputBindings>
+                        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewCommand}" />
+                        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenCommand}" />
+                        <KeyBinding Key="F6" Command="{Binding ExportCommand}" />
+                        <KeyBinding Key="F9" Command="{Binding ImportCommand}" />
+                        <KeyBinding Modifiers="Alt" Key="F4" Command="{Binding CloseCommand}" />
+
+                        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand}" />
+                    </ContentControl.InputBindings>
+                </ContentControl>
             </DataTemplate>
             
             <DataTemplate DataType="{x:Type vm:FileViewModel}">
-                <ContentControl Template="{StaticResource EditorView}"/>
+                <ContentControl Template="{StaticResource EditorView}" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}">
+                    <ContentControl.InputBindings>
+                        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewCommand}" />
+                        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenCommand}" />
+                        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand}"/>
+                        <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAsCommand}"/>
+                        <KeyBinding Modifiers="Alt" Key="Return" Command="{Binding ExportCommand}" />
+                        <KeyBinding Modifiers="Alt" Key="F4" Command="{Binding CloseCommand}" />
+                    </ContentControl.InputBindings>
+                </ContentControl>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

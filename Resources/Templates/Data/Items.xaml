@@ -12,7 +12,7 @@
             <UniformGrid Grid.Column="1" Columns="2">
                 <TextBlock Text="{Binding Path=Name}"/>
 
-                <TextBox Style="{StaticResource LightBox}" MaxLength="9">
+                <TextBox Style="{StaticResource LightBox}" MaxLength="9" TabIndex="0">
                     <TextBox.Text>
                         <Binding Path="No" Mode="TwoWay">
                             <Binding.UpdateSourceTrigger>
@@ -35,7 +35,7 @@
             <UniformGrid Grid.Column="1" Columns="2">
                 <TextBlock Text="{Binding Path=Name}"/>
 
-                <TextBox Style="{StaticResource LightBox}">
+                <TextBox Style="{StaticResource LightBox}" TabIndex="0">
                     <TextBox.Text>
                         <Binding Path="Value" Mode="TwoWay">
                             <Binding.UpdateSourceTrigger>

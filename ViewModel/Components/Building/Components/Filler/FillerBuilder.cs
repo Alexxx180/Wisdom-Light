@@ -15,6 +15,7 @@ using WisdomLight.ViewModel.Components.Core.Processors.Export.Documents;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
 using WisdomLight.ViewModel.Components.Data.Units;
+using WisdomLight.ViewModel.Components.Data.Units.Collections;
 using WisdomLight.ViewModel.Components.Data.Units.Fields;
 using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
 using ExportOptions = WisdomLight.ViewModel.Components.Building.Bank.Export;
@@ -101,41 +102,41 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                     if (!selection.SelectedDependency.IsDependency)
                         return;
 
-                    QueryProcessor(selection);
+                    QueryProcessor(_viewModel.Data.Queriers, selection);
                     _path.Clear();
                 });
             });
             return this;
         }
 
-        private void QueryProcessor(DependenciesViewModel viewModel)
+        private void QueryProcessor(RouterCollection couriers, DependenciesViewModel viewModel)
         {
-            for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
+            for (int i = 0; i < couriers.SelectedItems.Count; i++)
             {
-                _data.Queriers.SelectedItems[i].Clear();
+                couriers.SelectedItems[i].Clear();
             }
 
             DependenciesNode current = viewModel.SelectedDependency;
             _path.Append(current.Name);
-            for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
+            for (int i = 0; i < couriers.SelectedItems.Count; i++)
             {
-                _data.Queriers.SelectedItems[i].Push(current.No);
+                couriers.SelectedItems[i].Push(current.No);
             }
 
             current = current.Parent;
             while (current != null)
             {
                 _path.Insert(0, $"{current.Name}/");
-                for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
+                for (int i = 0; i < couriers.SelectedItems.Count; i++)
                 {
-                    _data.Queriers.SelectedItems[i].Push(current.No);
+                    couriers.SelectedItems[i].Push(current.No);
                 }
                 current = current.Parent;
             }
 
-            for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
+            for (int i = 0; i < couriers.SelectedItems.Count; i++)
             {
-                _data.Queriers.SelectedItems[i].Name = _path.ToString();
+                couriers.SelectedItems[i].Name = _path.ToString();
             }
         }
 

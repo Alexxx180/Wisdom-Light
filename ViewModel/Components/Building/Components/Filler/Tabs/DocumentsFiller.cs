@@ -57,27 +57,27 @@ namespace WisdomLight.ViewModel.Components.Building.Components.Filler.Tabs
                     if (!selection.SelectedDependency.IsDependency)
                         return;
 
-                    for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
+                    for (int i = 0; i < _viewModel.Data.Queriers.SelectedItems.Count; i++)
                     {
-                        _data.Queriers.SelectedItems[i].Clear();
+                        _viewModel.Data.Queriers.SelectedItems[i].Clear();
                     }
 
                     DependenciesNode current = selection.SelectedDependency;
                     _path.Insert(0, current.Name);
                     do
                     {
-                        for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
+                        for (int i = 0; i < _viewModel.Data.Queriers.SelectedItems.Count; i++)
                         {
-                            _data.Queriers.SelectedItems[i].Push(current.No);
+                            _viewModel.Data.Queriers.SelectedItems[i].Push(current.No);
                         }
                         current = current.Parent;
                         _path.Insert(0, $"{current.Name}/");
                     }
                     while (current != null);
 
-                    for (int i = 0; i < _data.Queriers.SelectedItems.Count; i++)
+                    for (int i = 0; i < _viewModel.Data.Queriers.SelectedItems.Count; i++)
                     {
-                        _data.Queriers.SelectedItems[i].Name = _path.ToString();
+                        _viewModel.Data.Queriers.SelectedItems[i].Name = _path.ToString();
                     }
                     _path.Clear();
                 })

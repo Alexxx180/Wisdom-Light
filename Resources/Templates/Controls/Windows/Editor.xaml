@@ -11,15 +11,16 @@
             <DockPanel>
                 <Menu Style="{StaticResource LightBox}">
                     <MenuItem Header="Файл">
-                        <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding Data.IsDefended}" />
-                        <MenuItem Header="Открыть..." Command="{Binding OpenCommand}" />
+                        <MenuItem Header="Создать" Command="{Binding NewCommand}" InputGestureText="Ctrl+N" IsEnabled="{Binding Data.IsDefended}" />
+                        <MenuItem Header="Открыть..." Command="{Binding OpenCommand}" InputGestureText="Ctrl+O" />
                         <Separator/>
-                        <MenuItem Header="Сохранить" Command="{Binding SaveCommand}"/>
-                        <MenuItem Header="Сохранить как" Command="{Binding SaveAsCommand}" IsEnabled="{Binding Data.IsDefended}" />
-                        <MenuItem Header="Экспорт" Command="{Binding ExportCommand}" />
+                        <MenuItem Header="Сохранить" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"/>
+                        <MenuItem Header="Сохранить как" Command="{Binding SaveAsCommand}" InputGestureText="Ctrl+Shift+S" IsEnabled="{Binding Data.IsDefended}" />
+                        <MenuItem Header="Экспорт" Command="{Binding ExportCommand}" InputGestureText="Alt+Enter" />
                         <Separator/>
-                        <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
+                        <MenuItem Header="Выход" Command="{Binding CloseCommand}" InputGestureText="Alt+F4" />
                     </MenuItem>
+                    
                     <MenuItem Header="Настройки">
                         <MenuItem Header="Обрабатывать" Visibility="Collapsed" IsEnabled="{Binding Data.IsDefended}">
                             <MenuItem Header="Текст" IsCheckable="True"/>
@@ -28,6 +29,7 @@
                         <MenuItem Header="Относительные пути" IsCheckable="True" IsEnabled="{Binding Data.IsDefended}" IsChecked="{Binding Data.IsRelative}" />
                         <MenuItem Header="Продвинутый" IsCheckable="True" IsChecked="{Binding Data.IsDefended}" />
                     </MenuItem>
+                    
                     <MenuItem Header="Справка" Visibility="Collapsed">
                         <MenuItem Header="Начало работы"/>
                         <MenuItem Header="Оператору" IsEnabled="{Binding Data.IsDefended}"/>

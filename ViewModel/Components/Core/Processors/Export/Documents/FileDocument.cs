@@ -4,7 +4,6 @@ using WisdomLight.Model.Exceptions.IO;
 using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 using WisdomLight.ViewModel.Components.Data.Units.Collections;
-using WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
 {
