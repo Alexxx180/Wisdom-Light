@@ -24,7 +24,8 @@
                         <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding Data.IsDefended}"/>
                         <MenuItem Header="Открыть..." Command="{Binding OpenCommand}"/>
                         <Separator/>
-                        <MenuItem Header="Импорт" Visibility="Collapsed"/>
+                        <MenuItem Header="Импорт" Command="{Binding ImportCommand}" Visibility="Collapsed"/>
+                        <MenuItem Header="Экспорт" Command="{Binding ExportCommand}"/>
                         <Separator/>
                         <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
                     </MenuItem>

@@ -22,6 +22,8 @@
 
         public IMainBuilder Import();
 
+        public IMainBuilder Export();
+
         public IMainBuilder Save();
 
         public IMainBuilder Close();

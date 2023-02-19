@@ -37,10 +37,13 @@ namespace WisdomLight.ViewModel.Components
 
         public ICommand NewCommand { get; protected internal set; }
         public ICommand OpenCommand { get; protected internal set; }
-        public ICommand ImportCommand { get; protected internal set; }
-        public ICommand SearchCommand { get; protected internal set; }
+        
         public ICommand SaveCommand { get; protected internal set; }
         public ICommand CloseCommand { get; protected internal set; }
+
+        public ICommand SearchCommand { get; protected internal set; }
+        public ICommand ImportCommand { get; protected internal set; }
+        public ICommand ExportCommand { get; protected internal set; }
 
         public PreferencesFiller Serializer { get; protected internal set; }
         public PreferencesViewModel Data { get; set; }

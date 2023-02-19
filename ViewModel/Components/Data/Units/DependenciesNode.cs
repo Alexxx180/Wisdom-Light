@@ -6,19 +6,8 @@ namespace WisdomLight.ViewModel.Components.Data.Units
 {
     public class DependenciesNode : NameLabel, INotifyPropertyChanged
     {
-        //private DependenciesNode _parent;
-
         [JsonIgnore]
         public DependenciesNode Parent { get; private set; }
-        //public DependenciesNode Parent
-        //{
-        //    get => _parent;
-        //    private set
-        //    {
-        //        _parent = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
 
         public DependenciesNode()
         {

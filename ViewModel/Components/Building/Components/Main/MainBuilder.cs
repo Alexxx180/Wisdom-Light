@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Text;
 using System.Windows.Input;
 using WisdomLight.Model.Results.Confirming;
 using WisdomLight.View;
@@ -52,11 +55,15 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         public ICommand _newCommand;
         public ICommand _openCommand;
-        public ICommand _importCommand;
-        public ICommand _searchCommand;
+        
         public ICommand _closeCommand;
 
+        public ICommand _importCommand;
+        public ICommand _exportCommand;
+
         public ICommand _saveCommand;
+
+        public ICommand _searchCommand;
 
         private bool _canClose;
 
@@ -70,6 +77,74 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                 Current = 0
             };
             _naming = new NameDialog();
+        }
+
+        private void ExportNodes(ZipArchive zip, DependenciesNode parent, Stack<string> path)
+        {
+            for (int i = 0; i < parent.Nodes.Count; i++)
+            {
+                DependenciesNode node = parent.Nodes[i];
+                
+                if (node.IsDependency)
+                {
+                    string relative = Path.Combine(path.ToArray());
+                    string dependency = Path.Combine(relative, Path.GetFileName(node.DependencyPath));
+
+                    string absolute = Path.Combine(_viewModel.Data.SelectedLocation, relative);
+                    zip.CreateEntryFromFile(node.DependencyPath, dependency);
+                }
+                
+                if (node.Nodes.Count > 0)
+                {
+                    path.Push(node.Name);
+                    ExportNodes(zip, node, path);
+                    path.Pop();
+                }
+            }
+        }
+
+        public IMainBuilder Export()
+        {
+            _exportCommand = new RelayCommand(
+                argument =>
+                {
+                    string dependencies = Path.Combine(Defaults.Runtime, Settings);
+                    string archive = Path.Combine(Defaults.Runtime, "test.zip");
+                    Stack<string> path = new Stack<string>();
+
+                    using (ZipArchive zip = ZipFile.Open(archive, ZipArchiveMode.Create))
+                    {
+                        for (int i = 0; i < _data.DependencyTree.Dependencies.Count; i++)
+                        {
+                            DependenciesNode node = _data.DependencyTree.Dependencies[i];
+                            
+                            if (node.IsDependency)
+                            {
+                                string relative = Path.Combine(path.ToArray());
+                                string dependency = Path.Combine(relative, Path.GetFileName(node.DependencyPath));
+
+                                string absolute = Path.Combine(_viewModel.Data.SelectedLocation, relative);
+                                zip.CreateEntryFromFile(node.DependencyPath, dependency);
+                            }
+
+                            if (node.Nodes.Count > 0)
+                            {
+                                path.Push(node.Name);
+                                ExportNodes(zip, node, path);
+                                path.Pop();
+                            }
+                        }
+
+                        zip.CreateEntryFromFile(dependencies, Settings);
+                    }
+                }
+            );
+            return this;
+        }
+
+        public IMainBuilder Import()
+        {
+            throw new NotImplementedException();
         }
 
         private IFillerBuilder BaseFiller()
@@ -209,11 +284,6 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             return this;
         }
 
-        public IMainBuilder Import()
-        {
-            throw new NotImplementedException();
-        }
-
         public IMainBuilder NewFile()
         {
             _newCommand = new RelayCommand(
@@ -278,6 +348,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _newCommand = null;
             _openCommand = null;
             _importCommand = null;
+            _exportCommand = null;
             _searchCommand = null;
             _closeCommand = null;
             _preferencesBuilder.Reset();
@@ -299,6 +370,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                 NewCommand = _newCommand,
                 OpenCommand = _openCommand,
                 ImportCommand = _importCommand,
+                ExportCommand = _exportCommand,
                 SearchCommand = _searchCommand,
                 SaveCommand = _saveCommand,
                 CloseCommand = _closeCommand,

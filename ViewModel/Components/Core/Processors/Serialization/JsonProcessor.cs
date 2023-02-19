@@ -20,8 +20,6 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Serialization
         {
             _serializer = new JsonSerializer()
             {
-                //ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-                //PreserveReferencesHandling = PreserveReferencesHandling.Objects,
                 TypeNameHandling = TypeNameHandling.Auto,
                 SerializationBinder = new KnownTypesBinder
                 {
