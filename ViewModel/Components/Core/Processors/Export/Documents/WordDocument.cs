@@ -68,7 +68,7 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
                         {
                             foreach (Paragraph paragraph in Extractors[_extracting[i]].Extract(body))
                             {
-                                for (int ii = 0; ii < Extractors.Count; ii++)
+                                for (int ii = 0; ii < fields.Count; ii++)
                                 {
                                     IExpression current = fields[ii].Current;
                                     _changer.Change(paragraph, current.Name, current.Value);
