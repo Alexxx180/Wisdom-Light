@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using System.Collections.Generic;
 using WisdomLight.Model.Exceptions.IO;
-using WisdomLight.ViewModel.Components.Core.Dialogs;
 using WisdomLight.ViewModel.Components.Data.Units;
 using WisdomLight.ViewModel.Components.Data.Units.Fields.Tools;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Units.Texts.Extracting;
 using Serilog;
 using WisdomLight.ViewModel.Components.Data.Units.Collections;
+using WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager;
 
 namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
 {

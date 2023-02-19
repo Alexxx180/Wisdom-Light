@@ -55,7 +55,7 @@ namespace WisdomLight.ViewModel.Components.Data.Units
                 }
 
                 // Expand all the way up to the root.
-                //if (_isExpanded && _parent != null)
+                // if (_isExpanded && _parent != null)
                 //    _parent.IsExpanded = true;
             }
         }
@@ -94,6 +94,16 @@ namespace WisdomLight.ViewModel.Components.Data.Units
             return new DependenciesNode
             {
                 Nodes = new DependenciesCollection()
+            };
+        }
+
+        public DependenciesNode RecurseClone()
+        {
+            return new DependenciesNode
+            {
+                Name = Name,
+                DependencyPath = DependencyPath,
+                Nodes = Nodes.Clone()
             };
         }
 

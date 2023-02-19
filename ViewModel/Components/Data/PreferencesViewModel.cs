@@ -1,9 +1,10 @@
-﻿using WisdomLight.ViewModel.Components.Building.Bank;
+﻿using WisdomLight.Model;
+using WisdomLight.ViewModel.Components.Building.Bank;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 
 namespace WisdomLight.ViewModel.Components.Data
 {
-    public class PreferencesViewModel : NotifyPropertyChanged
+    public class PreferencesViewModel : NotifyPropertyChanged, ICloneable<PreferencesViewModel>
     {
         public string Name { get; }
         public FileFiller Serializer { get; set; }
@@ -79,6 +80,19 @@ namespace WisdomLight.ViewModel.Components.Data
                     Defaults.Runtime : UserLocation;
                 OnPropertyChanged();
             }
+        }
+
+        public PreferencesViewModel Clone()
+        {
+            return new PreferencesViewModel
+            {
+                GenerationTree = GenerationTree.Clone(),
+                DependencyTree = DependencyTree.Clone(),
+                Serializer = Serializer,
+                UserLocation = UserLocation,
+                IsDefended = IsDefended,
+                IsDefaultPath = IsDefaultPath
+            };
         }
     }
 }

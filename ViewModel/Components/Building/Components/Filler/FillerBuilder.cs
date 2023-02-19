@@ -10,6 +10,7 @@ using WisdomLight.ViewModel.Components.Building.Components.Filler.Tabs;
 using WisdomLight.ViewModel.Components.Building.Filler.Templates;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Documents;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
@@ -70,7 +71,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _openLink = new RelayCommand(
                 argument =>
                 {
-                    ReConfirmer confirmer = DialogManager.Template(Defaults.Runtime);
+                    ReConfirmer confirmer = DocumentManager.Open(Defaults.Runtime);
                     if (!confirmer.Result)
                         return;
 
@@ -189,7 +190,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
                 argument =>
                 {
                     FileFiller serializer = _viewModel.Data.Serializer;
-                    ReConfirmer dialog = DialogManager.Open(_viewModel.Data.Location, serializer.Current);
+                    ReConfirmer dialog = TemplateManager.Open(_viewModel.Data.Location, serializer.Current);
                     if (!dialog.Result)
                         return;
 
@@ -248,7 +249,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
             _exportCommand = new RelayCommand(
                 argument =>
                 {
-                    Confirmer export = DialogManager.Export();
+                    Confirmer export = DocumentManager.Export();
                     if (!export.Result)
                         return;
 
@@ -265,7 +266,7 @@ namespace WisdomLight.ViewModel.Components.Building.Filler
 
         private void CallSaveDialog()
         {
-            KeyConfirmer dialog = DialogManager.Save(_viewModel.Data.Location, _viewModel.Data.Name, _viewModel.Data.Serializer.Current);
+            KeyConfirmer dialog = TemplateManager.Save(_viewModel.Data.Location, _viewModel.Data.Name, _viewModel.Data.Serializer.Current);
             if (!dialog.Result)
                 return;
 

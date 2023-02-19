@@ -2,7 +2,7 @@
 using WisdomLight.Model.Results.Confirming;
 using WisdomLight.View;
 using WisdomLight.ViewModel.Components.Core.Commands;
-using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 
 namespace WisdomLight.ViewModel.Components.Building.Components.Filler.Blocks
@@ -60,7 +60,7 @@ namespace WisdomLight.ViewModel.Components.Building.Components.Filler.Blocks
                 argument =>
                 {
                     FileFiller serializer = _viewModel.Data.Serializer;
-                    ReConfirmer dialog = DialogManager.Open(_viewModel.Data.Location, serializer.Current);
+                    ReConfirmer dialog = TemplateManager.Open(_viewModel.Data.Location, serializer.Current);
                     if (!dialog.Result)
                         return;
                     serializer.Current = dialog.Key;

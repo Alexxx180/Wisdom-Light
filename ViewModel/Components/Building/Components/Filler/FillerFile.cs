@@ -4,7 +4,7 @@ using System.Windows.Input;
 using WisdomLight.Model;
 using WisdomLight.View;
 using WisdomLight.ViewModel.Components.Core.Commands;
-using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager;
 using WisdomLight.ViewModel.Components.Core.Processors.Export.Documents;
 using WisdomLight.ViewModel.Components.Data;
 using ExportOptions = WisdomLight.ViewModel.Components.Building.Bank.Export;
@@ -40,7 +40,7 @@ namespace WisdomLight.ViewModel.Components.Building.Components.Filler.Blocks
         {
             _saveAsCommand = new RelayCommand(argument =>
             {
-                KeyConfirmer dialog = DialogManager.Save(_viewModel.Data.Location, _viewModel.Data.Name, _viewModel.Data.Serializer.Current);
+                KeyConfirmer dialog = TemplateManager.Save(_viewModel.Data.Location, _viewModel.Data.Name, _viewModel.Data.Serializer.Current);
                 if (!dialog.Result)
                     return;
 
@@ -58,7 +58,7 @@ namespace WisdomLight.ViewModel.Components.Building.Components.Filler.Blocks
             _exportCommand = new RelayCommand(
                 argument =>
                 {
-                    Confirmer export = DialogManager.Export();
+                    Confirmer export = DocumentManager.Export();
                     if (!export.Result)
                         return;
 

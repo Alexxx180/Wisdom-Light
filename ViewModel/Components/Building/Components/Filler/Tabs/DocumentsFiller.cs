@@ -5,6 +5,7 @@ using WisdomLight.View;
 using WisdomLight.ViewModel.Components.Building.Bank;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager;
 using WisdomLight.ViewModel.Components.Data;
 using WisdomLight.ViewModel.Components.Data.Units;
 
@@ -33,7 +34,7 @@ namespace WisdomLight.ViewModel.Components.Building.Components.Filler.Tabs
             _openLink = new RelayCommand(
                 argument =>
                 {
-                    ReConfirmer confirmer = DialogManager.Template(Defaults.Runtime);
+                    ReConfirmer confirmer = DocumentManager.Open(Defaults.Runtime);
                     if (!confirmer.Result)
                         return;
 

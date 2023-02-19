@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using WisdomLight.Model;
 using WisdomLight.ViewModel.Components.Data.Units;
 
 namespace WisdomLight.ViewModel.Components.Core.Dialogs
 {
-    public class DependenciesCollection : ObservableCollection<DependenciesNode>
+    public class DependenciesCollection : ObservableCollection<DependenciesNode>, ICloneable<DependenciesCollection>
     {
         public new void Add(DependenciesNode node)
         {
@@ -24,6 +25,16 @@ namespace WisdomLight.ViewModel.Components.Core.Dialogs
         {
             for (int i = 0; i < Count; i++)
                 yield return this[i].Name;
+        }
+
+        public DependenciesCollection Clone()
+        {
+            DependenciesCollection nodes = new DependenciesCollection();
+            for (int i = 0; i < Count; i++)
+            {
+                nodes.Add(this[i].RecurseClone());
+            }
+            return nodes;
         }
     }
 }

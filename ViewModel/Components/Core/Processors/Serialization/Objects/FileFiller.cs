@@ -1,5 +1,5 @@
 ﻿using WisdomLight.Model.Exceptions.IO;
-using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager;
 using WisdomLight.ViewModel.Components.Data;
 using static WisdomLight.ViewModel.Components.Building.Bank.Serialization;
 

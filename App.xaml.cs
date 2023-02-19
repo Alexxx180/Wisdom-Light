@@ -23,7 +23,7 @@ namespace WisdomLight
             IWindowService windows = new WindowService();
             IDialogService<DependenciesViewModel> dialog = new DependenciesDialog();
             MainViewModel viewModel = new MainBuilder(windows, dialog).Preferences().NewFile().Open().Save().CanClose().Close().
-                AddInformation().DropInformation().AddLink().DropLink().OpenDependency().RenameDependency().Export().Build();
+                AddInformation().DropInformation().AddLink().DropLink().OpenDependency().RenameDependency().Import().Export().Build();
             windows.ShowWindow(viewModel);
 
             //string dependencies = Path.Combine(Defaults.Runtime, "lol.zip");

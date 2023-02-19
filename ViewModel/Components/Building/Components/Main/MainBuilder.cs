@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Windows.Input;
+using WisdomLight.Model;
 using WisdomLight.Model.Results.Confirming;
 using WisdomLight.View;
 using WisdomLight.ViewModel.Components.Building.Bank;
@@ -14,6 +15,8 @@ using WisdomLight.ViewModel.Components.Building.Filler;
 using WisdomLight.ViewModel.Components.Building.Main.Preferences;
 using WisdomLight.ViewModel.Components.Core.Commands;
 using WisdomLight.ViewModel.Components.Core.Dialogs;
+using WisdomLight.ViewModel.Components.Core.Dialogs.Traditional.Manager;
+using WisdomLight.ViewModel.Components.Core.Processors.Serialization;
 using WisdomLight.ViewModel.Components.Core.Processors.Serialization.Objects;
 using WisdomLight.ViewModel.Components.Data;
 using WisdomLight.ViewModel.Components.Data.Units;
@@ -79,27 +82,39 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _naming = new NameDialog();
         }
 
+        private void ExportNode(ZipArchive zip, DependenciesNode node, Stack<string> path)
+        {
+            if (node.IsDependency)
+            {
+                string relative = Path.Combine(path.ToArray());
+                string extension = Path.GetExtension(node.DependencyPath);
+                string dependency = Path.Combine(relative, Path.ChangeExtension(node.Name, extension));
+
+                zip.CreateEntryFromFile(node.DependencyPath, dependency);
+                node.DependencyPath = dependency;
+            }
+
+            if (node.Nodes.Count > 0)
+            {
+                path.Push(node.Name);
+                ExportNodes(zip, node, path);
+                path.Pop();
+            }
+        }
+
         private void ExportNodes(ZipArchive zip, DependenciesNode parent, Stack<string> path)
         {
             for (int i = 0; i < parent.Nodes.Count; i++)
             {
-                DependenciesNode node = parent.Nodes[i];
-                
-                if (node.IsDependency)
-                {
-                    string relative = Path.Combine(path.ToArray());
-                    string dependency = Path.Combine(relative, Path.GetFileName(node.DependencyPath));
+                ExportNode(zip, parent.Nodes[i], path);
+            }
+        }
 
-                    string absolute = Path.Combine(_viewModel.Data.SelectedLocation, relative);
-                    zip.CreateEntryFromFile(node.DependencyPath, dependency);
-                }
-                
-                if (node.Nodes.Count > 0)
-                {
-                    path.Push(node.Name);
-                    ExportNodes(zip, node, path);
-                    path.Pop();
-                }
+        private void ExportNodes(ZipArchive zip, DependenciesViewModel parent, Stack<string> path)
+        {
+            for (int i = 0; i < parent.Dependencies.Count; i++)
+            {
+                ExportNode(zip, parent.Dependencies[i], path);
             }
         }
 
@@ -108,43 +123,97 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _exportCommand = new RelayCommand(
                 argument =>
                 {
+                    KeyConfirmer dialog = ProjectManager.Export(_viewModel.Data.SelectedLocation, string.Empty);
+                    if (!dialog.Result)
+                        return;
+
                     string dependencies = Path.Combine(Defaults.Runtime, Settings);
-                    string archive = Path.Combine(Defaults.Runtime, "test.zip");
-                    Stack<string> path = new Stack<string>();
-
-                    using (ZipArchive zip = ZipFile.Open(archive, ZipArchiveMode.Create))
+                    using (ZipArchive zip = ZipFile.Open(dialog.Path, ZipArchiveMode.Create))
                     {
-                        for (int i = 0; i < _data.DependencyTree.Dependencies.Count; i++)
-                        {
-                            DependenciesNode node = _data.DependencyTree.Dependencies[i];
-                            
-                            if (node.IsDependency)
-                            {
-                                string relative = Path.Combine(path.ToArray());
-                                string dependency = Path.Combine(relative, Path.GetFileName(node.DependencyPath));
+                        Stack<string> path = new Stack<string>();
+                        PreferencesViewModel preferences = _data.Clone();
 
-                                string absolute = Path.Combine(_viewModel.Data.SelectedLocation, relative);
-                                zip.CreateEntryFromFile(node.DependencyPath, dependency);
-                            }
+                        ExportNodes(zip, preferences.DependencyTree, path);
+                        ExportNodes(zip, preferences.GenerationTree, path);
 
-                            if (node.Nodes.Count > 0)
-                            {
-                                path.Push(node.Name);
-                                ExportNodes(zip, node, path);
-                                path.Pop();
-                            }
-                        }
-
-                        zip.CreateEntryFromFile(dependencies, Settings);
+                        string temporary = Path.ChangeExtension(Path.GetTempFileName(), JsonProcessor.Extension);
+                        _viewModel.Serializer.Save(temporary, preferences);
+                        zip.CreateEntryFromFile(temporary, Settings);
+                        File.Delete(temporary);
                     }
                 }
             );
             return this;
         }
 
+        private void RebuildDependency(DependenciesNode node)
+        {
+            if (node.IsDependency)
+            {
+                node.DependencyPath = Path.Combine(Defaults.Runtime, node.DependencyPath);
+            }
+
+            if (node.Nodes.Count > 0)
+            {
+                RebuildDependencies(node);
+            }
+        }
+
+        private void RebuildDependencies(DependenciesNode parent)
+        {
+            for (int i = 0; i < parent.Nodes.Count; i++)
+            {
+                RebuildDependency(parent.Nodes[i]);
+            }
+        }
+
+        private void RebuildDependencies(DependenciesViewModel parent)
+        {
+            for (int i = 0; i < parent.Dependencies.Count; i++)
+            {
+                RebuildDependency(parent.Dependencies[i]);
+            }
+        }
+
         public IMainBuilder Import()
         {
-            throw new NotImplementedException();
+            _importCommand = new RelayCommand(
+                argument =>
+                {
+                    ReConfirmer dialog = ProjectManager.Open(_viewModel.Data.SelectedLocation);
+                    if (!dialog.Result)
+                        return;
+
+                    using (ZipArchive zip = ZipFile.Open(dialog.FullPath, ZipArchiveMode.Read))
+                    {
+                        foreach (ZipArchiveEntry entry in zip.Entries)
+                        {
+                            if (entry.FullName.EndsWith(".json", StringComparison.OrdinalIgnoreCase) ||
+                                entry.FullName.EndsWith(".docx", StringComparison.OrdinalIgnoreCase))
+                            {
+                                // Gets the full path to ensure that relative segments are removed.
+                                string destination = Path.GetFullPath(Path.Combine(Defaults.Runtime, entry.FullName));
+
+                                // Ordinal match is safest, case-sensitive volumes can be mounted within volumes that
+                                // are case-insensitive.
+                                if (destination.StartsWith(Defaults.Runtime, StringComparison.Ordinal))
+                                {
+                                    Directory.CreateDirectory(Path.GetDirectoryName(destination));
+                                    entry.ExtractToFile(destination, true);
+                                }
+                            }
+                        }
+                        //zip.ExtractToDirectory(Defaults.Runtime, true);
+                    }
+
+                    string dependencies = Path.Combine(Defaults.Runtime, Settings);
+                    PreferencesViewModel preferences = _viewModel.Serializer.Load(dependencies);
+                    RebuildDependencies(preferences.DependencyTree);
+                    _viewModel.Serializer.Save(dependencies, preferences);
+                    _viewModel.Data = preferences;
+                }
+            );
+            return this;
         }
 
         private IFillerBuilder BaseFiller()
@@ -232,7 +301,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _openDependency = new RelayCommand(
                 argument =>
                 {
-                    ReConfirmer dialog = DialogManager.Template(_viewModel.Data.SelectedLocation);
+                    ReConfirmer dialog = DocumentManager.Open(_viewModel.Data.SelectedLocation);
                     if (!dialog.Result)
                         return;
 
@@ -305,7 +374,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _openCommand = new RelayCommand(
                 argument =>
                 {
-                    ReConfirmer dialog = DialogManager.Open(_viewModel.Data.SelectedLocation, _viewModel.Data.Serializer.Current);
+                    ReConfirmer dialog = TemplateManager.Open(_viewModel.Data.SelectedLocation, _viewModel.Data.Serializer.Current);
                     if (!dialog.Result)
                         return;
 

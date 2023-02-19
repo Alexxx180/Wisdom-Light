@@ -8,7 +8,7 @@ using WisdomLight.ViewModel.Components.Data.Units;
 
 namespace WisdomLight.ViewModel.Components.Data
 {
-    public class DependenciesViewModel : NotifyPropertyChanged, ICloser
+    public class DependenciesViewModel : NotifyPropertyChanged, ICloser, ICloneable<DependenciesViewModel>
     {
         public DependenciesViewModel()
         {
@@ -61,6 +61,14 @@ namespace WisdomLight.ViewModel.Components.Data
             }
             courier.Push(first);
             return node.DependencyPath;
+        }
+
+        public DependenciesViewModel Clone()
+        {
+            return new DependenciesViewModel
+            {
+                Dependencies = Dependencies.Clone()
+            };
         }
 
         [JsonIgnore]
