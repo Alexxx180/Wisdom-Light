@@ -203,7 +203,6 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                                 }
                             }
                         }
-                        //zip.ExtractToDirectory(Defaults.Runtime, true);
                     }
 
                     string dependencies = Path.Combine(Defaults.Runtime, Settings);

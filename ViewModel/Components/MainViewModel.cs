@@ -46,6 +46,16 @@ namespace WisdomLight.ViewModel.Components
         public ICommand ExportCommand { get; protected internal set; }
 
         public PreferencesFiller Serializer { get; protected internal set; }
-        public PreferencesViewModel Data { get; set; }
+
+        private PreferencesViewModel _data;
+        public PreferencesViewModel Data
+        {
+            get => _data;
+            set
+            {
+                _data = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
