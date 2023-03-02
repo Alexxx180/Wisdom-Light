@@ -8,6 +8,10 @@
 
         public IMainBuilder DropInformation();
 
+        public IMainBuilder OpenTemplate();
+
+        public IMainBuilder OpenFromTemplate();
+
         public IMainBuilder AddLink();
 
         public IMainBuilder DropLink();

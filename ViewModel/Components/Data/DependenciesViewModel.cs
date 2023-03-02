@@ -32,6 +32,7 @@ namespace WisdomLight.ViewModel.Components.Data
             {
                 _dependencies = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsDependencySelected));
             }
         }
 
@@ -50,7 +51,7 @@ namespace WisdomLight.ViewModel.Components.Data
         }
 
         public bool IsDependencySelected => SelectedDependency is not null;
-        
+
         public string QueryPath(Querier courier)
         {
             int first = courier.Pop();

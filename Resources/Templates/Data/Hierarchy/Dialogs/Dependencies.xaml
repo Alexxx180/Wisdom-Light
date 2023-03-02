@@ -1,12 +1,21 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:data="clr-namespace:WisdomLight.ViewModel.Components.Data">
+                    xmlns:data="clr-namespace:WisdomLight.ViewModel.Components.Data"
+                    xmlns:bools="clr-namespace:WisdomLight.View.Binds.Converters.Items.Values.Bool">
+    <bools:MultiBoolConverter x:Key="MultiBoolConverter"/>
+    
     <DataTemplate DataType="{x:Type data:DependenciesViewModel}">
         <DockPanel Margin="15" LastChildFill="True">
             <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
                 <Button Command="{Binding CloseCommand}" IsDefault="True" Style="{StaticResource OkButton}">
                     <Button.IsEnabled>
-                        <Binding Path="SelectedDependency.IsDependency"/>
+                        <MultiBinding>
+                            <Binding Path="IsDependencySelected"/>
+                            <Binding Path="SelectedDependency.IsDependency"/>
+                            <MultiBinding.Converter>
+                                <StaticResource ResourceKey="MultiBoolConverter"/>
+                            </MultiBinding.Converter>
+                        </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
                 <Separator/>
@@ -20,18 +29,18 @@
     <DataTemplate DataType="{x:Type data:NameViewModel}">
         <DockPanel Margin="15" LastChildFill="True">
             <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
-                <Button Command="{Binding CloseCommand}" IsDefault="True" Style="{StaticResource OkButton}">
+                <Button TabIndex="1" Command="{Binding CloseCommand}" IsDefault="True" Style="{StaticResource OkButton}">
                     <Button.IsEnabled>
                         <Binding Path="IsAvailable"/>
                     </Button.IsEnabled>
                 </Button>
                 <Separator/>
-                <Button IsCancel="True" Style="{StaticResource CancelButton}"/>
+                <Button TabIndex="2" IsCancel="True" Style="{StaticResource CancelButton}"/>
             </WrapPanel>
 
-            <UniformGrid Rows="2" Margin="0,0,0,10" Style="{StaticResource GlobalFont}">
+            <UniformGrid Rows="2" Margin="0,0,0,10" Style="{StaticResource GlobalFont}" FocusManager.FocusedElement="{Binding ElementName=RenameBox}">
                 <TextBlock Text="Введите новое имя"/>
-                <TextBox Style="{StaticResource NameBox}">
+                <TextBox x:Name="RenameBox" TabIndex="0" Style="{StaticResource NameBox}">
                     <TextBox.Text>
                         <Binding Path="Name" Mode="TwoWay">
                             <Binding.UpdateSourceTrigger>

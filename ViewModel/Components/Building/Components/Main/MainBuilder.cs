@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Text;
 using System.Windows.Input;
 using WisdomLight.Model;
 using WisdomLight.Model.Results.Confirming;
 using WisdomLight.View;
 using WisdomLight.ViewModel.Components.Building.Bank;
-using WisdomLight.ViewModel.Components.Building.Components.Filler;
-using WisdomLight.ViewModel.Components.Building.Components.Filler.Tabs;
-using WisdomLight.ViewModel.Components.Building.Extensions.Paths.Files;
 using WisdomLight.ViewModel.Components.Building.Filler;
 using WisdomLight.ViewModel.Components.Building.Main.Preferences;
 using WisdomLight.ViewModel.Components.Core.Commands;
@@ -50,16 +46,17 @@ namespace WisdomLight.ViewModel.Components.Building.Main
 
         public ICommand _addInformation;
         public ICommand _dropInformation;
+        public ICommand _openTemplate;
 
         public ICommand _addLink;
         public ICommand _dropLink;
-
-        public ICommand _renameDependency;
         public ICommand _openDependency;
-
+        public ICommand _renameDependency;
+        
         public ICommand _newCommand;
         public ICommand _openCommand;
-        
+        public ICommand _openFromCommand;
+
         public ICommand _closeCommand;
 
         public ICommand _importCommand;
@@ -140,7 +137,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                     using (ZipArchive zip = ZipFile.Open(dialog.Path, ZipArchiveMode.Create))
                     {
                         Stack<string> path = new Stack<string>();
-                        PreferencesViewModel preferences = _data.Clone();
+                        PreferencesViewModel preferences = _viewModel.Data.Clone();
 
                         ExportNodes(zip, preferences.DependencyTree, path);
                         ExportNodes(zip, preferences.GenerationTree, path);
@@ -281,13 +278,18 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _addLink = new RelayCommand(
                 argument =>
                 {
-                    DependenciesNode current = _data.DependencyTree.SelectedDependency;
+                    DependenciesNode current = _viewModel.Data.DependencyTree.SelectedDependency;
                     NameViewModel viewModel = new NameViewModel(current);
                     _naming.ShowDialog(viewModel, (result, selection) =>
                     {
                         if (result)
                             current.Add(selection.Name);
                     });
+                },
+                can =>
+                {
+                    DependenciesViewModel tree = _viewModel.Data.DependencyTree;
+                    return (tree != null) && (tree.SelectedDependency != null);
                 }
             );
             return this;
@@ -296,12 +298,28 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         public IMainBuilder DropLink()
         {
             _dropLink = new RelayCommand(
-                argument => _data.DependencyTree.SelectedDependency.Drop(),
+                argument => _viewModel.Data.DependencyTree.SelectedDependency.Drop(),
                 can =>
                 {
-                    DependenciesViewModel tree = _data.DependencyTree;
+                    DependenciesViewModel tree = _viewModel.Data.DependencyTree;
                     return (tree != null) && (tree.SelectedDependency != null) && (tree.SelectedDependency.Parent != null);
                 }
+            );
+            return this;
+        }
+
+        public IMainBuilder OpenTemplate()
+        {
+            _openTemplate = new RelayCommand(
+                argument =>
+                {
+                    ReConfirmer dialog = TemplateManager.Open(_viewModel.Data.SelectedLocation);
+                    if (!dialog.Result)
+                        return;
+
+                    _viewModel.Data.GenerationTree.SelectedDependency.DependencyPath = dialog.FullPath;
+                },
+                canExecute => (_viewModel.Data.GenerationTree != null) && _viewModel.Data.GenerationTree.IsDependencySelected
             );
             return this;
         }
@@ -315,9 +333,9 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                     if (!dialog.Result)
                         return;
 
-                    _data.DependencyTree.SelectedDependency.DependencyPath = dialog.FullPath;
+                    _viewModel.Data.DependencyTree.SelectedDependency.DependencyPath = dialog.FullPath;
                 },
-                canExecute => (_data.DependencyTree != null) && _data.DependencyTree.IsDependencySelected
+                canExecute => (_viewModel.Data.DependencyTree != null) && _viewModel.Data.DependencyTree.IsDependencySelected
             );
             return this;
         }
@@ -327,7 +345,7 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _renameDependency = new RelayCommand(
                 argument =>
                 {
-                    _data.DependencyTree.SelectedDependency.Name = argument.ToString();
+                    _viewModel.Data.DependencyTree.SelectedDependency.Name = argument.ToString();
                 }
             );
             return this;
@@ -338,13 +356,18 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _addInformation = new RelayCommand(
                 argument =>
                 {
-                    DependenciesNode current = _data.GenerationTree.SelectedDependency;
+                    DependenciesNode current = _viewModel.Data.GenerationTree.SelectedDependency;
                     NameViewModel viewModel = new NameViewModel(current);
                     _naming.ShowDialog(viewModel, (result, selection) =>
                     {
                         if (result)
                             current.Add(selection.Name);
                     });
+                },
+                can =>
+                {
+                    DependenciesViewModel tree = _viewModel.Data.GenerationTree;
+                    return (tree != null) && (tree.SelectedDependency != null);
                 }
             );
             return this;
@@ -353,10 +376,10 @@ namespace WisdomLight.ViewModel.Components.Building.Main
         public IMainBuilder DropInformation()
         {
             _dropInformation = new RelayCommand(
-                argument => _data.GenerationTree.SelectedDependency.Drop(),
+                argument => _viewModel.Data.GenerationTree.SelectedDependency.Drop(),
                 can =>
                 {
-                    DependenciesViewModel tree = _data.GenerationTree;
+                    DependenciesViewModel tree = _viewModel.Data.GenerationTree;
                     return (tree != null) && (tree.SelectedDependency != null) && (tree.SelectedDependency.Parent != null);
                 }
             );
@@ -379,25 +402,58 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             return this;
         }
 
+        private void OpenFile(PreferencesViewModel preferences, ReConfirmer dialog)
+        {
+            if (!dialog.Result)
+                return;
+
+            preferences.Serializer.Current = dialog.Key;
+
+            FileViewModel viewModel = BaseFiller().OpenQuery().Build();
+
+            viewModel.Data = preferences.Serializer.Load(dialog.FullPath);
+            viewModel.Data.Queriers.ViewModel = preferences.DependencyTree;
+            for (int i = 0; i < viewModel.Data.Queriers.Fields.Count; i++)
+            {
+                Stack<int> original = viewModel.Data.Queriers.Fields[i].Path;
+                List<int> crutch = new List<int>(original);
+                //crutch.Reverse();
+                viewModel.Data.Queriers.Fields[i].Path = new Stack<int>(crutch);
+            }
+            viewModel.Data.Location = dialog.Path;
+            viewModel.Data.FileName = dialog.Name;
+
+            _windows.ShowWindow(viewModel);
+        }
+
         public IMainBuilder Open()
         {
             _openCommand = new RelayCommand(
                 argument =>
                 {
                     ReConfirmer dialog = TemplateManager.Open(_viewModel.Data.SelectedLocation, _viewModel.Data.Serializer.Current);
-                    if (!dialog.Result)
-                        return;
+                    OpenFile(_viewModel.Data, dialog);
+                }
+            );
+            return this;
+        }
 
-                    _viewModel.Data.Serializer.Current = dialog.Key;
+        public IMainBuilder OpenFromTemplate()
+        {
+            _openFromCommand = new RelayCommand(
+                argument =>
+                {
+                    DependenciesNode current = _viewModel.Data.GenerationTree.SelectedDependency;
+                    string directory = Path.GetDirectoryName(current.DependencyPath);
+                    string name = Path.GetFileName(current.DependencyPath);
+                    ReConfirmer open = new ReConfirmer(0, name, directory, true);
 
-                    FileViewModel viewModel = BaseFiller().OpenQuery().Build();
-                    
-                    viewModel.Data = _viewModel.Data.Serializer.Load(dialog.FullPath);
-                    viewModel.Data.Queriers.ViewModel = _viewModel.Data.DependencyTree;
-                    viewModel.Data.Location = dialog.Path;
-                    viewModel.Data.FileName = dialog.Name;
-
-                    _windows.ShowWindow(viewModel);
+                    OpenFile(_viewModel.Data, open);
+                },
+                can =>
+                {
+                    DependenciesViewModel tree = _viewModel.Data.GenerationTree;
+                    return (tree != null) && (tree.SelectedDependency != null) && tree.SelectedDependency.IsDependency;
                 }
             );
             return this;
@@ -421,12 +477,14 @@ namespace WisdomLight.ViewModel.Components.Building.Main
             _viewModel = null;
             _addInformation = null;
             _dropInformation = null;
+            _openTemplate = null;
             _addLink = null;
             _dropLink = null;
             _openDependency = null;
             _renameDependency = null;
             _newCommand = null;
             _openCommand = null;
+            _openFromCommand = null;
             _importCommand = null;
             _exportCommand = null;
             _searchCommand = null;
@@ -446,6 +504,8 @@ namespace WisdomLight.ViewModel.Components.Building.Main
                 AddLink = _addLink,
                 DropLink = _dropLink,
                 OpenDependency = _openDependency,
+                OpenTemplate = _openTemplate,
+                OpenFromTemplate = _openFromCommand,
                 RenameDependency = _renameDependency,
                 NewCommand = _newCommand,
                 OpenCommand = _openCommand,

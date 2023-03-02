@@ -59,7 +59,7 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="DocumentDependencyTree">
-        <TreeView ItemsSource="{Binding Dependencies}">
+        <TreeView ItemsSource="{Binding Dependencies}" TabIndex="0">
             <selection:TreeViewSelection.TreeViewSelectedItem>
                 <Binding Path="SelectedDependency" Mode="TwoWay"/>
             </selection:TreeViewSelection.TreeViewSelectedItem>

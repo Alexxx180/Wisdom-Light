@@ -71,7 +71,9 @@ namespace WisdomLight.ViewModel.Components.Core.Processors.Export.Documents
                                 for (int ii = 0; ii < fields.Count; ii++)
                                 {
                                     IExpression current = fields[ii].Current;
-                                    _changer.Change(paragraph, current.Name, current.Value);
+                                    if (string.IsNullOrEmpty(current.Name))
+                                        continue;
+                                    _changer.Change(paragraph, current.Name, current.Value ?? string.Empty);
                                 }
                             }
                         }

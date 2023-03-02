@@ -6,14 +6,14 @@
         <ControlTemplate.Resources>
             <visible:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter"/>
         </ControlTemplate.Resources>
-        
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Grid Style="{StaticResource Dark}">
+            <Grid Style="{StaticResource Dark}" x:Name="FileMenu">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="50"/>
@@ -21,16 +21,17 @@
 
                 <Menu Style="{StaticResource Light}">
                     <MenuItem Header="Файл">
-                        <MenuItem Header="Создать" Command="{Binding NewCommand}" IsEnabled="{Binding Data.IsDefended}"/>
-                        <MenuItem Header="Открыть..." Command="{Binding OpenCommand}"/>
+                        <MenuItem Header="Создать" Command="{Binding NewCommand}" InputGestureText="Ctrl+N" IsEnabled="{Binding Data.IsDefended}"/>
+                        <MenuItem Header="Открыть..." Command="{Binding OpenCommand}" InputGestureText="Ctrl+O"/>
                         <Separator/>
-                        <MenuItem Header="Импорт" Command="{Binding ImportCommand}"/>
-                        <MenuItem Header="Экспорт" Command="{Binding ExportCommand}"/>
+                        <MenuItem Header="Импорт" Command="{Binding ImportCommand}" InputGestureText="F9"/>
+                        <MenuItem Header="Экспорт" Command="{Binding ExportCommand}" InputGestureText="F6"/>
                         <Separator/>
-                        <MenuItem Header="Выход" Command="{Binding CloseCommand}" />
+                        <MenuItem Header="Выход" Command="{Binding CloseCommand}" InputGestureText="Alt+F4" />
                     </MenuItem>
+                    
                     <MenuItem Header="Настройки">
-                        <MenuItem Header="Сохранить" Command="{Binding SaveCommand}"/>
+                        <MenuItem Header="Сохранить" InputGestureText="Ctrl+S" Command="{Binding SaveCommand}"/>
                         <MenuItem Header="Импорт" Visibility="Collapsed">
                             <MenuItem Header="Путь по умолчанию" IsCheckable="True" IsChecked="{Binding Data.IsDefaultPath}">
                                 <MenuItem.ToolTip>
@@ -80,6 +81,13 @@
                 <TabItem>
                     <TabItem.Header>Заполнение</TabItem.Header>
                     <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
+                        <DockPanel.InputBindings>
+                            <KeyBinding Key="Insert" Command="{Binding AddInformation}" />
+                            <KeyBinding Key="Delete" Command="{Binding DropInformation}" />
+                            <KeyBinding Modifiers="Alt" Key="O" Command="{Binding OpenTemplate}" />
+                            <KeyBinding Modifiers="Shift" Key="O" Command="{Binding OpenFromTemplate}" />
+                        </DockPanel.InputBindings>
+                        
                         <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical">
                             <ToolBarTray.Visibility>
                                 <Binding Path="Data.IsDefended">
@@ -88,10 +96,12 @@
                                     </Binding.Converter>
                                 </Binding>
                             </ToolBarTray.Visibility>
+                            
                             <ToolBar>
-                                <Button Command="{Binding AddInformation}" Style="{StaticResource AddButton}"/>
-                                <Button Command="{Binding DropInformation}" Style="{StaticResource DeleteButton}"/>
-                                <Button Command="{Binding OpenTemplate}" Style="{StaticResource OpenButton}"/>
+                                <Button Focusable="False" Command="{Binding AddInformation}" Style="{StaticResource AddButton}"/>
+                                <Button Focusable="False" Command="{Binding DropInformation}" Style="{StaticResource DeleteButton}"/>
+                                <Button Focusable="False" Command="{Binding OpenTemplate}" Style="{StaticResource OpenButton}"/>
+                                <Button Focusable="False" Command="{Binding OpenFromTemplate}" Style="{StaticResource EditButton}"/>
                             </ToolBar>
                         </ToolBarTray>
 
@@ -124,9 +134,9 @@
                                 </Binding>
                             </ToolBarTray.Visibility>
                             <ToolBar>
-                                <Button Command="{Binding AddLink}" Style="{StaticResource AddButton}"/>
-                                <Button Command="{Binding DropLink}" Style="{StaticResource DeleteButton}"/>
-                                <Button Command="{Binding OpenDependency}" Style="{StaticResource OpenButton}"/>
+                                <Button Focusable="False" Command="{Binding AddLink}" Style="{StaticResource AddButton}"/>
+                                <Button Focusable="False" Command="{Binding DropLink}" Style="{StaticResource DeleteButton}"/>
+                                <Button Focusable="False" Command="{Binding OpenDependency}" Style="{StaticResource OpenButton}"/>
                             </ToolBar>
                         </ToolBarTray>
 

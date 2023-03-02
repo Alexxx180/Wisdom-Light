@@ -29,6 +29,7 @@ namespace WisdomLight.ViewModel.Components
         public ICommand AddInformation { get; protected internal set; }
         public ICommand DropInformation { get; protected internal set; }
         public ICommand OpenTemplate { get; protected internal set; }
+        public ICommand OpenFromTemplate { get; protected internal set; }
 
         public ICommand AddLink { get; protected internal set; }
         public ICommand DropLink { get; protected internal set; }
